@@ -17,11 +17,12 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('category_id');
             $table->bigInteger('city_id')->default(-1);
-            $table->string('log_number')->default(-1);
-            $table->integer('qty');
-            $table->integer('base_price');
-            $table->string('sellable_currency');
-            $table->dateTime('available_date');
+            $table->string('log_number')->default('');
+            $table->decimal('base_price');
+            $table->string('sellable_currency', 50);
+            $table->dateTime('available_date')->useCurrent();
+            $table->integer('qty')->default(0);
+            $table->integer('order_qty')->default(0);
             $table->timestamps();
         });
     }
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_categories');
+        Schema::dropIfExists('items');
     }
 };

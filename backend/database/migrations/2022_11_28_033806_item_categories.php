@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('item_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('en_name');
+            $table->string('en_name')->unique();
             $table->string('mm_name');
             $table->boolean('status');
             $table->timestamps();
