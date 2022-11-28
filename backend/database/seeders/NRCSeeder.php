@@ -19,7 +19,6 @@ class NRCSeeder extends Seeder
             $data = json_decode(file_get_contents($nrcFile), true);
             foreach ($data['data'] as $nrc) {
                 $townshipMM = str_replace(')', '', str_replace('(', '', explode(' ', $nrc['name_mm'])[0]));
-                \Log::debug($townshipMM);
                 NRC::create([
                     'nrc_code' => $nrc['nrc_code'],
                     'township_mm' => $townshipMM,
