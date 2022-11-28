@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use App\Admin\User;
+use App\Admin\RoleService;
+use App\Admin\UserService;
+use App\Order\OrderService;
 use Illuminate\Support\ServiceProvider;
 
-class AdminServiceProvider extends ServiceProvider
+class GoldServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -24,6 +26,8 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->make(User::class);
+        $this->app->make(UserService::class);
+        $this->app->make(RoleService::class);
+        $this->app->make(OrderService::class);
     }
 }
