@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('category_id');
+            $table->integer('item_category_id');
             $table->bigInteger('city_id')->default(-1);
             $table->string('log_number')->default('');
             $table->decimal('base_price');

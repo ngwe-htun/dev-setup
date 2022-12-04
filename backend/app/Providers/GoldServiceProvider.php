@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Admin\RoleService;
 use App\Admin\UserService;
 use App\Order\OrderService;
+use App\Item\CategoryService;
 use Illuminate\Support\ServiceProvider;
 
 class GoldServiceProvider extends ServiceProvider
@@ -28,6 +29,7 @@ class GoldServiceProvider extends ServiceProvider
     {
         $this->app->make(UserService::class);
         $this->app->make(RoleService::class);
+        $this->app->make(CategoryService::class);
         $this->app->make(OrderService::class);
     }
 }
