@@ -36,4 +36,11 @@ class CategoryService
             ->where('item_category_id', $category->id)
             ->get();
     }
+
+    public function getCategoryById(int $id): ?ItemCategory
+    {
+        return $this->category
+            ->where('id', $id)
+            ->first();
+    }
 }

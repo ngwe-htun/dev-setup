@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Item\ItemService;
 use App\Admin\RoleService;
 use App\Admin\UserService;
 use App\Order\OrderService;
@@ -31,5 +32,7 @@ class GoldServiceProvider extends ServiceProvider
         $this->app->make(RoleService::class);
         $this->app->make(CategoryService::class);
         $this->app->make(OrderService::class);
+        $this->app->make(CategoryService::class);
+        $this->app->make(ItemService::class);
     }
 }
