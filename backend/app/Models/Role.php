@@ -14,7 +14,7 @@ class Role extends Model
      * @var string
      */
 
-    protected $table = 'roles';
+    protected $table = 'user_roles';
 
     /**
      * The attributes that are mass assignable.
@@ -22,12 +22,13 @@ class Role extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'attribute',
         'value',
     ];
 
     public function user()
     {
-        return $this->hasMany(User::class, 'role_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

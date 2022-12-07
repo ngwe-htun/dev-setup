@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\Category;
+use App\Constants\CategoryConstant;
 use Illuminate\Http\Request;
 use App\Item\CategoryService;
 
@@ -15,11 +15,20 @@ class CategoryController extends Controller
 
     public function getParentCategory()
     {
+        if ($categories = $this->category->getParentCategory()) {
+            return response()->json(
+                [
+                    'data' => $categories
+                ],
+                200
+            );
+        }
+
         return response()->json(
             [
-                'data' => Category::getValues()
+                'message' => __('category not found')
             ],
-            200
+            404
         );
     }
 
@@ -34,6 +43,7 @@ class CategoryController extends Controller
                     200
                 );
             }
+
             return response()->json(
                 [
                     'message' => __("child category not found")
@@ -60,14 +70,16 @@ class CategoryController extends Controller
         if ($parentCategory = $this->category->getCategoryByEn($parent)) {
             if (
                 $category = $this->category->createCategory(
-                $parentCategory,
-                $request->input('name_en'),
-                $request->input('name_mm')
-            )) {
+                    $parentCategory,
+                    $request->input('name_en'),
+                    $request->input('name_mm')
+                )
+            ) {
                 return response()->json([
                     'data' => $category
                 ], 200);
             }
+
             return response()->json(
                 [
                     'message' => __('category create failed')
@@ -101,6 +113,5 @@ class CategoryController extends Controller
             ],
             404
         );
-
     }
 }

@@ -81,7 +81,7 @@ class ItemController extends Controller
         );
     }
 
-    public function getGoldCoin(Request $request)
+    public function getCategoryItem(Request $request)
     {
         $this->validate($request, [
             'category_id' => 'required|int',
@@ -111,7 +111,7 @@ class ItemController extends Controller
             );
         }
 
-        if ($item = $this->item->getGoldCoin($category, $city, $request->input('date'))) {
+        if ($item = $this->item->getCategoryItem($category, $city, $request->input('date'))) {
             if (($item?->qty - $item?->order_qty) <= 0) {
                 return response()->json(
                     [
