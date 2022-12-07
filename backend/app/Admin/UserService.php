@@ -2,17 +2,16 @@
 
 namespace App\Admin;
 
-use App\Models\User as UserModel;
+use App\Models\User;
 
-
-class User
+class UserService
 {
     public function __construct(
-        protected UserModel $user
+        protected User $user
     ) {
     }
 
-    public function createUser(string $name, string $password): UserModel
+    public function createUser(string $name, string $password): User
     {
         return $this->user->create(
             [
@@ -22,7 +21,7 @@ class User
         );
     }
 
-    public function getUser(string $name): ?UserModel
+    public function getUser(string $name): ?User
     {
         return $this->user->where('name', $name)
             ->first();

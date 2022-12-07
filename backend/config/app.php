@@ -185,6 +185,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Lanin\Laravel\ApiDebugger\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -195,7 +196,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        App\Providers\AdminServiceProvider::class,
+        App\Providers\GoldServiceProvider::class,
 
     ],
 

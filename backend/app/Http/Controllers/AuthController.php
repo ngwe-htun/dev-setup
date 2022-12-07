@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Admin\User;
+use App\Admin\RoleService;
+use App\Admin\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +13,8 @@ class AuthController extends Controller
 {
 
     public function __construct(
-        protected User $user
+        protected UserService $user,
+        protected RoleService $role
     ) {
     }
 
@@ -23,6 +25,7 @@ class AuthController extends Controller
             [
                 'name' => 'required|string',
                 'password' => 'required|string',
+                'password_confirm' => 'required|string|same:password',
             ]
         );
 
@@ -65,7 +68,10 @@ class AuthController extends Controller
         if ($user = $this->user->getUser($request->input('name'))) {
             return response()->json(
                 [
-                    'data' => $user->createToken(name: 'api_token', expiresAt: Carbon::now()->addMinutes(config('sanctum.expiration')))
+                    'data' => $user->createToken(
+                        name: 'api_token',
+                        expiresAt: Carbon::now()->addMinutes(config('sanctum.expiration'))
+                    )
                 ],
                 200
             );

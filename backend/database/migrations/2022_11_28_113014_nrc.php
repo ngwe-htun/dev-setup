@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('item_categories', function (Blueprint $table) {
+        Schema::create('nrcs', function (Blueprint $table) {
             $table->id();
-            $table->string('name_en')->unique();
-            $table->string('name_mm');
-            $table->boolean('status');
-            $table->integer('item_category_id')->default(-1);
+            $table->string('nrc_code', 10);
+            $table->string('township_en', 10);
+            $table->string('township_mm', 50);
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_categories');
+        Schema::dropIfExists('nrcs');
     }
 };
