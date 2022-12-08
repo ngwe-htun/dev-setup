@@ -43,4 +43,11 @@ class CategoryService
             ->where('id', $id)
             ->first();
     }
+
+    public function getParentCategory(): ?Collection
+    {
+        return $this->category
+            ->where('item_category_id', -1)
+            ->get();
+    }
 }

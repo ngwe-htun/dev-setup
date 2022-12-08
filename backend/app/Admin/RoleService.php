@@ -2,7 +2,12 @@
 
 namespace App\Admin;
 
+use App\Models\City;
 use App\Models\Role;
+use App\Models\User;
+use App\Constants\RoleConstant;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection;
 
 class RoleService
 {
@@ -11,25 +16,63 @@ class RoleService
     ) {
     }
 
-    public function createRole(string $attribute, string $value): Role
+    public function createRole(User $user, RoleConstant $attribute, string $value): Role
     {
-        return $this->role->create(
+        return $this->role->updateOrCreate(
             [
-                'attribute' => $attribute,
+                'user_id' => $user->id,
+                'attribute' => $attribute
+            ],
+            [
+                'user_id' => $user->id,
+                'attribute' => $attribute->value,
                 'value' => $value
+
             ]
         );
     }
 
-    public function getRole(int $id): ?Role
+    public function getRoles(User $user): ?Collection
     {
-        return $this->user->where('id', $id)
+        return cache()->remember(
+            $user->id . '_roles',
+            86400,
+            function () use ($user) {
+                return $this->role
+                    ->where('user_id', $user->id)
+                    ->get();
+            }
+        );
+    }
+
+    public function getRoleByAttribute(User $user, RoleConstant $attribute): ?Role
+    {
+        return $this->role
+            ->where('user_id', $user->id)
+            ->where('attribute', $attribute->value)
             ->first();
     }
 
-    public function getRoleByAttribute(string $attribute): ?Role
+    public function getAvailableCities(User $user): ?Collection
     {
-        return $this->user->where('attribute', $attribute)
+        $rule = $this->role
+            ->where('user_id', $user->id)
+            ->where('attribute', RoleConstant::AVAILABLE_CITIES)
             ->first();
+
+        $citiesId = explode(',', $rule?->value);
+
+        return City::getCities($citiesId);
+    }
+
+    public function checkPermission(RoleConstant $rule): bool
+    {
+        if ($roles = $this->getRoles(Auth::user())) {
+            if ($roles->firstWhere('attribute', $rule->value)) {
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 }

@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('password');
-            $table->integer('role_id')->default(-1);
             $table->rememberToken();
             $table->timestamps();
+            $table->index('name');
+            $table->index(['name', 'password']);
         });
     }
 

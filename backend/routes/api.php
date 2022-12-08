@@ -23,8 +23,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('/auth')->controller(AuthController::class)->group(function () {
-        Route::post('/create', 'create');
+        Route::get('/roles', 'getRoles');
         Route::post('/login', 'login');
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('/create', 'create');
+            Route::put('/reset', 'resetPassword');
+            Route::post('/assign/role', 'assignRole');
+        });
     });
 
     Route::prefix('/category')->controller(CategoryController::class)->group(function () {
@@ -38,6 +43,6 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('/item')->controller(ItemController::class)->group(function () {
         Route::post('/', 'store')->middleware('auth:sanctum');
-        Route::get('/gold/coin', 'getGoldCoin');
+        Route::get('/by/category', 'getCategoryItem');
     });
 });
