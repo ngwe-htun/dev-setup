@@ -185,7 +185,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Lanin\Laravel\ApiDebugger\ServiceProvider::class,
 
         /*
          * Application Service Providers...

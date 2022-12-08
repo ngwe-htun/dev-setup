@@ -11,9 +11,12 @@ class UserService
     ) {
     }
 
-    public function createUser(string $name, string $password): User
+    public function createUser(string $name, string $password, int $id = -1): User
     {
-        return $this->user->create(
+        return $this->user->updateOrCreate(
+            [
+                'id' => $id
+            ],
             [
                 'name' => $name,
                 'password' => $password
@@ -23,7 +26,23 @@ class UserService
 
     public function getUser(string $name): ?User
     {
-        return $this->user->where('name', $name)
+        return $this->user
+            ->where('name', $name)
+            ->first();
+    }
+
+    public function getUserById(int $id): ?User
+    {
+        return $this->user
+            ->where('id', $id)
+            ->first();
+    }
+
+    public function checkUser(string $name, string $password): ?User
+    {
+        return $this->user
+            ->where('name', $name)
+            ->where('password', $password)
             ->first();
     }
 }

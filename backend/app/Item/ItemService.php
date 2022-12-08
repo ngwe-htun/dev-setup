@@ -54,7 +54,7 @@ class ItemService
             ->first();
     }
 
-    public function getGoldCoin(ItemCategory $category, City $city, Carbon $date): ?Item
+    public function getCategoryItem(ItemCategory $category, City $city, Carbon $date): ?Item
     {
         return $this->item
             ->where('item_category_id', $category->id)
