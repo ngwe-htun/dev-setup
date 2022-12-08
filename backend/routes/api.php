@@ -35,7 +35,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('/category')->controller(CategoryController::class)->group(function () {
         Route::get('/parent', 'getParentCategory');
         Route::get('/{name_en}', 'show');
-        Route::prefix('/{parent_name}')->group(function () {
+        Route::prefix('/{parent_id}')->group(function () {
             Route::get('/child', 'getChildCategory');
             Route::post('/', 'store')->middleware('auth:sanctum');
         });

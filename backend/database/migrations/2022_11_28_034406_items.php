@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('item_category_id');
             $table->integer('city_id')->default(-1);
             $table->string('log_number')->default('');
-            $table->decimal('base_price');
+            $table->decimal('base_price', 20, 2);
             $table->string('sellable_currency', 50);
             $table->dateTime('available_date')->useCurrent();
             $table->integer('qty')->default(0);
