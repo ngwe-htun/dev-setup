@@ -17,8 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('name_en')->unique();
             $table->string('name_mm');
-            $table->boolean('status');
+            $table->boolean('is_auction')->default(0);
             $table->integer('item_category_id')->default(-1);
+            $table->boolean('status');
             $table->timestamps();
         });
     }
