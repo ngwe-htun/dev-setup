@@ -11,6 +11,11 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { Image } from 'primereact/image';
 import { Dropdown } from 'primereact/dropdown';
 import 'primeflex/primeflex.css';
+import UserPage from './pages/admin/user/UserPage';
+import GoldCoinPage from './pages/admin/goldcoin/GoldCoinPage';
+import CategoryPage from './pages/admin/category/CategoryPage';
+import SearchPage from './pages/admin/search/SearchPage';
+import PasswordPage from './pages/admin/password/PasswordPage';
 
 const citySelectItems = [
   {label: 'New York', value: 'NY'},
@@ -30,21 +35,11 @@ let items = [
 function App() {
 
   return (
-    <>
-     <div className='grid'>
-      <div className='col '>
-        <Menubar 
-        //model={items}
-          start={<Image src="gold.png" alt="Image Text" className='p-7'/>}
-          />
-      <Menu 
-      model={items}
-      style={{height: '100vh', MarginLeft: '0px'}}
-      className='p-7'
-      />
-      </div>
-      </div>
-    </>
+    // <UserPage />
+    // <GoldCoinPage />
+    // <CategoryPage />
+    // <SearchPage />
+    <PasswordPage />
     
   );
 }
