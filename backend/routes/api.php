@@ -23,32 +23,49 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::prefix('v1')->group(function () {
-    Route::prefix('/auth')->controller(AuthController::class)->group(function () {
-        Route::get('/roles', 'getRoles');
-        Route::post('/login', 'login');
+    Route::prefix('/admin')->group(function () {
+        Route::prefix('/auth')->controller(AuthController::class)->group(function () {
+            Route::post('/login', 'login');
+            Route::middleware('auth:sanctum')->group(function () {
+                Route::get('/roles', 'getRoles');
+                Route::get('/user/list', 'index');
+                Route::post('/create', 'create');
+                Route::put('/reset', 'resetPassword');
+                Route::post('/assign/role', 'assignRole');
+            });
+        });
+
         Route::middleware('auth:sanctum')->group(function () {
-            Route::get('/user/list', 'index');
-            Route::post('/create', 'create');
-            Route::put('/reset', 'resetPassword');
-            Route::post('/assign/role', 'assignRole');
+            Route::prefix('/category')->controller(CategoryController::class)->group(function () {
+                Route::get('/parent', 'getParentCategory');
+                Route::get('/{name_en}', 'show');
+                Route::prefix('/{parent_id}')->group(function () {
+                    Route::get('/child', 'getChildCategory');
+                    Route::post('/', 'store');
+                });
+            });
+
+            Route::prefix('/item')->controller(ItemController::class)->group(function () {
+                Route::post('/', 'store')->middleware('auth:sanctum');
+                Route::get('/by/category', 'getCategoryItem');
+            });
         });
     });
 
-    Route::prefix('/category')->controller(CategoryController::class)->group(function () {
-        Route::get('/parent', 'getParentCategory');
-        Route::get('/{name_en}', 'show');
-        Route::prefix('/{parent_id}')->group(function () {
-            Route::get('/child', 'getChildCategory');
-            Route::post('/', 'store')->middleware('auth:sanctum');
+    //client part
+    Route::prefix('/client')->middleware('public')->group(function () {
+        Route::prefix('/category')->controller(CategoryController::class)->group(function () {
+            Route::get('/parent', 'getParentCategory');
+            Route::get('/{name_en}', 'show');
+            Route::prefix('/{parent_id}')->group(function () {
+                Route::get('/child', 'getChildCategory');
+            });
         });
-    });
 
-    Route::prefix('/item')->controller(ItemController::class)->group(function () {
-        Route::post('/', 'store')->middleware('auth:sanctum');
-        Route::get('/by/category', 'getCategoryItem')->middleware('public');
-    });
+        Route::prefix('/item')->controller(ItemController::class)->group(function () {
+            Route::get('/by/category', 'getCategoryItem');
+        });
 
-    Route::middleware('public')->group(function () {
         Route::apiResource('/order', OrderController::class)->only(['store', 'show'])
             ->whereNumber('order');
 

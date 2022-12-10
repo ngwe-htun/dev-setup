@@ -37,7 +37,7 @@ class OrderController extends Controller
             ]
         );
 
-        if ($check = $this->order->checkBuyer($request->input('buyer_name'), $request->input('nrc'))) {
+        if ($this->order->checkBuyer($request->input('buyer_name'), $request->input('nrc'))) {
             return response()->json(
                 [
                     'message' => __('your already ordered')
@@ -49,6 +49,26 @@ class OrderController extends Controller
         return response()->json(
             [
                 'data' => [],
+            ],
+            200
+        );
+    }
+
+    public function show(int $id)
+    {
+        $order = $this->order->getOrder($id);
+        if (!$order) {
+            return response()->json(
+                [
+                    'message' => __('order not found')
+                ],
+                404
+            );
+        }
+
+        return response()->json(
+            [
+                'data' => $order
             ],
             200
         );
@@ -139,23 +159,22 @@ class OrderController extends Controller
         );
     }
 
-    public function show(int $id)
+    public function searchOrder(string $name)
     {
-        $order = $this->order->getOrder($id);
-        if (!$order) {
+        if ($orders = $this->order->getOrderByName($name)) {
             return response()->json(
                 [
-                    'message' => __('order not found')
+                    'data' => $orders
                 ],
-                404
+                200
             );
         }
 
         return response()->json(
             [
-                'data' => $order
+                'message' => __('data not found')
             ],
-            200
+            404
         );
     }
 }

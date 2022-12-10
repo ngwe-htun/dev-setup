@@ -38,6 +38,16 @@ class OrderService
             ->first();
     }
 
+    public function getOrderByName(string $name): ?Collection
+    {
+        return $this->order
+            ->with('item')
+            ->with('item.category')
+            ->with('item.city')
+            ->where('buyer_name', $name)
+            ->get();
+    }
+
     public function checkBuyer(string $name, string $nrc): ?Order
     {
         return $this->order
