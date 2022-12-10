@@ -16,6 +16,8 @@ import GoldCoinPage from './pages/admin/goldcoin/GoldCoinPage';
 import CategoryPage from './pages/admin/category/CategoryPage';
 import SearchPage from './pages/admin/search/SearchPage';
 import PasswordPage from './pages/admin/password/PasswordPage';
+import LoginPage from './pages/login/LoginPage';
+import MenuBarComponent from './components/menubar/MenuBarComponent';
 
 const citySelectItems = [
   {label: 'New York', value: 'NY'},
@@ -35,11 +37,13 @@ let items = [
 function App() {
 
   return (
-    // <UserPage />
+    <UserPage />
     // <GoldCoinPage />
-    // <CategoryPage />
+    //<CategoryPage />
     // <SearchPage />
-    <PasswordPage />
+    // <PasswordPage />
+    // // <LoginPage />
+    // <MenuBarComponent />
     
   );
 }

@@ -6,6 +6,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { useState } from 'react';
+import MenuBarComponent from '../../../components/menubar/MenuBarComponent';
 
 const roles = [
     { name: 'New York', code: 'NY' },
@@ -37,6 +38,7 @@ const UserPage = () => {
 
     return (
         <>
+        <MenuBarComponent />
         <div className='grid p-7'>
             <div className='col'><span  className='text-xl'>Manage Users (အသုံးပြုသူများကို စီမံရန်)</span></div>
             <div className='col text-right'><Button label="အသုံးပြုသူ ထပ်ပေါင်းထည့်မည်" icon="pi pi-plus"  onClick={ () => {setDisplayCreate(true)}} /></div>

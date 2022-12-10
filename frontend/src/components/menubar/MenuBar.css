@@ -1,0 +1,41 @@
+.menubar {
+    border-radius: 0px;
+    margin: 0px;
+    border: none;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    vertical-align: middle;
+    height: 88px;
+    color: #ffffff !important;
+}
+
+.menubar-img {
+    height: 40px;
+    width: 37px;
+    vertical-align: middle;
+}
+
+.menubar-title{
+    font-size: 24px;
+    align-items: center;
+}
+
+.p-dropdown-label {
+    color: #ffffff !important;
+}
+
+.p-connected-overlay-enter-done {
+    border: none !important;
+}
+
+.p-dropdown-trigger-icon {
+    color: #ffffff ;
+}
+
+.menubar-end {
+    border: none !important;
+    background-color: #0069D9;
+    color: #ffffff !important;
+    word-wrap: break-word;
+
+}

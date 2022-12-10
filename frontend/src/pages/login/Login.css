@@ -1,0 +1,45 @@
+.login-logo-background {
+    background: #0069D9;
+    height: 190px;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+.login-header-text {
+    color: #ffffff;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    align-content: center;
+}
+
+.login-card {
+    width: 426px;
+    margin-top: 48px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.login-title-mm {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.login-title-eng {
+    font-size: 32px;
+}
+
+.login-button {
+    margin-top: 24px;
+    height: 40px;
+}
+
+.login-failed-message {
+    font-style: normal;
+    font-size: 12px;
+    color: #FF0000;
+}
