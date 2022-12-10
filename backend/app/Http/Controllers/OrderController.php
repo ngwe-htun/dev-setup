@@ -72,6 +72,15 @@ class OrderController extends Controller
             ]
         );
 
+        if ($this->order->checkBuyer($request->input('buyer_name'), $request->input('nrc'))) {
+            return response()->json(
+                [
+                    'message' => __('your already ordered')
+                ],
+                406
+            );
+        }
+
         $item = $this->item->getItemById($request->input('item_id'));
 
         if (!$item) {
