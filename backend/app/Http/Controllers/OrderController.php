@@ -6,6 +6,7 @@ use App\Item\ItemService;
 use App\Order\OrderService;
 use Illuminate\Http\Request;
 use App\Item\CategoryService;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -31,30 +32,18 @@ class OrderController extends Controller
         $this->validate(
             $request,
             [
-                'item_category_id' => 'required|int',
                 'item_id' => 'required|int',
                 'buyer_name' => 'required|string',
                 'father_name' => 'required|string',
                 'nrc' => 'required|string',
                 'address' => 'required|string',
-                'phone' => 'required|string',
+                'phone' => 'required|string|min:9|max:9',
                 'purchase_reason' => 'required|string',
                 'monthly_income' => 'required',
                 'already_ordered' => 'required',
                 'term_condition' => 'required'
             ]
         );
-
-        $category = $this->category->getCategoryById($request->input('item_category_id'));
-
-        if (!$category) {
-            return response()->json(
-                [
-                    'message' => __('category not found')
-                ],
-                404
-            );
-        }
 
         $item = $this->item->getItemById($request->input('item_id'));
 
@@ -64,6 +53,24 @@ class OrderController extends Controller
                     'message' => __('item not found')
                 ],
                 404
+            );
+        }
+
+        if (Carbon::now() > Carbon::parse($item->available_date)) {
+            return response()->json(
+                [
+                    'message' => __('your order is out of date')
+                ],
+                406
+            );
+        }
+
+        if (($item->qty - $item->order_qty) <= 0) {
+            return response()->json(
+                [
+                    'message' => __('out of stock item')
+                ],
+                406
             );
         }
 
@@ -79,7 +86,7 @@ class OrderController extends Controller
             'term_condition' => $request->input('term_condition')
         ];
 
-        if ($order = $this->order->createOrder($category, $item, $data)) {
+        if ($order = $this->order->createOrder($item, $data)) {
             return response()->json(
                 [
                     'data' => $order
@@ -93,6 +100,26 @@ class OrderController extends Controller
                 'message' => __('ordered failed')
             ],
             406
+        );
+    }
+
+    public function show(int $id)
+    {
+        $order = $this->order->getOrder($id);
+        if (!$order) {
+            return response()->json(
+                [
+                    'message' => __('order not found')
+                ],
+                404
+            );
+        }
+
+        return response()->json(
+            [
+                'data' => $order
+            ],
+            200
         );
     }
 }

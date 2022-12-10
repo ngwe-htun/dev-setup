@@ -48,7 +48,12 @@ Route::prefix('v1')->group(function () {
         Route::get('/by/category', 'getCategoryItem');
     });
 
-    Route::prefix('/order')->controller(OrderController::class)->group(function () {
-        Route::get('/nrc', 'getNRC');
+    Route::middleware('public')->group(function () {
+        Route::apiResource('/order', OrderController::class)->only(['store', 'show'])
+            ->whereNumber('order');
+
+        Route::prefix('/order')->controller(OrderController::class)->group(function () {
+            Route::get('/nrc', 'getNRC');
+        });
     });
 });

@@ -58,6 +58,8 @@ class ItemService
     {
         return $this->item
             ->where('id', $id)
+            ->with('category')
+            ->with('city')
             ->first();
     }
 }

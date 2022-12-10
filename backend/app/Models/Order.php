@@ -15,7 +15,7 @@ class Order extends Model
      * @var string
      */
 
-    protected $table = 'item_categories';
+    protected $table = 'orders';
 
     /**
      * The attributes that are mass assignable.

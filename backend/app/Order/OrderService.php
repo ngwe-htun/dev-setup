@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\Order;
 use App\Models\ItemCategory;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
 
 class OrderService
@@ -20,8 +21,10 @@ class OrderService
 
     public function getNRC(): ?Collection
     {
-        return $this->nrc
-            ->get();
+        return Cache::rememberForever('nrcs', function () {
+            return $this->nrc
+                ->get();
+        });
     }
 
     public function checkBuyer(string $name, string $nrc): ?Order
@@ -32,9 +35,9 @@ class OrderService
             ->first();
     }
 
-    public function createOrder(ItemCategory $category, Item $item, array $data): ?Order
+    public function createOrder(Item $item, array $data): ?Order
     {
-        return DB::transaction(function () use ($category, $item, $data) {
+        return DB::transaction(function () use ($item, $data) {
             $this->item
                 ->where('id', $item->id)
                 ->update([
@@ -43,7 +46,7 @@ class OrderService
 
             return $this->order->create(
                 [
-                    'item_category_id' => $category->id,
+                    'item_category_id' => $item?->category?->id,
                     'item_id' => $item->id,
                     'buyer_name' => $data['buyer_name'],
                     'father_name' => $data['father_name'],
@@ -57,5 +60,13 @@ class OrderService
                 ]
             );
         });
+    }
+
+    public function getOrder(int $id): ?Order
+    {
+        return $this->order
+            ->with('item')
+            ->where('id', $id)
+            ->first();
     }
 }
