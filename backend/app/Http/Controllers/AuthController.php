@@ -80,13 +80,13 @@ class AuthController extends Controller
             );
         }
 
-
         return response()->json(
             [
                 'data' => $request->user()->createToken(
                     name: 'api_token',
+                    abilities: array_merge($this->role->getRoles($request->user())?->toArray()),
                     expiresAt: Carbon::now()->addMinutes(config('sanctum.expiration'))
-                )->plainTextToken
+                )
             ],
             200
         );

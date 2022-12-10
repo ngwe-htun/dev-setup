@@ -24,9 +24,9 @@ class ItemController extends Controller
         $this->validate($request, [
             'item_category_id' => 'required|integer',
             'city_id' => 'required|integer',
-            'base_price' => 'required|decimal',
+            'base_price' => 'required',
             'sellable_currency' => 'required|string',
-            'available_date' => 'required|date|date_format:Y-m-d|after:yesterday',
+            'available_date' => 'required|date|date_format:Y-m-d|after:today',
             'qty' => 'required|integer'
         ]);
 
@@ -64,7 +64,17 @@ class ItemController extends Controller
             );
         }
 
-        if ($item = $this->item->createItem($category, $city, Carbon::parse($request->input('available_date')), $data)) {
+        $availableDate = Carbon::parse($request->input('available_date'));
+        if ($this->item->getCategoryItem($category, $city, $availableDate)) {
+            return response()->json(
+                [
+                    'message' => __("item already exists")
+                ],
+                406
+            );
+        }
+
+        if ($item = $this->item->createItem($category, $city, $availableDate, $data)) {
             return response()->json(
                 [
                     'data' => $item
@@ -89,7 +99,7 @@ class ItemController extends Controller
             'date' => 'required|date|date_format:Y-m-d|after:yesterday',
         ]);
 
-        $category = $this->category->getCategoryById($request->input('item_category_id'));
+        $category = $this->category->getCategoryById($request->input('category_id'));
 
         if (empty($category)) {
             return response()->json(
@@ -111,7 +121,7 @@ class ItemController extends Controller
             );
         }
 
-        if ($item = $this->item->getCategoryItem($category, $city, $request->input('date'))) {
+        if ($item = $this->item->getCategoryItem($category, $city, Carbon::parse($request->input('date')))) {
             if (($item?->qty - $item?->order_qty) <= 0) {
                 return response()->json(
                     [

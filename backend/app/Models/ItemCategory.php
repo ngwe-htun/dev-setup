@@ -25,7 +25,8 @@ class ItemCategory extends Model
     protected $fillable = [
         'name_en',
         'name_mm',
-        'status',
+        'is_auction',
         'item_category_id',
+        'status',
     ];
 }

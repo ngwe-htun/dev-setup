@@ -32,9 +32,9 @@ class CategoryController extends Controller
         );
     }
 
-    public function getChildCategory(string $category)
+    public function getChildCategory(int $parentId)
     {
-        if ($parent = $this->category->getCategoryByEn($category)) {
+        if ($parent = $this->category->getCategoryById($parentId)) {
             if ($categories = $this->category->getChildCategories($parent)) {
                 return response()->json(
                     [
@@ -60,39 +60,49 @@ class CategoryController extends Controller
         );
     }
 
-    public function store(string $parent, Request $request)
+    public function store(int $parentId, Request $request)
     {
         $this->validate($request, [
             'name_en' => 'required|string',
             'name_mm' => 'required|string'
         ]);
 
-        if ($parentCategory = $this->category->getCategoryByEn($parent)) {
-            if (
-                $category = $this->category->createCategory(
-                    $parentCategory,
-                    $request->input('name_en'),
-                    $request->input('name_mm')
-                )
-            ) {
-                return response()->json([
-                    'data' => $category
-                ], 200);
-            }
-
+        $parentCategory = $this->category->getCategoryById($parentId);
+        if (!$parentCategory) {
             return response()->json(
                 [
-                    'message' => __('category create failed')
+                    'message' => __("category not found")
+                ],
+                404
+            );
+        }
+
+        if ($this->category->getCategoryByEn($request->input('name_en'))) {
+            return response()->json(
+                [
+                    'message' => __('category already exists')
                 ],
                 406
             );
         }
 
+        if (
+            $category = $this->category->createCategory(
+                $parentCategory,
+                $request->input('name_en'),
+                $request->input('name_mm')
+            )
+        ) {
+            return response()->json([
+                'data' => $category
+            ], 200);
+        }
+
         return response()->json(
             [
-                'message' => __("category not found")
+                'message' => __('category create failed')
             ],
-            404
+            406
         );
     }
 

@@ -19,6 +19,7 @@ class CategoryService
                 'name_en' => $nameEn,
                 'name_mm' => $nameMM,
                 'status' => true,
+                'is_auction' => $parent->is_auction,
                 'item_category_id' => $parent->id
             ]);
     }
