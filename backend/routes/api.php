@@ -45,7 +45,7 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('/item')->controller(ItemController::class)->group(function () {
         Route::post('/', 'store')->middleware('auth:sanctum');
-        Route::get('/by/category', 'getCategoryItem');
+        Route::get('/by/category', 'getCategoryItem')->middleware('public');
     });
 
     Route::middleware('public')->group(function () {
@@ -54,6 +54,7 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('/order')->controller(OrderController::class)->group(function () {
             Route::get('/nrc', 'getNRC');
+            Route::get('/check/buyer', 'checkBuyer');
         });
     });
 });

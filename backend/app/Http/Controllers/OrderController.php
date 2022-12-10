@@ -27,6 +27,33 @@ class OrderController extends Controller
         );
     }
 
+    public function checkBuyer(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'buyer_name' => 'required|string',
+                'nrc' => 'required|string'
+            ]
+        );
+
+        if ($check = $this->order->checkBuyer($request->input('buyer_name'), $request->input('nrc'))) {
+            return response()->json(
+                [
+                    'message' => __('your already ordered')
+                ],
+                406
+            );
+        }
+
+        return response()->json(
+            [
+                'data' => [],
+            ],
+            200
+        );
+    }
+
     public function store(Request $request)
     {
         $this->validate(

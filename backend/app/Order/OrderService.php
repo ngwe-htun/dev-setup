@@ -27,6 +27,17 @@ class OrderService
         });
     }
 
+
+    public function getOrder(int $id): ?Order
+    {
+        return $this->order
+            ->with('item')
+            ->with('item.category')
+            ->with('item.city')
+            ->where('id', $id)
+            ->first();
+    }
+
     public function checkBuyer(string $name, string $nrc): ?Order
     {
         return $this->order
@@ -60,13 +71,5 @@ class OrderService
                 ]
             );
         });
-    }
-
-    public function getOrder(int $id): ?Order
-    {
-        return $this->order
-            ->with('item')
-            ->where('id', $id)
-            ->first();
     }
 }
