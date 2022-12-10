@@ -67,7 +67,7 @@ class RoleService
 
     public function checkPermission(RoleConstant $rule): bool
     {
-        if ($roles = $this->getRoles(Auth::user())) {
+        if ($roles = Auth::user()?->roles) {
             if ($roles->firstWhere('attribute', $rule->value)) {
                 return true;
             }

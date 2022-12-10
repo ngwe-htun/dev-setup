@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Admin\RoleService;
 use App\Admin\UserService;
-use App\Constants\RoleConstant;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Constants\RoleConstant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -236,16 +236,5 @@ class AuthController extends Controller
             ],
             406
         );
-    }
-
-    private function permission(): bool
-    {
-        if (
-            !$this->role->checkPermission(RoleConstant::ADMIN()) &&
-            !$this->role->checkPermission(RoleConstant::SUPER_ADMIN())
-        ) {
-            return false;
-        }
-        return true;
     }
 }

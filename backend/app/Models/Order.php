@@ -50,4 +50,9 @@ class Order extends Model
     {
         return $this->category()->with('parentCategory');
     }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
 }

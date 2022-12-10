@@ -2,13 +2,16 @@
 
 namespace App\Order;
 
+use Carbon\Carbon;
 use App\Models\NRC;
+use App\Models\City;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\ItemCategory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class OrderService
 {
@@ -32,8 +35,8 @@ class OrderService
     {
         return $this->order
             ->with('item')
-            ->with('item.category')
-            ->with('item.city')
+            ->with('category')
+            ->with('city')
             ->where('id', $id)
             ->first();
     }
@@ -42,8 +45,8 @@ class OrderService
     {
         return $this->order
             ->with('item')
-            ->with('item.category')
-            ->with('item.city')
+            ->with('category')
+            ->with('city')
             ->where('buyer_name', $name)
             ->get();
     }
@@ -58,6 +61,7 @@ class OrderService
 
     public function createOrder(Item $item, array $data): ?Order
     {
+        //* controlling with traction to rollback when the happen something issue
         return DB::transaction(function () use ($item, $data) {
             $this->item
                 ->where('id', $item->id)

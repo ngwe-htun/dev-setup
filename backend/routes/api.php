@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,10 +18,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 Route::prefix('v1')->group(function () {
     Route::prefix('/admin')->group(function () {
@@ -48,6 +45,11 @@ Route::prefix('v1')->group(function () {
             Route::prefix('/item')->controller(ItemController::class)->group(function () {
                 Route::post('/', 'store')->middleware('auth:sanctum');
                 Route::get('/by/category', 'getCategoryItem');
+            });
+
+            Route::prefix('/report')->controller(ReportController::class)->group(function () {
+                Route::get('/search', 'search');
+                Route::get('/order', 'order');
             });
         });
     });

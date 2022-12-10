@@ -158,23 +158,4 @@ class OrderController extends Controller
             406
         );
     }
-
-    public function searchOrder(string $name)
-    {
-        if ($orders = $this->order->getOrderByName($name)) {
-            return response()->json(
-                [
-                    'data' => $orders
-                ],
-                200
-            );
-        }
-
-        return response()->json(
-            [
-                'message' => __('data not found')
-            ],
-            404
-        );
-    }
 }
