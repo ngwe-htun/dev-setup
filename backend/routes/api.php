@@ -27,6 +27,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/roles', 'getRoles');
         Route::post('/login', 'login');
         Route::middleware('auth:sanctum')->group(function () {
+            Route::get('/user/list', 'index');
             Route::post('/create', 'create');
             Route::put('/reset', 'resetPassword');
             Route::post('/assign/role', 'assignRole');

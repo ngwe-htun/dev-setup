@@ -22,6 +22,15 @@ class AuthController extends Controller
 
     public function index()
     {
+        if (!$this->permission()) {
+            return response()->json(
+                [
+                    'message' => __('permission denied')
+                ],
+                401
+            );
+        }
+
         if ($users = $this->user->getUserlist()) {
             return response()->json(
                 [
@@ -38,6 +47,7 @@ class AuthController extends Controller
             404
         );
     }
+
     public function create(Request $request)
     {
         $this->validate(
