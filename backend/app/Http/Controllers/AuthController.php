@@ -20,6 +20,24 @@ class AuthController extends Controller
     ) {
     }
 
+    public function index()
+    {
+        if ($users = $this->user->getUserlist()) {
+            return response()->json(
+                [
+                    'data' => $users
+                ],
+                200
+            );
+        }
+
+        return response()->json(
+            [
+                'message' => __('users not found')
+            ],
+            404
+        );
+    }
     public function create(Request $request)
     {
         $this->validate(
