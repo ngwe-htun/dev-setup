@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Item\ItemService;
-use App\Order\OrderService;
+use App\Sale\OrderService;
 use Illuminate\Http\Request;
 use App\Item\CategoryService;
 use Carbon\Carbon;
