@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BiderController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\OrderController;
@@ -47,6 +49,8 @@ Route::prefix('v1')->group(function () {
                 Route::get('/by/category', 'getCategoryItem');
             });
 
+            Route::apiResource('/bider', BiderController::class)->only(['store', 'show', 'index'])->whereNumber('bider');
+
             Route::prefix('/report')->controller(ReportController::class)->group(function () {
                 Route::get('/search', 'search');
                 Route::get('/order', 'order');
@@ -74,6 +78,10 @@ Route::prefix('v1')->group(function () {
         Route::prefix('/order')->controller(OrderController::class)->group(function () {
             Route::get('/nrc', 'getNRC');
             Route::get('/check/buyer', 'checkBuyer');
+        });
+
+        Route::prefix('/auction')->controller(AuctionController::class)->group(function () {
+            //Route::get('/{id}', 'show');
         });
     });
 });
