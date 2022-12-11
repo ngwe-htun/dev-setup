@@ -24,12 +24,12 @@ const MenuBarComponent = () => {
                 } 
                 className="main-background menubar"
                 end={
-                    <Dropdown placeholder="Kyaw Kyaw" options={userDropDown} optionLabel="name"  className='menubar-end text-white pr-3' scrollHeight='500px' />
+                    <Dropdown placeholder="Kyaw Kyaw" options={userDropDown} optionLabel="name"  className='menubar-end text-white pr-3' scrollHeight='500px'  />
                 }
             />
             </div>
         </div>
     );
 }
-
+ 
 export default MenuBarComponent;
