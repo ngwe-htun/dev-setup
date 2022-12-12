@@ -32,27 +32,4 @@ class City extends Model
     {
         return $this->hasMany(Order::class, 'city_id');
     }
-
-    public static function getCityById(int $id): City
-    {
-        return self::where('id', $id)
-            ->first();
-    }
-
-    public static function getCityByName(string $name): ?City
-    {
-        return self::where('name_en', $name)
-            ->first();
-    }
-
-    public static function getCities(array $ids): ?Collection
-    {
-        return self::whereIn('id', $ids)
-            ->get();
-    }
-
-    public static function getAllCities(): ?Collection
-    {
-        return Cache::rememberForever('cities', fn () => self::all());
-    }
 }
