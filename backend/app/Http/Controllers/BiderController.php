@@ -14,7 +14,7 @@ class BiderController extends Controller
 
     public function store(Request $request)
     {
-        return $this->validate(
+        $this->validate(
             $request,
             [
                 'reg_number' => 'required|string',

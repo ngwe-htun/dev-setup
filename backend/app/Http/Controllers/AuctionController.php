@@ -103,6 +103,15 @@ class AuctionController extends Controller
             );
         }
 
+        if (!$item?->category?->is_auction) {
+            return response()->json(
+                [
+                    'message' => __('can not biding to this item')
+                ],
+                406
+            );
+        }
+
         if (!(Carbon::parse($item->available_date) >= $now)) {
             return response()->json(
                 [

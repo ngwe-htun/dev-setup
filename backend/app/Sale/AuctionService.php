@@ -26,7 +26,7 @@ class AuctionService
                 'item_id' => $item?->id ?: -1,
                 'item_category_id' => $item?->category?->id ?: -1,
                 'log_number' => $item?->log_number ?: '',
-                'biding_price' => isset($data['price']) ?: 0,
+                'biding_price' => isset($data['price']) ? $data['price'] : 0,
                 'status' => $data['status']
             ]
         );
