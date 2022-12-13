@@ -72,6 +72,7 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('/item')->controller(ItemController::class)->group(function () {
             Route::get('/by/category', 'getCategoryItem');
+            Route::get('/by/log/{log_number}', 'show');
         });
 
         Route::apiResource('/order', OrderController::class)->only(['store', 'show'])
