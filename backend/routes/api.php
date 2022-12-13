@@ -54,6 +54,7 @@ Route::prefix('v1')->group(function () {
             Route::prefix('/report')->controller(ReportController::class)->group(function () {
                 Route::get('/search', 'search');
                 Route::get('/order', 'order');
+                Route::get('/cities', 'cities');
             });
         });
     });
@@ -82,6 +83,10 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('/auction')->controller(AuctionController::class)->group(function () {
             //Route::get('/{id}', 'show');
+        });
+
+        Route::prefix('/report')->controller(ReportController::class)->group(function () {
+            Route::get('/cities', 'cities');
         });
     });
 });
