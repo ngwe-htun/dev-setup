@@ -3,11 +3,13 @@
 namespace App\Admin;
 
 use App\Models\User;
+use App\Constants\RoleConstant;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserService
 {
     public function __construct(
-        protected User $user
+        protected User $user,
     ) {
     }
 
@@ -44,5 +46,12 @@ class UserService
             ->where('name', $name)
             ->where('password', $password)
             ->first();
+    }
+
+    public function getUserlist(): ?Collection
+    {
+        return $this->user
+            ->whereHas('roles', fn ($query) => $query->where('attribute', RoleConstant::STAFF))
+            ->get();
     }
 }

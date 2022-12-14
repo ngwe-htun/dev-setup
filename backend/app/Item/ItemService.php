@@ -28,15 +28,6 @@ class ItemService
         ]);
     }
 
-    public function setOrder(Item $item, int $qty): bool
-    {
-        return $this->item
-            ->where('id', $item->id)
-            ->update([
-                'order_qty' => $item->order_qty + $qty
-            ]);
-    }
-
     public function checkAvailableItem(ItemCategory $category, Carbon $date): ?Item
     {
         return $this->item
@@ -60,6 +51,15 @@ class ItemService
             ->where('item_category_id', $category->id)
             ->where('city_id', $city->id)
             ->whereDate('available_date', $date->toDateString())
+            ->first();
+    }
+
+    public function getItemById(int $id): ?Item
+    {
+        return $this->item
+            ->where('id', $id)
+            ->with('category')
+            ->with('city')
             ->first();
     }
 }

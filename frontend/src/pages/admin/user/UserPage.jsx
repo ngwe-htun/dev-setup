@@ -1,80 +1,142 @@
 
-import { DataTable } from 'primereact/datatable';
+import { useState } from 'react';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
+import { Title } from '../../../config/title';
 import { Dropdown } from 'primereact/dropdown';
-import { useState } from 'react';
+import { DataTable } from 'primereact/datatable';
+import { InputText } from 'primereact/inputtext';
+import { getUserRoles } from '../../../services/RoleService';
+import DialogComponent from '../../../components/DialogComponent';
+import { createUser, getUserList, resetUserPassword } from '../../../services/UserService';
 import MenuBarComponent from '../../../components/menubar/MenuBarComponent';
-import axios from 'axios';
-
-const roles = [
-    { name: 'New York', code: 'NY' },
-    { name: 'Rome', code: 'RM' },
-    { name: 'London', code: 'LDN' },
-    { name: 'Istanbul', code: 'IST' },
-    { name: 'Paris', code: 'PRS' }
-];
 
 const data = [
-    {"username": "Mg Mg", "created_date": "12"},
-    {"username": "Mg Mg", "created_date": "12"},
-    {"username": "Mg Mg", "created_date": "12"},
-    {"username": "Mg Mg", "created_date": "12"}
+    {"id": 1, "username": "Mg Mg", "created_date": "12"},
+    {"id": 2, "username": "Mg Mg", "created_date": "12"},
+    {"id": 3,"username": "Mg Mg", "created_date": "12"},
+    {"id": 4, "username": "Mg Mg", "created_date": "12"}
 ];
 
+/** User manage page */
 const UserPage = () => {
 
-    const host = 'http://10.20.0.1';
+    const [user, setUser] = useState('');
+    const [userId, setUserId] = useState(null);
     const [role, setRole] = useState({});
     const [roles, setRoles] = useState([]);
     const [displayCreate, setDisplayCreate] = useState(false);
+    const [alertDialog, setAlertDialog] = useState(false);
+    const [dialogBody, setDialogBody] = useState(null);
+    const [dialogHeader, setDialogHeader] = useState(null);
+    const [showResetPass, setShowResetPass] = useState(false);
 
-    const getRole = () => {
-        console.log('hello world')
-        axios.get(`${host}/gold/api/v1/auth/roles`).then(
-            res => {
-                let result = [];
-                for(var i in res.data.data) {
-                    result.push({
-                        'name': res.data.data[i]
-                    })
-                }        
-                console.log(result)
-            setRoles(result)
-        }).catch(err => console.log(err))
-    };
+    // Retrieve roles
+    const retrieveRoles = async () => {
+        let userRoles = await getUserRoles();
+        setRoles(userRoles)
+    }
 
+    const successDialogBody = (data) =>  {
+        return (
+            <>
+              <div>
+                <p>{Title.user_add_user_success_title}</p>
+              </div>
+              <div>
+                <h5>Username: {data.data.name}</h5>
+              </div>
+              <div>
+                <h5>Password: {data.data.password}</h5>
+              </div>
+            </>
+        );
+    }
+
+    const successResetDialogBody = (newPass) => {
+        console.log(newPass)
+        return (
+            <>
+              <p>{Title.user_reset_pass_success_message}</p>
+              <p>{Title.user_reset_pass_new_pass} : {newPass}</p>
+            </>
+        );
+    }
+
+    // Add user
+    const addUser = async () => {
+        let userData = {
+            'name': user
+        } 
+        try {
+            let res = await createUser(userData)
+            setDisplayCreate(false);
+            setDialogHeader(Title.user_add_user_success_dialog_header);
+            setDialogBody(successDialogBody(res))
+            setAlertDialog(true)
+        } catch(err) {
+            console.log(err.message)
+        }
+    }
+
+    // Reset pass
+    const resetUserPass = async () => {
+        try {
+            let res = await resetUserPassword(userId)
+            setShowResetPass(false);
+            setDialogHeader(Title.user_add_user_success_dialog_header)
+            setDialogBody(successResetDialogBody(res.password))
+            setAlertDialog(true)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    // OnChange role
     const onRoleChange = (e) => {
-        console.log(e.value)
         setRole(e.value)
     }
 
-    const dialogFooter = () => {
+    const resetPassFooter = () => {
         return (
             <div>
-                <Button label="မလုပ်တော့ပါ" icon="pi pi-times" className="p-button-text" onClick={ () => {setDisplayCreate(false) }}/>
-                <Button label="ထပ်ပေါင်းထည့်မည်" icon="pi pi-check"  autoFocus />
+                <Button label={Title.confirm_no}  icon="pi pi-times" className="p-button-text" onClick={ () => { setShowResetPass(false) }}/>
+                <Button label={Title.user_reset_pass_alert_yes} icon="pi pi-check"  autoFocus onClick={ () => resetUserPass() } />
             </div>
+        );
+    }
+
+    // Create dialog footer
+    const createDialogFooter = () => {
+        return (
+            <div>
+                <Button label={Title.user_add_confirm_no}  icon="pi pi-times" className="p-button-text" onClick={ () => { setDisplayCreate(false) }}/>
+                <Button label={Title.user_add_confirm_yes} icon="pi pi-check"  autoFocus onClick={ () => addUser() } />
+            </div>
+        );
+    }
+
+    const actionBodyTemplate = (rowData) => {
+        return (
+            <Button label={Title.user_reset_password} className="p-button-outlined p-button-sm" onClick={ () => { setUserId(rowData.id); setShowResetPass(true)}} />
         );
     }
 
     return (
         <>
-        <MenuBarComponent />
-        <div className='grid p-7'>
+        <div className='grid'>
             <div className='col'><span  className='text-xl'>Manage Users (အသုံးပြုသူများကို စီမံရန်)</span></div>
-            <div className='col text-right'><Button label="အသုံးပြုသူ ထပ်ပေါင်းထည့်မည်" icon="pi pi-plus"  onClick={ () => { getRole(); setDisplayCreate(true);}} /></div>
+            <div className='col text-right'><Button label="အသုံးပြုသူ ထပ်ပေါင်းထည့်မည်" icon="pi pi-plus"  onClick={ () => {  retrieveRoles() ;setDisplayCreate(true);}} /></div>
         </div>
         <div className="grid">
 
-            <div className="col p-7">
+            <div className="col">
             <div className="card">
                     <DataTable value={data} responsiveLayout="scroll">
                         <Column field="username" header="Username"></Column>
                         <Column field="created_date" header="Created Date"></Column>
-                        <Column header="Actions (လုပ်ဆောင်ချက်များ)" body={<Button label="Reset Password (လျှို့ဝှက်နံပါတ် ပြန်လည်သတ်မှတ်မည်)" className="p-button-outlined p-button-sm" />}></Column>
+                        <Column header="Actions (လုပ်ဆောင်ချက်များ)" body={actionBodyTemplate}></Column>
                     </DataTable>
 
                 </div>
@@ -82,15 +144,23 @@ const UserPage = () => {
         </div>
 
         {/** Dialog */}
-        <Dialog header="Add User (အသုံးပြုသူ ထပ်ပေါင်းထည့်ရန်)" style={{ width: '30vw' }} footer={dialogFooter} visible={displayCreate} onHide={ ()=> { setDisplayCreate(false) } }>
+        <Dialog header="Add User (အသုံးပြုသူ ထပ်ပေါင်းထည့်ရန်)" style={{ width: '30vw' }} footer={createDialogFooter} visible={displayCreate} onHide={ ()=> { setDisplayCreate(false) } }>
             <div className='field'>
-            <label htmlFor="username2" className="block">Username</label>
-            <InputText id="username2" aria-describedby="username2-help" className="block" style={{width: '100%'}} />
+            <label htmlFor="name" className="block">{Title.user_add_user_field_name}</label>
+            <InputText id="name" className="block w-full" onChange={ (e) => setUser(e.target.value) } />
             </div>
             <div className='field pt-2'>
               <label htmlFor="role" className="block">Select Role (ခွင့်ပြုချက်အဆင့် ရွေးပါ)</label>
               <Dropdown value={role} options={roles} optionLabel='name' className='w-full' onChange={(e) => onRoleChange(e)} />
             </div>
+        </Dialog>
+        
+        {/** Alert dialog */}
+        {alertDialog ? <DialogComponent header={dialogHeader} visible={true} body={dialogBody} callback={setAlertDialog} /> : null}
+        
+        {/** Reset pass dialog */}
+        <Dialog header={Title.user_reset_pass_sure} style={{ width: '30vw' }} footer={resetPassFooter} visible={showResetPass} onHide={ ()=> { setDisplayCreate(false) } }>
+            {Title.user_reset_pass_body}
         </Dialog>
         </>
     );

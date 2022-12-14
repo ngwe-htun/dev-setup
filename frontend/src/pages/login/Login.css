@@ -43,3 +43,8 @@
     font-size: 12px;
     color: #FF0000;
 }
+
+.login-card .p-card .p-component{
+    padding: 0px !important;
+    margin: 0px !important;
+}

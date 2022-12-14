@@ -32,4 +32,14 @@ class Item extends Model
         'qty',
         'order_qty',
     ];
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(ItemCategory::class, 'item_category_id');
+    }
 }

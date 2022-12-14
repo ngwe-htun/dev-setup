@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Cache;
 
 class City extends Model
 {
@@ -48,5 +49,10 @@ class City extends Model
     {
         return self::whereIn('id', $ids)
             ->get();
+    }
+
+    public static function getAllCities(): ?Collection
+    {
+        return Cache::rememberForever('cities', fn () => self::all());
     }
 }

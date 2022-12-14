@@ -45,8 +45,8 @@ const LoginPage = () => {
 
     const header = () => {
       return (
-        <div className="grid">
-          <div className="col">
+        <div className="grid p-0">
+          <div className="col m-0 p-0">
             <div className="login-logo-background">
               <div className="text-center pt-5">
                 <Image src="logo.png" alt="Image" width="73" height="80"/>  
@@ -62,11 +62,19 @@ const LoginPage = () => {
 
     return (
     <>
-      {header()}
-      <div className="grid">
-        <Toast ref={toast} />
-        <div className="col-4 col-offset-4">
-            <Card className="login-card">
+ <div className="grid m-0 p-0">
+          <div className="col m-0 p-0">
+            <div className="login-logo-background">
+              <div className="text-center pt-5">
+                <Image src="logo.png" alt="Image" width="73" height="80"/>  
+              </div>
+              <div className="text-center pt-1">
+                <span className="login-header-text">{text.login_header}</span>
+              </div>          
+            </div>
+          </div>
+        </div>     
+            <Card className="login-card p-0">
               <div className="text-center">
                 <span className="login-title-eng">LOGIN</span>
                 <br />
@@ -85,8 +93,6 @@ const LoginPage = () => {
                 <Button label={text.login_submit} aria-label="Submit"  onClick={ () => onSubmit() } className="w-full login-button"/>
               </div>
           </Card>
-          </div>
-      </div>
     </>
     );
 }

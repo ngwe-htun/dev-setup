@@ -29,4 +29,19 @@ class ItemCategory extends Model
         'item_category_id',
         'status',
     ];
+
+    public function categories()
+    {
+        return $this->hasMany(ItemCategory::class);
+    }
+
+    public function childCategories()
+    {
+        return $this->hasMany(ItemCategory::class)->with('categories');
+    }
+
+    public function parentCategory()
+    {
+        return $this->belongsTo(ItemCategory::class, 'item_category_id');
+    }
 }

@@ -1,47 +1,33 @@
-import { Container } from "react-bootstrap";
-import SidebarMenu from "react-bootstrap-sidebar-menu";
-import NavbarComponent from "../../components/NavbarComponent";
+import { Col, Container, Row } from "react-bootstrap";
+import { Outlet } from "react-router-dom";
+import MenuBarComponent from "../../components/menubar/MenuBarComponent";
+import SidebarComponent from "../../components/sidebar/sidebar";
+import BidderPage from "../admin/bidder/BidderPage";
+import { Button } from 'primereact/button';
+import { Title } from "../../config/title";
 
+// Dashboard layout
 export default function DashboardPage() {
+    
     return (
         <>
-        <NavbarComponent />
-        <div class="container-fluid">
-            
-    <div class="row">
-        
-        <div class="col-auto col-md-3 col-xl-2 bg-light">
-            <div class="d-flex flex-column align-items-sm-start text-white min-vh-100">
-                <ul class="nav nav-pills flex-column mb-sm-auto " id="menu">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Search (ရှာရန်)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Category List</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Item List</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Bidder’s Reg No List</span>
-                        </a>
-                    </li>
-                </ul>
+            <div>
+                <MenuBarComponent />
+          <div className="grid m-0 p-0">
+            <div className="col-2 pb-0">
+                <SidebarComponent />
             </div>
-        </div>
-        <div class="col py-3">
-            Content area...
-        </div>
-    </div>
-</div>
-
+            <div className="col-10">
+                <Outlet />
+            </div>
+          </div>
+            </div>
+          : <div className="grid">
+              <div className="col text-center text-middle">
+                <h3>Can not use in Mobile devices</h3>
+              </div>
+            </div>
         </>
+        
     );
 }
