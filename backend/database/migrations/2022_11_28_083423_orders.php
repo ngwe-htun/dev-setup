@@ -31,6 +31,8 @@ return new class extends Migration
             $table->index(['item_category_id']);
             $table->index(['nrc_numbers']);
             $table->index(['item_id']);
+            $table->index(['city_id', 'created_at']);
+            $table->index(['city_id', 'item_category_id', 'created_at']);
             $table->index(['item_category_id', 'nrc_numbers']);
         });
     }

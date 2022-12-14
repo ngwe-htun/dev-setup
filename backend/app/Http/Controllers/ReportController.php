@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Admin\RoleService;
 use Carbon\Carbon;
-use App\Models\City;
+use App\Sale\CityService;
+use App\Admin\RoleService;
 use Illuminate\Http\Request;
 use App\Report\ReportService;
 use App\Constants\RoleConstant;
@@ -13,12 +13,20 @@ class ReportController extends Controller
 {
     public function __construct(
         protected ReportService $report,
-        protected City $city,
+        protected CityService $city,
         protected RoleService $role //* dependency inject to parent controller
     ) {
     }
 
-
+    public function cities()
+    {
+        return response()->json(
+            [
+                'data' => $this->city->getAllCities()
+            ],
+            200
+        );
+    }
     public function search(Request $request)
     {
         //* purposely request with json payload and validate cover for the unicode string

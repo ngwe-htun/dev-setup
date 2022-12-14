@@ -3,20 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Cache;
 
-class City extends Model
+class Auction extends Model
 {
     use HasFactory;
+
     /**
      * The database table used by the model.
      *
      * @var string
      */
 
-    protected $table = 'cities';
+    protected $table = 'auctions';
 
     /**
      * The attributes that are mass assignable.
@@ -24,12 +23,11 @@ class City extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'display_name',
+        'bider_id',
+        'item_id',
+        'item_category_id',
+        'log_number',
+        'biding_price',
+        'status'
     ];
-
-    public function order()
-    {
-        return $this->hasMany(Order::class, 'city_id');
-    }
 }

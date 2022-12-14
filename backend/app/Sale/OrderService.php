@@ -1,17 +1,13 @@
 <?php
 
-namespace App\Order;
+namespace App\Sale;
 
-use Carbon\Carbon;
 use App\Models\NRC;
-use App\Models\City;
 use App\Models\Item;
 use App\Models\Order;
-use App\Models\ItemCategory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class OrderService
 {

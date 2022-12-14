@@ -145,4 +145,23 @@ class ItemController extends Controller
             404
         );
     }
+
+    public function show(string $logNumber)
+    {
+        if ($item = $this->item->getItemByLog($logNumber, Carbon::now())) {
+            return response()->json(
+                [
+                    'data' => $item
+                ],
+                200
+            );
+        }
+
+        return response()->json(
+            [
+                'message' => __('item not found')
+            ],
+            404
+        );
+    }
 }

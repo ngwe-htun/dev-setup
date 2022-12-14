@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Item\ItemService;
 use App\Admin\RoleService;
 use App\Admin\UserService;
-use App\Order\OrderService;
+use App\Sale\OrderService;
 use App\Item\CategoryService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
