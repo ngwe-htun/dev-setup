@@ -14,6 +14,7 @@ class BiderService
 
     public function createBider(array $data): ?Bider
     {
+
         return $this->bider->create(
             [
                 'bider_reg_number' => $data['reg_number'],
@@ -31,9 +32,9 @@ class BiderService
         }
 
         return $this->bider
-            ->when(!$regNumber, fn ($query) => $query->where('bider_reg_number', $regNumber))
-            ->when(!$name, fn ($query) => $query->where('name', $name))
-            ->when(!$company, fn ($query) => $query->where('company', $company))
+            ->when($regNumber, fn ($query) => $query->where('bider_reg_number', $regNumber))
+            ->when($name, fn ($query) => $query->where('name', $name))
+            ->when($company, fn ($query) => $query->where('company', $company))
             ->first();
     }
 

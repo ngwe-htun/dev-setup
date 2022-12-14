@@ -54,7 +54,12 @@ Route::prefix('v1')->group(function () {
             Route::prefix('/report')->controller(ReportController::class)->group(function () {
                 Route::get('/search', 'search');
                 Route::get('/order', 'order');
-                Route::get('/cities', 'cities');
+            });
+
+            Route::get('/cities', [ReportController::class, 'cities']);
+
+            Route::prefix('/auction')->controller(AuctionController::class)->group(function () {
+                Route::post('/issue/form', 'issueForm');
             });
         });
     });
@@ -71,6 +76,7 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('/item')->controller(ItemController::class)->group(function () {
             Route::get('/by/category', 'getCategoryItem');
+            Route::get('/by/log/{log_number}', 'show');
         });
 
         Route::apiResource('/order', OrderController::class)->only(['store', 'show'])
@@ -82,11 +88,9 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('/auction')->controller(AuctionController::class)->group(function () {
-            //Route::get('/{id}', 'show');
+            Route::post('/', 'store');
         });
 
-        Route::prefix('/report')->controller(ReportController::class)->group(function () {
-            Route::get('/cities', 'cities');
-        });
+        Route::get('/cities', [ReportController::class, 'cities']);
     });
 });

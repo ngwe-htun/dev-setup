@@ -15,7 +15,7 @@ class Auction extends Model
      * @var string
      */
 
-    protected $table = 'biders';
+    protected $table = 'auctions';
 
     /**
      * The attributes that are mass assignable.

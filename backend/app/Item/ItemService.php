@@ -41,7 +41,7 @@ class ItemService
     {
         return $this->item
             ->where('log_number', $logNumber)
-            ->whereDate('available_date', $date->toDateString())
+            ->whereDate('available_date', '>=', $date->toDateString())
             ->first();
     }
 
