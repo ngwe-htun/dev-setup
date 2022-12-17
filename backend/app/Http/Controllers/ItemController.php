@@ -194,4 +194,26 @@ class ItemController extends Controller
             404
         );
     }
+
+    public function delete(int $id)
+    {
+        $item = $this->item->getItemById($id);
+        if (!$item) {
+            return response()->json(
+                [
+                    'message' => __('item not found')
+                ],
+                404
+            );
+        }
+
+        $res = $this->item->deleteItem($item);
+
+        return response()->json(
+            [
+                'message' => $res ? __('successfully delete') : __('can not delete')
+            ],
+            $res ? 200 : 406
+        );
+    }
 }

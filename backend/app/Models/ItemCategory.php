@@ -44,4 +44,14 @@ class ItemCategory extends Model
     {
         return $this->belongsTo(ItemCategory::class, 'item_category_id');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'item_category_id');
+    }
+
+    public function auctions()
+    {
+        return $this->hasMany(Auction::class, 'item_category_id');
+    }
 }

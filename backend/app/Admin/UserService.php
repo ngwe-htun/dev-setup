@@ -14,6 +14,14 @@ class UserService
     ) {
     }
 
+    /**
+     * Admin panel user creation
+     *
+     * @param string $name
+     * @param string $password
+     * @param integer $id
+     * @return User
+     */
     public function createUser(string $name, string $password, int $id = -1): User
     {
         return $this->user->updateOrCreate(
@@ -27,6 +35,12 @@ class UserService
         );
     }
 
+    /**
+     * Get user by name
+     *
+     * @param string $name
+     * @return User|null
+     */
     public function getUser(string $name): ?User
     {
         return $this->user
@@ -34,6 +48,12 @@ class UserService
             ->first();
     }
 
+    /**
+     * Get user by id
+     *
+     * @param integer $id
+     * @return User|null
+     */
     public function getUserById(int $id): ?User
     {
         return $this->user
@@ -41,6 +61,13 @@ class UserService
             ->first();
     }
 
+    /**
+     * Validate of user password
+     *
+     * @param string $name
+     * @param string $password
+     * @return User|null
+     */
     public function checkUser(string $name, string $password): ?User
     {
         $user = $this->user
@@ -54,6 +81,11 @@ class UserService
         return null;
     }
 
+    /**
+     * All of user list
+     *
+     * @return Collection|null
+     */
     public function getUserlist(): ?Collection
     {
         return $this->user

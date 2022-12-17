@@ -40,6 +40,7 @@ Route::prefix('v1')->group(function () {
                 Route::get('/parent', 'getParentCategory');
                 Route::get('/{name_en}', 'show');
                 Route::get('/list', 'index');
+                Route::delete('/{category_id}', 'delete');
                 Route::prefix('/{parent_id}')->group(function () {
                     Route::get('/child', 'getChildCategory');
                     Route::post('/', 'store');
@@ -47,7 +48,8 @@ Route::prefix('v1')->group(function () {
             });
 
             Route::prefix('/item')->controller(ItemController::class)->group(function () {
-                Route::post('/', 'store')->middleware('auth:sanctum');
+                Route::post('/', 'store');
+                Route::delete('/{item_id}', 'delete');
                 Route::get('/by/category', 'getCategoryItem');
                 Route::get('/list/by/category/{category_id}', 'index');
             });

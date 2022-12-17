@@ -11,11 +11,23 @@ use Illuminate\Database\Eloquent\Collection;
 
 class RoleService
 {
+    /**
+     * RoleService construct
+     * @param Role $role
+     */
     public function __construct(
         protected Role $role
     ) {
     }
 
+    /**
+     * Assign the user with role
+     *
+     * @param User $user
+     * @param RoleConstant $attribute
+     * @param string $value
+     * @return Role
+     */
     public function createRole(User $user, RoleConstant $attribute, string $value): Role
     {
         return $this->role->updateOrCreate(
@@ -32,6 +44,12 @@ class RoleService
         );
     }
 
+    /**
+     *  Get roles by user
+     *
+     * @param User $user
+     * @return Collection|null
+     */
     public function getRoles(User $user): ?Collection
     {
         return cache()->remember(
@@ -45,6 +63,13 @@ class RoleService
         );
     }
 
+    /**
+     * Get role with user and attribute
+     *
+     * @param User $user
+     * @param RoleConstant $attribute
+     * @return Role|null
+     */
     public function getRoleByAttribute(User $user, RoleConstant $attribute): ?Role
     {
         return $this->role
@@ -53,6 +78,12 @@ class RoleService
             ->first();
     }
 
+    /**
+     * Available cities data by user
+     *
+     * @param User $user
+     * @return Collection|null
+     */
     public function getAvailableCities(User $user): ?Collection
     {
         $rule = $this->role
@@ -65,6 +96,12 @@ class RoleService
         return City::getCities($citiesId);
     }
 
+    /**
+     * Checking the user's permission
+     *
+     * @param RoleConstant $rule
+     * @return boolean
+     */
     public function checkPermission(RoleConstant $rule): bool
     {
         if ($roles = Auth::user()?->roles) {

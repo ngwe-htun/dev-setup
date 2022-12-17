@@ -143,4 +143,26 @@ class CategoryController extends Controller
             404
         );
     }
+
+    public function delete(int $id)
+    {
+        $category = $this->category->getCategoryById($id);
+        if (!$category) {
+            return response()->json(
+                [
+                    'message' => __('category not found')
+                ],
+                404
+            );
+        }
+
+        $res = $this->category->deleteCategory($category);
+
+        return response()->json(
+            [
+                'message' => $res ? __('successfully delete') : __('can not delete')
+            ],
+            $res ? 200 : 406
+        );
+    }
 }

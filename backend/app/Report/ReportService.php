@@ -16,6 +16,15 @@ class ReportService
     ) {
     }
 
+    /**
+     * Report of order
+     *
+     * @param array $cities
+     * @param Carbon $startDate
+     * @param Carbon $endDate
+     * @param ItemCategory|null $category
+     * @return Collection|null
+     */
     public function reportOrder(array $cities, Carbon $startDate, Carbon $endDate, ?ItemCategory $category = null): ?Collection
     {
         return $this->order
@@ -35,6 +44,15 @@ class ReportService
             ->get();
     }
 
+    /**
+     * Report of auctions
+     * * auction not had the city
+     *
+     * @param Carbon $startDate
+     * @param Carbon $endDate
+     * @param ItemCategory|null $category
+     * @return Collection|null
+     */
     public function reportAuction(Carbon $startDate, Carbon $endDate, ?ItemCategory $category = null): ?Collection
     {
         return $this->auction
