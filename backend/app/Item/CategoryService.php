@@ -12,6 +12,14 @@ class CategoryService
     ) {
     }
 
+    /**
+     * Create the sub category
+     *
+     * @param ItemCategory $parent
+     * @param string $nameEn
+     * @param string $nameMM
+     * @return ItemCategory
+     */
     public function createCategory(ItemCategory $parent, string $nameEn, string $nameMM): ItemCategory
     {
         return $this->category
@@ -24,6 +32,12 @@ class CategoryService
             ]);
     }
 
+    /**
+     * Get the category by en name
+     *
+     * @param string $nameEn
+     * @return ItemCategory|null
+     */
     public function getCategoryByEn(string $nameEn): ?ItemCategory
     {
         return $this->category
@@ -31,6 +45,12 @@ class CategoryService
             ->first();
     }
 
+    /**
+     * Fetch all of child categories by parent category
+     *
+     * @param ItemCategory $category
+     * @return Collection|null
+     */
     public function getChildCategories(ItemCategory $category): ?Collection
     {
         return $this->category
@@ -38,6 +58,12 @@ class CategoryService
             ->get();
     }
 
+    /**
+     * Get category by id
+     *
+     * @param integer $id
+     * @return ItemCategory|null
+     */
     public function getCategoryById(int $id): ?ItemCategory
     {
         return $this->category
@@ -45,10 +71,47 @@ class CategoryService
             ->first();
     }
 
+    /**
+     * List of parent category
+     * parent category can't create from the admin panel
+     * those data created with seeder
+     *
+     * @return Collection|null
+     */
     public function getParentCategory(): ?Collection
     {
         return $this->category
             ->where('item_category_id', -1)
             ->get();
+    }
+
+    /**
+     * List all of child categories
+     *
+     * @return Collection|null
+     */
+    public function getCategories(): ?Collection
+    {
+        return $this->category
+            ->where('item_category_id', '!=', -1)
+            ->get();
+    }
+
+    /**
+     * Delete Category
+     * can't delete the category if belong to order or auction
+     *
+     * @param ItemCategory $category
+     * @return boolean
+     */
+    public function deleteCategory(ItemCategory $category): bool
+    {
+        if (!$category->orders || !$category->auctions) {
+            return $this->category
+                ->where('id', $category->id)
+                ->delete();
+        }
+
+        return false;
     }
 }

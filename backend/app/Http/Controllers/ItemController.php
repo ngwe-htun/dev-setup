@@ -26,7 +26,7 @@ class ItemController extends Controller
             'city_id' => 'required|integer',
             'base_price' => 'required',
             'sellable_currency' => 'required|string',
-            'available_date' => 'required|date|date_format:Y-m-d|after:today',
+            'available_date' => 'required|date|after:today',
             'qty' => 'required|integer'
         ]);
 
@@ -162,6 +162,58 @@ class ItemController extends Controller
                 'message' => __('item not found')
             ],
             404
+        );
+    }
+
+    public function index(int $categoryId)
+    {
+        $category = $this->category->getCategoryById($categoryId);
+
+        if (!$category) {
+            return response()->json(
+                [
+                    'message' => __('category not found')
+                ],
+                404
+            );
+        }
+
+        if ($items = $this->item->getItemsByCategory($category)) {
+            return response()->json(
+                [
+                    'data' => $items
+                ],
+                200
+            );
+        }
+
+        return response()->json(
+            [
+                'message' => __('items not found')
+            ],
+            404
+        );
+    }
+
+    public function delete(int $id)
+    {
+        $item = $this->item->getItemById($id);
+        if (!$item) {
+            return response()->json(
+                [
+                    'message' => __('item not found')
+                ],
+                404
+            );
+        }
+
+        $res = $this->item->deleteItem($item);
+
+        return response()->json(
+            [
+                'message' => $res ? __('successfully delete') : __('can not delete')
+            ],
+            $res ? 200 : 406
         );
     }
 }
