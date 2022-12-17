@@ -57,6 +57,7 @@ Route::prefix('v1')->group(function () {
             Route::prefix('/report')->controller(ReportController::class)->group(function () {
                 Route::get('/search', 'search');
                 Route::get('/order', 'order');
+                Route::get('/auction', 'auction');
             });
 
             Route::get('/cities', [ReportController::class, 'cities']);

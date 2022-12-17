@@ -25,13 +25,17 @@ class BiderService
         );
     }
 
-    public function getBider(?string $regNumber = null, ?string $name = null, ?string $company = null): ?Bider
+    public function getBider(?string $regNumber = null, ?string $name = null, ?string $company = null, bool $isReport = false): ?Bider
     {
         if (!$regNumber && !$name && !$company) {
             return null;
         }
 
         return $this->bider
+            ->when($isReport, function ($query) {
+                $query->withCount(['auctions as available_count' => fn ($query) => $query->where('status', 0)])
+                    ->withCount(['auctions as biding_count' => fn ($query) => $query->where('status', 1)]);
+            })
             ->when($regNumber, fn ($query) => $query->where('bider_reg_number', $regNumber))
             ->when($name, fn ($query) => $query->where('name', $name))
             ->when($company, fn ($query) => $query->where('company', $company))

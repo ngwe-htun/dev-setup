@@ -30,4 +30,20 @@ class Auction extends Model
         'biding_price',
         'status'
     ];
+
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class, 'item_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(ItemCategory::class, 'item_category_id');
+    }
+
+    public function parentCategory()
+    {
+        return $this->category()->with('parentCategory');
+    }
 }
