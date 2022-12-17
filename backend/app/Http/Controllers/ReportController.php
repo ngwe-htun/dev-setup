@@ -7,9 +7,11 @@ use App\Sale\CityService;
 use App\Admin\RoleService;
 use App\Sale\BiderService;
 use App\Sale\OrderService;
+use App\Sale\AuctionService;
 use Illuminate\Http\Request;
 use App\Report\ReportService;
 use App\Constants\RoleConstant;
+use App\Constants\AuctionConstant;
 
 class ReportController extends Controller
 {
@@ -18,7 +20,8 @@ class ReportController extends Controller
         protected CityService $city,
         protected RoleService $role, //* dependency inject to parent controller
         protected OrderService $order,
-        protected BiderService $bider
+        protected BiderService $bider,
+        protected AuctionService $auction
     ) {
     }
 
@@ -44,7 +47,7 @@ class ReportController extends Controller
         );
 
         if (!empty($request->input('bider_reg_number', ''))) {
-            return $this->searchBider($request->input('bider_reg_number'));
+            return $this->searchAuction($request->input('bider_reg_number'));
         }
 
         return $this->searchOrder($request->input('name'));
@@ -70,9 +73,10 @@ class ReportController extends Controller
         );
     }
 
-    private function searchBider(string $regNumber)
+    private function searchAuction(string $regNumber)
     {
-        if ($auctions = $this->bider->getBider(regNumber: $regNumber, isReport: true)) {
+        $bider = $this->bider->getBider(regNumber: $regNumber);
+        if ($auctions = $this->auction->getAuctionsByBider($bider, AuctionConstant::BIDED)) {
             return response()->json(
                 [
                     'data' => $auctions

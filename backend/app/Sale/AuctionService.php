@@ -2,10 +2,10 @@
 
 namespace App\Sale;
 
-use App\Constants\AuctionConstant;
 use App\Models\Item;
 use App\Models\Bider;
 use App\Models\Auction;
+use App\Constants\AuctionConstant;
 use Illuminate\Database\Eloquent\Collection;
 
 class AuctionService
@@ -39,5 +39,18 @@ class AuctionService
             ->where('bider_id', $bider?->id)
             ->where('status', $status)
             ->first();
+    }
+
+    public function getAuctionsByBider(Bider $bider, bool $status = AuctionConstant::REGISTER): ?Collection
+    {
+        return $this->auction
+            ->with('bider')
+            ->with('item')
+            ->with('category')
+            ->with('parentCategory')
+            ->where('bider_id', $bider?->id)
+            ->where('status', $status)
+            ->orderByDesc('biding_price')
+            ->get();
     }
 }

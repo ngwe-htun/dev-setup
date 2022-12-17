@@ -42,6 +42,11 @@ class Auction extends Model
         return $this->belongsTo(ItemCategory::class, 'item_category_id');
     }
 
+    public function bider()
+    {
+        return $this->belongsTo(Bider::class, 'bider_id');
+    }
+
     public function parentCategory()
     {
         return $this->category()->with('parentCategory');
