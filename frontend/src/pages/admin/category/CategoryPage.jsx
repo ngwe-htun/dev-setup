@@ -7,10 +7,10 @@ import { useEffect, useRef, useState } from "react";
 import DialogComponent from "../../../components/DialogComponent";
 import { createSubCategory, getCategoryList } from "../../../services/CategoryService";
 import { clear } from "@testing-library/user-event/dist/clear";
+import "../../../common/common.css";
 
 const CategoryPage = () => {
   
-    const toast = useRef(null);
     const [name_en, setNameEn] = useState('');
     const [name_mm, setNameMm] = useState('');
     const [data, setData] = useState();
@@ -77,14 +77,17 @@ const CategoryPage = () => {
 
     return (
         <>
-          <div className="grid p-7">
+          <div className="grid pt-3">
             <div className="col">
-                <h1>{Title.cat_header}</h1>
+                <h2>{Title.cat_header}</h2>
             </div>
             <div className="col text-right">
-              <Button label={Title.cat_add_cat_button_title} icon="pi pi-plus" onClick={ () => setShowCategoryAdd(true) } />
+              <Button label={Title.cat_add_cat_button_title} icon="pi pi-plus" onClick={ () => setShowCategoryAdd(true) } className="button-size" />
             </div>
           </div>
+
+          {/** Data table */}
+          <h5>Data table goes here</h5>
 
           {/** Add category dialog */}
           <Dialog header={Title.cat_add_cat_button_title} style={{ width: '30vw' }} footer={addCategoryDialogFooter} visible={showCategoryAdd} onHide={ ()=> { setShowCategoryAdd(false) } }>

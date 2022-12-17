@@ -5,6 +5,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Dialog } from "primereact/dialog";
+import "../../../common/common.css"; 
 
 const getBidderList = () => {
     return [
@@ -30,7 +31,8 @@ const BidderPage = () => {
     const dataTableAction = (rowData) => {
         return (
             <>
-              <Button className="p-button-outlined p-button-sm p-button-danger">{Title.data_table_delete}</Button>
+              <Button className="p-button-outlined p-button-sm p-button-primary ">{Title.bid_limit_form_title}</Button>
+              <Button className="p-button-outlined p-button-sm p-button-danger ml-3 ">{Title.data_table_delete}</Button>
             </>
         );
     }
@@ -65,9 +67,9 @@ const BidderPage = () => {
 
           {/** Title */}
           <div className="grid m-0">
-            <div className="col"><h3>{Title.bid_page_title}</h3></div>
+            <div className="col"><h2>{Title.bid_page_title}</h2></div>
             <div className="col text-right">
-              <Button label={Title.bid_add_bidder_button_title} icon="pi pi-plus" onClick={ () => { setShowCreate(true); }} />
+              <Button label={Title.bid_add_bidder_button_title} icon="pi pi-plus" className="button-size" onClick={ () => { setShowCreate(true); }} />
             </div>
           </div>
 
@@ -76,10 +78,12 @@ const BidderPage = () => {
             <div className="col">
               <div className="card">
                 <DataTable
+                  showGridlines 
+                  paginator 
+                  rows={10} 
+                  size="small"
                   value={getBidderList()}
                   header={dataTableHeader()}
-                  paginator
-                  rows={10}
                 >
                   <Column field="lot" header={Title.bid_data_table_lot}></Column>
                   <Column field="bidder" header={Title.bid_data_table_bid_reg}></Column>
@@ -93,7 +97,7 @@ const BidderPage = () => {
           </div>
 
           {/** Create dialog */}
-          {/* { !showCreate ? null : 
+          { !showCreate ? null : 
             <Dialog
               visible={showCreate}
               header={Title.bid_add_bid_title}
@@ -118,7 +122,7 @@ const BidderPage = () => {
                 <InputText id="bid_no" className="w-full"/>
               </div>
             </Dialog>
-          } */}
+          }
         </>
     );
 }

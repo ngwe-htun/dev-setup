@@ -10,7 +10,6 @@ import { InputText } from 'primereact/inputtext';
 import { getUserRoles } from '../../../services/RoleService';
 import DialogComponent from '../../../components/DialogComponent';
 import { createUser, getUserList, resetUserPassword } from '../../../services/UserService';
-import MenuBarComponent from '../../../components/menubar/MenuBarComponent';
 
 const data = [
     {"id": 1, "username": "Mg Mg", "created_date": "12"},
@@ -125,32 +124,33 @@ const UserPage = () => {
 
     return (
         <>
-        <div className='grid'>
-            <div className='col'><span  className='text-xl'>Manage Users (အသုံးပြုသူများကို စီမံရန်)</span></div>
-            <div className='col text-right'><Button label="အသုံးပြုသူ ထပ်ပေါင်းထည့်မည်" icon="pi pi-plus"  onClick={ () => {  retrieveRoles() ;setDisplayCreate(true);}} /></div>
+        {/** Title */}
+        <div className='grid p-7'>
+            <div className='col'><span  className='text-xl'>{Title.manage_user_title}</span></div>
+            <div className='col text-right'><Button label={Title.manage_user_add_user_button_label} icon="pi pi-plus"  onClick={ () => {  retrieveRoles() ;setDisplayCreate(true);}} /></div>
         </div>
-        <div className="grid">
 
+        {/** Data table */}
+        <div className="grid pl-7 pr-7">
             <div className="col">
-            <div className="card">
-                    <DataTable value={data} responsiveLayout="scroll">
-                        <Column field="username" header="Username"></Column>
-                        <Column field="created_date" header="Created Date"></Column>
-                        <Column header="Actions (လုပ်ဆောင်ချက်များ)" body={actionBodyTemplate}></Column>
-                    </DataTable>
-
-                </div>
+              <div className="card">
+                <DataTable value={data} responsiveLayout="scroll" showGridlines paginator rows={10} size="small">
+                  <Column field="username" header="Username"></Column>
+                  <Column field="created_date" header="Created Date"></Column>
+                  <Column header={Title.manage_user_data_table_action_header} body={actionBodyTemplate}></Column>
+                </DataTable>
+              </div>
             </div>
         </div>
 
         {/** Dialog */}
-        <Dialog header="Add User (အသုံးပြုသူ ထပ်ပေါင်းထည့်ရန်)" style={{ width: '30vw' }} footer={createDialogFooter} visible={displayCreate} onHide={ ()=> { setDisplayCreate(false) } }>
+        <Dialog header={Title.manage_user_data_table_header} style={{ width: '30vw' }} footer={createDialogFooter} visible={displayCreate} onHide={ ()=> { setDisplayCreate(false) } }>
             <div className='field'>
-            <label htmlFor="name" className="block">{Title.user_add_user_field_name}</label>
-            <InputText id="name" className="block w-full" onChange={ (e) => setUser(e.target.value) } />
+              <label htmlFor="name" className="block">{Title.user_add_user_field_name}</label>
+              <InputText id="name" className="block w-full" onChange={ (e) => setUser(e.target.value) } />
             </div>
             <div className='field pt-2'>
-              <label htmlFor="role" className="block">Select Role (ခွင့်ပြုချက်အဆင့် ရွေးပါ)</label>
+              <label htmlFor="role" className="block">{Title.manage_user_data_table_select_role}</label>
               <Dropdown value={role} options={roles} optionLabel='name' className='w-full' onChange={(e) => onRoleChange(e)} />
             </div>
         </Dialog>

@@ -1,12 +1,21 @@
-.menubar {
+.menubar .p-menubar {
     border-radius: 0px;
-    margin: 0px;
-    border: none;
-    padding-left: 3rem;
-    padding-right: 3rem;
-    vertical-align: middle;
+    background-color: #0069D9;
+    border: 0px;
     height: 88px;
-    color: #ffffff !important;
+    color: #ffffff;
+}
+
+.menubar .p-dropdown .p-dropdown-label {
+    color: #ffffff;
+}
+
+.menubar .p-dropdown .p-dropdown-trigger {
+    color: #ffffff;
+}
+
+.menubar .p-dropdown .p-focus:hover{
+    outline: none  !important;
 }
 
 .menubar-img {
@@ -27,4 +36,8 @@
     color: #ffffff !important;
     word-wrap: break-word;
 
+}
+
+.menubar {
+    position: sticky;
 }

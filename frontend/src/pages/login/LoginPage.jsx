@@ -1,98 +1,73 @@
 import "./Login.css";
-import axios from "axios";
 import { Card } from 'primereact/card';
 import { Image } from 'primereact/image';
 import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
-import text from "../../config/text.json";
 import { Button } from "primereact/button";
 import { Password } from "primereact/password";
 import { InputText } from "primereact/inputtext";
+import { Title } from "../../config/title";
+import { Login } from "../../services/AuthService";
+import { useNavigate } from "react-router-dom";
 
 
-const LoginPage = () => {
+const LoginPage = ({ setGreet }) => {
 
     const toast = useRef(null);
-    const host = 'http://10.20.1.1';
+    const navigate = useNavigate();
     const [name, setName] = useState('');
     const [failed, setFailed] = useState('');
     const [password, setPassword] = useState('');
     const [failedMessage, setFailedMessage] = useState('');
 
-    const onSubmit =  () => {
-        axios.get(`${host}/sanctum/csrf-cookie`).then(
-            res => {
-                axios.post(`${host}/gold/api/v1/auth/login`, {
-                    "name": name,
-                    "password": password,
-                }).then( 
-                    resp => {
-                      console.log(resp.data.data);
-                      let msg = resp.data.data;
-                      toast.current.show({severity:'success', summary: 'Success Message', detail: msg, life: 3000})
-                    }
-                ).catch(
-                    err => {
-                        setFailed('p-invalid');
-                        setFailedMessage("Incorrect Username or Password. Try again. (အသုံးပြုသူအမည် သို့မဟုတ် လျှို့ဝှက်နံပါတ် မှားယွင်းနေပါသည်။ ပြန်လည်ကြိုးစားကြည့်ပါ။)");
-                        console.clear()   
-                    }
-                )
-            }
-        );
-        
+    // Login
+    const onSubmit = async () => {
+        try {
+          let res = await Login(name, password);
+          setGreet(res.accessToken.name)
+          localStorage.setItem('access-token', res.plainTextToken)
+          navigate('/dashboard/search')
+        } catch (err) {
+          setFailed('p-invalid block');
+          setFailedMessage(Title.login_failed_message);
+        }
     }
 
-    const header = () => {
-      return (
-        <div className="grid p-0">
-          <div className="col m-0 p-0">
-            <div className="login-logo-background">
-              <div className="text-center pt-5">
-                <Image src="logo.png" alt="Image" width="73" height="80"/>  
-              </div>
-              <div className="text-center pt-1">
-                <span className="login-header-text">{text.login_header}</span>
-              </div>          
-            </div>
-          </div>
-        </div>
-      );
-    }
 
     return (
     <>
- <div className="grid m-0 p-0">
-          <div className="col m-0 p-0">
-            <div className="login-logo-background">
-              <div className="text-center pt-5">
-                <Image src="logo.png" alt="Image" width="73" height="80"/>  
-              </div>
-              <div className="text-center pt-1">
-                <span className="login-header-text">{text.login_header}</span>
-              </div>          
+      <Toast ref={toast} />
+      <div className="grid m-0 p-0">
+        <div className="col m-0 p-0">
+          <div className="login-logo-background">
+            <div className="text-center pt-5">
+              <Image src="logo.png" alt="Image" width="73" height="80"/>  
             </div>
+            <div className="text-center pt-1">
+              <span className="login-header-text">{Title.login_header}</span>
+            </div>          
           </div>
-        </div>     
-            <Card className="login-card p-0">
-              <div className="text-center">
-                <span className="login-title-eng">LOGIN</span>
-                <br />
-                <span className="login-title-mm">(အကောင့်ဝင်ရောက်ခြင်း)</span>
-              </div>
-              <div className="field mt-4">
-                <label htmlFor="name" className="block">{text.login_username}</label>
-                <InputText id="name" className={`block w-full ${failed}`} onChange={ (e) => setName(e.target.value)} />
-              </div>
-              <div className="field">
-                <label htmlFor="password" >{text.login_password}</label>
-                <Password id="password" inputClassName="w-full" className={`${failed}`} feedback={false} onChange={ (e) => setPassword(e.target.value)} style={{width: "100%"}} />
-              </div>
-              <span className="login-failed-message">{failedMessage}</span>
-              <div>
-                <Button label={text.login_submit} aria-label="Submit"  onClick={ () => onSubmit() } className="w-full login-button"/>
-              </div>
-          </Card>
+        </div>
+      </div>     
+      <Card className="login-card p-0">
+        <div className="text-center">
+          <span className="login-title-eng">{Title.login_title_eng}</span>
+          <br />
+          <span className="login-title-mm">{Title.login_title_mm}</span>
+        </div>
+        <div className="field mt-4">
+          <label htmlFor="name" className="block">{Title.login_input_username_label}</label>
+          <InputText id="name" className={`block w-full ${failed}`} onChange={ (e) => { setFailed(''); setName(e.target.value)}} />
+        </div>
+        <div className="field">
+          <label htmlFor="password" >{Title.login_input_password_label}</label>
+          <Password id="password" className={`w-full ${failed}`} feedback={false} onChange={ (e) => { setFailed('') ;setPassword(e.target.value)}} inputClassName={'w-full'} />
+        </div>
+        <span className="login-failed-message">{failedMessage}</span>
+        <div>
+          <Button label={Title.login_submit_button_label} aria-label="Submit"  onClick={ () => onSubmit() } className="w-full login-button"/>
+        </div>
+      </Card>
     </>
     );
 }

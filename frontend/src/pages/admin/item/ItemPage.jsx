@@ -7,6 +7,7 @@ import { getCategoryList, getSubCategories} from "../../../services/CategoryServ
 import { InputText } from "primereact/inputtext";
 import { Calendar } from 'primereact/calendar';
 import { getCityList } from "../../../services/CityService";
+import "../../../common/common.css";
 
 const ItemPage = () => {
 
@@ -137,12 +138,12 @@ const ItemPage = () => {
 
     return(
         <>
-          <div className="grid p-7">
+          <div className="grid pt-3">
             <div className="col">
                 <h2>{Title.item_header}</h2>
             </div>
             <div className="col text-right">
-              <Button label={Title.item_add_item_title} icon="pi pi-plus" onClick={ () => { getMainCategory(); setCreateDialogFooter(stepFooter()); setVisibleCreate(true);} } />
+              <Button label={Title.item_add_item_title} icon="pi pi-plus" className="button-size" onClick={ () => { getMainCategory(); setCreateDialogFooter(stepFooter()); setVisibleCreate(true);} } />
             </div>
           </div>
 

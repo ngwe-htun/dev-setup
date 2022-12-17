@@ -6,7 +6,8 @@ import { authHeader } from "./HttpService";
 export const getCategoryList = async () => {
     const url = `${Config.admin_host}/category/parent`;
     try {
-        let res = await axios.get(url, { headers: authHeader });
+        let res = await axios.get(url, { headers: authHeader() });
+        console.log(authHeader())
         return res.data.data
     } catch (err) {
 
@@ -16,7 +17,7 @@ export const getCategoryList = async () => {
 export const createSubCategory = async (id, data) => {
     const url = `${Config.admin_host}/category/${id}`;
     try {
-        let res = await axios.post(url, data, { headers: authHeader });
+        let res = await axios.post(url, data, { headers: authHeader() });
         return res.data
     } catch (err) {}
 }
@@ -24,7 +25,7 @@ export const createSubCategory = async (id, data) => {
 export const getSubCategories = async (categori_id) =>  {
     const url = `${Config.admin_host}/category/${categori_id}/child`;
     try {
-        let res = await axios.get(url, { headers: authHeader });
+        let res = await axios.get(url, { headers: authHeader() });
         return res.data.data
     } catch (err) {
         console.log(err)

@@ -1,30 +1,43 @@
+import "../../../common/common.css";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
+import { Title } from '../../../config/title';
+import { useNavigate } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
 
 const PasswordPage = () => {
+
+    const navigate = useNavigate();
     
     return (
         <div className="grid justify-item-center">
-            <div className="col-4 col-offset-4 pt-6">
-                <h1>Change Password (လျှို့ဝှက်နံပါတ် ပြောင်းရန်)</h1>
+            <div className="col-4 col-offset-4 pt-6 mx-auto">
+               
+                {/** Title */}
+                <h2 className='text-center'>{Title.manage_password_title}</h2>
+
 
                 <div>
-                  <Card className='justify-content-between'>
-                    <label htmlFor="old_pass" className="block">Type Old Password (လျှို့ဝှက်နံပါတ် အဟောင်းကို ရိုက်ပါ)</label>
-                    <InputText id="old_pass" className="block w-full"/>
-
-                    <label htmlFor="old_pass_confirm" className="block">Type New Password (လျှို့ဝှက်နံပါတ် အသစ်ကို ရိုက်ပါ)</label>
-                    <InputText id="old_pass" className="block w-full"/>
-
-                    <label htmlFor="new_pass" className="block">Type New Password (လျှို့ဝှက်နံပါတ် အသစ်ကို ရိုက်ပါ)</label>
-                    <InputText id="new_pass" className="block w-full"/>
+                  <Card className='w-27rem mx-auto'>
+                    <div className='pt-0'>
+                      <label htmlFor="old_pass" className="block">{Title.manage_password_old_password_title}</label>
+                      <InputText id="old_pass" className="block w-full"/>
+                    </div>
+                    <div className='pt-3'>
+                      <label htmlFor="old_pass_confirm" className="block">{Title.manage_password_new_password_label}</label>
+                      <InputText id="old_pass" className="block w-full"/>
+                    </div>
+                    
+                    <div className='pt-3'>
+                      <label htmlFor="new_pass" className="block">{Title.manage_passowrd_confirm_new_password}</label>
+                      <InputText id="new_pass" className="block w-full"/>
+                    </div>
                   </Card>
                 </div>
 
-                <div className='mt-4'>
-                  <Button label="Change (ပြောင်းမည်)" aria-label="Submit"  className='block w-full' />
-                  <Button label="Cancel (မလုပ်တော့ပါ)" aria-label="Submit"  className='block w-full p-button-outlined mt-3' />
+                <div className='mt-4 w-27rem mx-auto'>
+                  <Button label={Title.manage_password_action_yes} aria-label="Submit"  className='block w-full button-size' />
+                  <Button label={Title.manage_password_action_no} aria-label="Submit"  className='block w-full p-button-outlined mt-3 button-size' onClick={() => navigate(-1)} />
                 </div>
             </div>
         </div>

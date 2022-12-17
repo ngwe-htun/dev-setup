@@ -7,27 +7,26 @@ import { Button } from 'primereact/button';
 import { Title } from "../../config/title";
 
 // Dashboard layout
-export default function DashboardPage() {
+const DashboardPage = ({greet}) => {
+    console.log(greet)
     
     return (
         <>
-            <div>
-                <MenuBarComponent />
+          <MenuBarComponent name={greet}/>
+          <div>
           <div className="grid m-0 p-0">
-            <div className="col-2 pb-0">
-                <SidebarComponent />
+            <div className="col-fixed pb-0" style={{width: "250px"}}>
+                <SidebarComponent/>
             </div>
-            <div className="col-10">
-                <Outlet />
+            <div className="col pl-7">
+              <Outlet />
             </div>
           </div>
             </div>
-          : <div className="grid">
-              <div className="col text-center text-middle">
-                <h3>Can not use in Mobile devices</h3>
-              </div>
-            </div>
+            <h1>{greet}</h1>
         </>
         
     );
 }
+
+export default DashboardPage;

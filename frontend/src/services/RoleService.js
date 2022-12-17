@@ -7,7 +7,7 @@ export const getUserRoles = async () => {
     try {
         let formattedResult = [];
         let result = await axios.get(url,{
-            headers: authHeader
+            headers: authHeader()
         });
 
         let data = await result.data.data;
