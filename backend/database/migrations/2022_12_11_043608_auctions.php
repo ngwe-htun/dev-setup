@@ -25,6 +25,7 @@ return new class extends Migration
             $table->index('bider_id');
             $table->index('log_number');
             $table->index('item_category_id');
+            $table->index('biding_price');
             $table->index(['log_number', 'created_at']);
             $table->index(['log_number', 'bider_id']);
             $table->index(['bider_id', 'status']);
