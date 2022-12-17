@@ -48,6 +48,8 @@ class BiderService
     public function biderList(): ?Collection
     {
         return $this->bider
+            ->withCount(['auctions as available_count' => fn ($query) => $query->where('status', 0)])
+            ->withCount(['auctions as biding_count' => fn ($query) => $query->where('status', 1)])
             ->get();
     }
 }

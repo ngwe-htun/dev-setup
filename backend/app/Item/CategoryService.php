@@ -51,4 +51,11 @@ class CategoryService
             ->where('item_category_id', -1)
             ->get();
     }
+
+    public function getCategories(): ?Collection
+    {
+        return $this->category
+            ->where('item_category_id', '!=', -1)
+            ->get();
+    }
 }

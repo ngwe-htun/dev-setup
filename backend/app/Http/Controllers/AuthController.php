@@ -48,7 +48,7 @@ class AuthController extends Controller
         );
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $this->validate(
             $request,
@@ -73,6 +73,7 @@ class AuthController extends Controller
             return response()->json(
                 [
                     'data' => [
+                        'id' => $user->id,
                         'name' => $user->name,
                         'password' => $password
                     ]
@@ -110,11 +111,14 @@ class AuthController extends Controller
 
         return response()->json(
             [
-                'data' => $request->user()->createToken(
-                    name: 'api_token',
-                    abilities: array_merge($this->role->getRoles($request->user())?->toArray()),
-                    expiresAt: Carbon::now()->addMinutes(config('sanctum.expiration'))
-                )
+                'data' => [
+                    'token_info' => $request->user()->createToken(
+                        name: 'api_token',
+                        abilities: array_merge($this->role->getRoles($request->user())?->toArray()),
+                        expiresAt: Carbon::now()->addMinutes(config('sanctum.expiration'))
+                    ),
+                    'user_info' => $request->user()
+                ]
             ],
             200
         );
@@ -233,6 +237,45 @@ class AuthController extends Controller
         return response()->json(
             [
                 'message' => __('reset password failed')
+            ],
+            406
+        );
+    }
+
+    public function changePass(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'name' => 'required|string',
+                'password' => 'required|string',
+                'new_password' => 'required|string',
+                'confirm_password' => 'required|string|same:new_password',
+            ]
+        );
+
+        $user = $this->user->checkUser($request->input('name'), $request->input('password'));
+        if (!$user) {
+            return response()->json(
+                [
+                    'message' => __('wrong password')
+                ],
+                401
+            );
+        }
+
+        if ($this->user->createUser($user?->name, Hash::make($request->input('new_password')), $user?->id)) {
+            return response(
+                [
+                    'data' => $user,
+                ],
+                200
+            );
+        }
+
+        return response()->json(
+            [
+                'message' => __('password reset failed')
             ],
             406
         );

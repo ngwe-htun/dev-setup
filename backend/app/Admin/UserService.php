@@ -5,6 +5,7 @@ namespace App\Admin;
 use App\Models\User;
 use App\Constants\RoleConstant;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -42,10 +43,15 @@ class UserService
 
     public function checkUser(string $name, string $password): ?User
     {
-        return $this->user
+        $user = $this->user
             ->where('name', $name)
-            ->where('password', $password)
             ->first();
+
+        if (Hash::check($password, $user->password)) {
+            return $user;
+        }
+
+        return null;
     }
 
     public function getUserlist(): ?Collection

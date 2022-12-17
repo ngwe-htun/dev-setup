@@ -25,10 +25,11 @@ Route::prefix('v1')->group(function () {
     Route::prefix('/admin')->group(function () {
         Route::prefix('/auth')->controller(AuthController::class)->group(function () {
             Route::post('/login', 'login');
+            Route::put('/change/pass', 'changePass');
             Route::middleware('auth:sanctum')->group(function () {
                 Route::get('/roles', 'getRoles');
                 Route::get('/user/list', 'index');
-                Route::post('/create', 'create');
+                Route::post('/create', 'store');
                 Route::put('/reset', 'resetPassword');
                 Route::post('/assign/role', 'assignRole');
             });
@@ -38,6 +39,7 @@ Route::prefix('v1')->group(function () {
             Route::prefix('/category')->controller(CategoryController::class)->group(function () {
                 Route::get('/parent', 'getParentCategory');
                 Route::get('/{name_en}', 'show');
+                Route::get('/list', 'index');
                 Route::prefix('/{parent_id}')->group(function () {
                     Route::get('/child', 'getChildCategory');
                     Route::post('/', 'store');
@@ -47,6 +49,7 @@ Route::prefix('v1')->group(function () {
             Route::prefix('/item')->controller(ItemController::class)->group(function () {
                 Route::post('/', 'store')->middleware('auth:sanctum');
                 Route::get('/by/category', 'getCategoryItem');
+                Route::get('/list/by/category/{category_id}', 'index');
             });
 
             Route::apiResource('/bider', BiderController::class)->only(['store', 'show', 'index'])->whereNumber('bider');

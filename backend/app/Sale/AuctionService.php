@@ -6,6 +6,7 @@ use App\Constants\AuctionConstant;
 use App\Models\Item;
 use App\Models\Bider;
 use App\Models\Auction;
+use Illuminate\Database\Eloquent\Collection;
 
 class AuctionService
 {

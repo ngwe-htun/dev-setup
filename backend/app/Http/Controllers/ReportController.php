@@ -8,13 +8,15 @@ use App\Admin\RoleService;
 use Illuminate\Http\Request;
 use App\Report\ReportService;
 use App\Constants\RoleConstant;
+use App\Sale\OrderService;
 
 class ReportController extends Controller
 {
     public function __construct(
         protected ReportService $report,
         protected CityService $city,
-        protected RoleService $role //* dependency inject to parent controller
+        protected RoleService $role, //* dependency inject to parent controller
+        protected OrderService $order
     ) {
     }
 
@@ -61,8 +63,8 @@ class ReportController extends Controller
         $this->validate(
             $request,
             [
-                'start_date' => 'required',
-                'end_date' => 'required'
+                'start_date' => 'required|datetime',
+                'end_date' => 'required|datetime'
             ]
         );
 

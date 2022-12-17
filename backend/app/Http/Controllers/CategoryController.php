@@ -124,4 +124,23 @@ class CategoryController extends Controller
             404
         );
     }
+
+    public function index()
+    {
+        if ($categories = $this->category->getCategories()) {
+            return response()->json(
+                [
+                    'data' => $categories
+                ],
+                200
+            );
+        }
+
+        return response()->json(
+            [
+                'message' => __('categories not found')
+            ],
+            404
+        );
+    }
 }

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\City;
 use App\Models\Item;
 use App\Models\ItemCategory;
+use Illuminate\Database\Eloquent\Collection;
 
 class ItemService
 {
@@ -52,6 +53,15 @@ class ItemService
             ->where('city_id', $city->id)
             ->whereDate('available_date', $date->toDateString())
             ->first();
+    }
+
+    public function getItemsByCategory(ItemCategory $category): ?Collection
+    {
+        return $this->item
+            ->with('category')
+            ->with('category.parentCategory')
+            ->whereDate('available_date', '>=', Carbon::now())
+            ->get();
     }
 
     public function getItemById(int $id): ?Item
