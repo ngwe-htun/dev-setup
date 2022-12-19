@@ -90,7 +90,7 @@ class UserService
     {
         return $this->user
             ->with('roles')
-            //->whereHas('roles', fn ($query) => $query->where('attribute', RoleConstant::STAFF))
+            ->whereHas('roles', fn ($query) => $query->where('attribute', '!=', RoleConstant::SUPER_ADMIN))
             ->get();
     }
 }
