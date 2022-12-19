@@ -60,6 +60,25 @@ class CategoryController extends Controller
         );
     }
 
+    public function checkAvailable()
+    {
+        if ($categories = $this->category->availableCategories()) {
+            return response()->json(
+                [
+                    'data' => $categories
+                ],
+                200
+            );
+        }
+
+        return response()->json(
+            [
+                'message' => __('not have available categories')
+            ],
+            404
+        );
+    }
+
     public function store(int $parentId, Request $request)
     {
         $this->validate($request, [

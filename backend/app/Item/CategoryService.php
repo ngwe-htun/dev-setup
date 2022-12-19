@@ -2,6 +2,7 @@
 
 namespace App\Item;
 
+use Carbon\Carbon;
 use App\Models\ItemCategory;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -94,6 +95,20 @@ class CategoryService
     {
         return $this->category
             ->where('item_category_id', '!=', -1)
+            ->get();
+    }
+
+    /**
+     * Check available categories
+     *
+     * @return Collection|null
+     */
+    public function availableCategories(): ?Collection
+    {
+        return
+            $this->category
+            ->with('parentCategory')
+            ->whereHas('items', fn ($query) => $query->whereDate('available_date', '>=', Carbon::now()))
             ->get();
     }
 
