@@ -33,6 +33,30 @@ class AuctionService
         );
     }
 
+    public function registerForms(Bider $bider, int $count = 0): ?bool
+    {
+        $registerCount = $this->auction
+            ->where('bider_id', $bider?->id)
+            ->where('status', AuctionConstant::REGISTER)
+            ->count();
+
+        $total = $count - $registerCount;
+
+        $res = 0;
+        for ($i = 0; $i < $total; $i++) {
+            if ($this->createAuction(
+                bider: $bider,
+                data: [
+                    'status' => AuctionConstant::REGISTER
+                ]
+            )) {
+                $res++;
+            }
+        }
+
+        return $res >= $total;
+    }
+
     public function getAuctionByBider(Bider $bider, bool $status = AuctionConstant::REGISTER): ?Auction
     {
         return $this->auction
