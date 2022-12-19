@@ -24,8 +24,9 @@ const LoginPage = ({ setGreet }) => {
     const onSubmit = async () => {
         try {
           let res = await Login(name, password);
-          setGreet(res.accessToken.name)
-          localStorage.setItem('access-token', res.plainTextToken)
+          console.log(res)
+          setGreet(res.user_info);
+          localStorage.setItem('access-token', res.token_info.plainTextToken)
           navigate('/dashboard/search')
         } catch (err) {
           setFailed('p-invalid block');

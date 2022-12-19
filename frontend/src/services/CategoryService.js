@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Config } from "../config/app"
-import { authHeader } from "./HttpService";
+import { authHeader, decideAuthHeader, decidePath } from "./HttpService";
 
 
 export const getCategoryList = async () => {
@@ -22,10 +22,11 @@ export const createSubCategory = async (id, data) => {
     } catch (err) {}
 }
 
-export const getSubCategories = async (categori_id) =>  {
-    const url = `${Config.admin_host}/category/${categori_id}/child`;
+export const getSubCategories = async (categori_id, isClient=false) =>  {
+    const url = decidePath(isClient) + `/category/${categori_id}/child`;
+    const header = decideAuthHeader(isClient);
     try {
-        let res = await axios.get(url, { headers: authHeader() });
+        let res = await axios.get(url, { headers: header });
         return res.data.data
     } catch (err) {
         console.log(err)

@@ -12,7 +12,7 @@ const DashboardPage = ({greet}) => {
     
     return (
         <>
-          <MenuBarComponent name={greet}/>
+          <MenuBarComponent user={greet}/>
           <div>
           <div className="grid m-0 p-0">
             <div className="col-fixed pb-0" style={{width: "250px"}}>
@@ -23,7 +23,6 @@ const DashboardPage = ({greet}) => {
             </div>
           </div>
             </div>
-            <h1>{greet}</h1>
         </>
         
     );

@@ -1,6 +1,12 @@
 import { Card, Col, Container, Figure, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-export default function Page1() {
+export default function Home() {
+
+    const navigate = useNavigate();
+
+
+
     return (
         <Container className="mt-4">
             <Row>
@@ -22,7 +28,7 @@ export default function Page1() {
             </Row>
             <Row className="pt-3">
                 <Col sm={6} xs={6} className="pt-3">
-                    <Card className="text-center">
+                    <Card className="text-center" onClick={()=> navigate('/gold') }>
                         <Card.Body>
                             <Figure >
                                 <Figure.Image
@@ -54,9 +60,22 @@ export default function Page1() {
                                 <Figure.Image 
                                     width={72} 
                                     height={70}
+                                    src="jade.png" />
+                            </Figure>
+                            <p>ကျောက်စိမ်း(Jade)</p>
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col sm={6} xs={6} className="pt-3">
+                    <Card className="text-center">
+                        <Card.Body>
+                            <Figure >
+                                <Figure.Image 
+                                    width={72} 
+                                    height={70}
                                     src="gem.png" />
                             </Figure>
-                            <p>ကျောက်စိမ်း နှင့် ကျောက်မျက်ရတနာ (Jade & Gem)</p>
+                            <p>ကျောက်မျက်ရတနာ (Gem)</p>
                         </Card.Body>
                     </Card>
                 </Col>

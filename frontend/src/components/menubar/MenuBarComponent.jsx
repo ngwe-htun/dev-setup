@@ -6,7 +6,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { useNavigate } from 'react-router-dom';
 import { profileItems } from '../../config/title';
 
-const MenuBarComponent = ({name}) => {
+const MenuBarComponent = ({user}) => {
 
     const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ const MenuBarComponent = ({name}) => {
                     </div>
                 } 
                 end={
-                    <Dropdown placeholder={name} options={profileItems} optionLabel="name"  className='menubar-end text-white pr-3' scrollHeight='500px' onChange={ (e) => navigate(e.target.value.link) }  />
+                    <Dropdown placeholder={user.name} options={profileItems} optionLabel="name"  className='menubar-end text-white pr-3' scrollHeight='500px' onChange={ (e) => navigate(e.target.value.link) }  />
                 }
             />
             </div>

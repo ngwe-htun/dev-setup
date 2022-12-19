@@ -5,7 +5,7 @@ export const searchCategory = [
 
 // Profile items
 export const profileItems = [
-    { name: 'Change Password (လျှို့ဝှက်နံပါတ်ပြောင်းမည်)', 'link': '/manage/password' },
+    { name: 'Change Password (လျှို့ဝှက်နံပါတ်ပြောင်းမည်)', 'link': '/dashboard/manage/password' },
     { name: 'Manage Users (အသုံးပြုသူများကို စီမံမည်)', 'link': 'users' },
     { name: 'Logout (ထွက်မည်)' }
 ];
@@ -27,6 +27,7 @@ export const Title = {
     "manage_passowrd_confirm_new_password": "Re-type New Password (လျှို့ဝှက်နံပါတ် အသစ်ကို ထပ်ရိုက်ပါ)",
     "manage_password_action_yes": "Change (ပြောင်းမည်)",
     "manage_password_action_no": "Cancel (မလုပ်တော့ပါ)",
+    "manage_password_should_match": "တူညီသင့်သည်",
 
     "manage_user_title": "Manage Users (အသုံးပြုသူများကို စီမံရန်)",
     "manage_user_add_user_button_label": "အသုံးပြုသူ ထပ်ပေါင်းထည့်မည်",
@@ -83,8 +84,11 @@ export const Title = {
     "bid_add_company": "Company (ကုမ္ပဏီ)",
     "bid_add_country": "Country (နိုင်ငံ)",
     "bid_limit_form_title": "Available Bid (လေလံတင်နိုင်မည့် အရေအတွက်)",
+    "bid_limit_form_header": "Set Limit (လေလံအရေအတွက် ကန့်သတ်ရန်)",
+    "bid_limit_submit_button_title": "ကန့်သတ်မည်",
+    "bid_limit_count_title": "Limit (လေလံ အရေအတွက်)",
 
-    "data_table_search_not_found": "No data found",
+    "data_table_search_not_found": "ရှာမတွေ့ပါ",
     "data_table_name" : "Name",
     "data_table_delete": "Delete (ဖျက်မည်)",
     "data_table_company": "Company",
