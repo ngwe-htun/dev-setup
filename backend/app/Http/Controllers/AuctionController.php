@@ -40,23 +40,13 @@ class AuctionController extends Controller
             );
         }
 
-        $res = 0;
-        for ($i = 0; $i < $request->input('qty', 0); $i++) {
-            if ($this->auction->createAuction(
-                bider: $bider,
-                data: [
-                    'status' => AuctionConstant::REGISTER
-                ]
-            )) {
-                $res++;
-            }
-        }
+        $res = $this->auction->registerForms($bider, $request->input('qty', 0));
 
         return response()->json(
-            $res >= $request->input('qty') ?
+            $res ?
                 ['data' => []] :
                 ['message' => 'bider issue form failed'],
-            $res >= $request->input('qty') ? 200 : 40
+            $res ? 200 : 406
         );
     }
 
