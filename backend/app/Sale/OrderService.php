@@ -69,6 +69,7 @@ class OrderService
                 [
                     'item_category_id' => $item?->category?->id,
                     'item_id' => $item->id,
+                    'city' => $item->city_id,
                     'buyer_name' => $data['buyer_name'],
                     'father_name' => $data['father_name'],
                     'nrc_numbers' => $data['nrc_numbers'],
