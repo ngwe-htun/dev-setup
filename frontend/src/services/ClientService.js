@@ -30,3 +30,14 @@ export const getNrcData = async () => {
         console.log(err);
     }
 }
+
+export const order = async (data) => {
+    const url = `${Config.client_host}/order`;
+    try {
+        console.log(data)
+        let res = await axios.post(url, data, { headers: clientAuthHeader() });
+        return res.data.data;
+    } catch (err) {
+
+    }
+}

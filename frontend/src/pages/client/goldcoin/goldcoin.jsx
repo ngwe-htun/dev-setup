@@ -116,7 +116,7 @@ export const GoldCoin = () => {
                             ဝယ်ယူလိုသည့် ရွှေဒင်္ဂါးပြားအမျိုးအစား (Type of Gold Coin) 
                             <span style={{color: "#FF0000"}}> *</span>
                         </Form.Label>
-                        <Form.Select required={true} style={{height: "40px"}} onChange={ (e) => setCategory(e.target.value) } >
+                        <Form.Select required={true} style={{height: "40px"}} onChange={ (e) => {console.log(e.target.value);setCategory(e.target.value) }} >
                             {
                                 categories.map( item => 
                                     <option value={item.id}>{item.name_mm}</option> 

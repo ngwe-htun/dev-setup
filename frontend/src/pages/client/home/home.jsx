@@ -1,11 +1,13 @@
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 import { Card, Col, Container, Figure, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-export default function Home() {
+export default function Home({data}) {
+    console.log(data);
 
     const navigate = useNavigate();
 
-
+    // Fetch to know available
 
     return (
         <Container className="mt-4">
@@ -28,7 +30,7 @@ export default function Home() {
             </Row>
             <Row className="pt-3">
                 <Col sm={6} xs={6} className="pt-3">
-                    <Card className="text-center" onClick={()=> navigate('/gold') }>
+                    <Card className="text-center" onClick={()=> navigate('/gold')}>
                         <Card.Body>
                             <Figure >
                                 <Figure.Image
@@ -41,7 +43,7 @@ export default function Home() {
                     </Card>
                 </Col>
                 <Col sm={6} xs={6} className="pt-3">
-                    <Card className="text-center">
+                    <Card className="text-center" onClick={()=> navigate('/puregold')} >
                         <Card.Body>
                             <Figure >
                                 <Figure.Image 
@@ -54,7 +56,7 @@ export default function Home() {
                     </Card>
                 </Col>
                 <Col sm={6} xs={6} className="pt-3">
-                    <Card className="text-center">
+                    <Card className="text-center" onClick={()=> navigate('/jade')}>
                         <Card.Body>
                             <Figure >
                                 <Figure.Image 
@@ -67,7 +69,7 @@ export default function Home() {
                     </Card>
                 </Col>
                 <Col sm={6} xs={6} className="pt-3">
-                    <Card className="text-center">
+                    <Card className="text-center" onClick={()=> navigate('/gem')} >
                         <Card.Body>
                             <Figure >
                                 <Figure.Image 

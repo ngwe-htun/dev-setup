@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
  
 import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
@@ -10,7 +10,7 @@ import UserPage from './pages/admin/user/UserPage';
 import ItemPage from './pages/admin/item/ItemPage';
 import SearchPage from './pages/admin/search/SearchPage';
 import BidderPage from './pages/admin/bidder/BidderPage';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import CategoryPage from './pages/admin/category/CategoryPage';
 import PasswordPage from './pages/admin/password/PasswordPage';
@@ -21,19 +21,30 @@ import AuctionDetailPage from './pages/admin/report/auction/detail/AuctionDetail
 import Home from './pages/client/home/home';
 import { GoldCoin } from './pages/client/goldcoin/goldcoin';
 import GoldOrder from './pages/client/goldcoin/order/goldorder';
+import { PureGold } from './pages/client/puregold/puregold';
+import "./App.css";
+import { Gem } from './pages/client/gem/gem';
+import { Jade } from './pages/client/jade/jade';
+import BidGem from './pages/client/gem/bid/bidGem';
 
 function App() {
 
-  let [greet, setGreet] = useState('');
+  const navigate = useNavigate();
   let [user, setUser] = useState('');
+
+  const [bidder, setBidder] = useState(null);
 
   return (    
     <Routes>
       { /** Public routes */}
-      <Route path='/' element={<Home />} />
+      <Route path='/' element={<Home  data={''} />} />
       <Route path='/gold' element={<GoldCoin />} />
+      <Route path='/puregold' element={<PureGold />} />
+      <Route path='/gem' element={<Gem setBidder={setBidder}/>} />
+      <Route path='/jade' element={<Jade />} />
       <Route path="/gold/order" element={<GoldOrder />} />
       <Route path='/login' element={<LoginPage setGreet={setUser}/>} />
+      <Route path='/gem/bid' element={<BidGem bidder={bidder} setBidder={setBidder} />} />
 
       {/** Private rotues */}
       <Route path='dashboard' element={<DashboardPage greet={user}/>} >

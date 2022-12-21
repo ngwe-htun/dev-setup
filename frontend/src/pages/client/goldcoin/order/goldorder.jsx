@@ -1,20 +1,21 @@
 import './order.css';
 import { Button, Col, Container, Form, FormControl, FormLabel, InputGroup, Row } from "react-bootstrap";
 import { useEffect, useState } from 'react';
-import { getNrcData } from '../../../../services/ClientService';
+import { getNrcData, order } from '../../../../services/ClientService';
 
 export default function GoldOrder(styles) {
 
     const defaultData = {
+        "item_id": 1,
         "buyer_name": "",
         "father_name": "",
-        "nrc": "",
+        "nrc": "10/MADANA(N)123456",
         "address": "",
         "phone": "",
         "purchase_reason" : "",
         "monthly_income": 0,
         "already_ordered": 0,
-        "term_condition": 0
+        "term_condition": 1
     };
 
     const [nrcs, setNrcs] = useState([]);
@@ -40,12 +41,24 @@ export default function GoldOrder(styles) {
         setNrcTownships(townships);
     }
 
+    // Submit order
+    const submitOrder = async (e) => {
+        e.preventDefault()
+        try {
+            let res = await order(formData);
+            console.log(res);
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     useEffect(() => {
         fetchNrcs();
     }, []);
 
     // Handle on change 
     function handleOnChange (e) {
+        e.preventDefault();
         setFormData((prev) => {
            return {
             ...prev,
@@ -56,8 +69,8 @@ export default function GoldOrder(styles) {
     }
 
     return (
-        <Container className='mb-3'>
-            <Form>
+        <Container className='mb-3 okay'>
+            <Form onSubmit={ (e) => submitOrder(e)}>
             <Row>
                 <Col xs={6}>
                     <Form.Group>
@@ -93,7 +106,9 @@ export default function GoldOrder(styles) {
                                 </Form.Select>
                             </Col>
                             <Col xs={3}>
-                                <Form.Select></Form.Select>
+                                <Form.Select>
+                                    <option>နိုင်</option>
+                                </Form.Select>
                             </Col>
                             <Col xs={3}>
                                 <Form.Control></Form.Control>
@@ -116,7 +131,8 @@ export default function GoldOrder(styles) {
                 <Col xs={12}>
                     <Form.Group>
                         <Form.Label className="order-label">နေရပ်လိပ်စာ (Address) *</Form.Label>
-                        <Form.Control as="textarea" rows={2}></Form.Control>
+                        <Form.Control name='address' as="textarea" rows={2} onChange={ (e) => { handleOnChange(e)} }> 
+                        </Form.Control>
                     </Form.Group>
                 </Col>
             </Row>
@@ -125,7 +141,7 @@ export default function GoldOrder(styles) {
                 <Col xs={12}>
                     <Form.Group>
                         <Form.Label className="order-label">ဆက်သွယ်ရမည့်ဖုန်းနံပါတ် (Contact Phone Number) *</Form.Label>
-                        <Form.Control type='phone'></Form.Control>
+                        <Form.Control name='phone' type='tel' onChange={(e)=>handleOnChange(e)}></Form.Control>
                     </Form.Group>
                 </Col>
             </Row>
@@ -134,7 +150,7 @@ export default function GoldOrder(styles) {
                 <Col xs={12}>
                     <Form.Group>
                         <Form.Label className="order-label">ဝယ်ယူရခြင်း၏အကြောင်းအရင်းခံ (Reason to Buy) *</Form.Label>
-                        <Form.Control type='phone'></Form.Control>
+                        <Form.Control name='purchase_reason' type='phone' onChange={(e)=>handleOnChange(e)}></Form.Control>
                     </Form.Group>
                 </Col>
             </Row>
@@ -143,7 +159,7 @@ export default function GoldOrder(styles) {
                 <Col xs={12}>
                     <Form.Group>
                         <Form.Label className="order-label">လစဥ်ဝင်ငွေရရှိမှု (Monthly Income Salary) *</Form.Label>
-                        <Form.Control type='phone'></Form.Control>
+                        <Form.Control name="monthly_income" type='phone' onChange={(e) => handleOnChange(e)} ></Form.Control>
                     </Form.Group>
                 </Col>
             </Row>
@@ -154,10 +170,10 @@ export default function GoldOrder(styles) {
                         <Form.Label className="order-label">ယခင်က ရွှေဒင်္ဂါးပြား ဝယ်ယူခဲ့ဖူးခြင်း ရှိ/မရှိ (Did you buy the Gold Coin before?) *</Form.Label>
                     <Row>
                         <Col xs={6}>
-                            <Form.Check type="radio" label="ရှိ (Yes)" className='order-label'/>
+                            <Form.Check type="radio" name='already_ordered' label="ရှိ (Yes)" className='order-label' onChange={()=>console.log('hello')}/>
                         </Col>
                         <Col xs={6}>
-                            <Form.Check type="radio" label="မရှိ (No)" className='order-label'/>
+                            <Form.Check type="radio" name='already_ordered' label="မရှိ (No)" className='order-label' onClick={(e) => console.log(e)}/>
                         </Col>
                     </Row>
                     </Form.Group>
