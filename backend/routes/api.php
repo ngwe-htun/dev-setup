@@ -75,6 +75,7 @@ Route::prefix('v1')->group(function () {
         Route::prefix('/category')->controller(CategoryController::class)->group(function () {
             Route::get('/parent', 'getParentCategory');
             Route::get('/{name_en}', 'show');
+            Route::get('/available/check', 'checkAvailable');
             Route::prefix('/{parent_id}')->group(function () {
                 Route::get('/child', 'getChildCategory');
             });
@@ -97,6 +98,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/', 'store');
         });
 
+        Route::get('/bider', [BiderController::class, 'show']);
         Route::get('/cities', [ReportController::class, 'cities']);
     });
 });

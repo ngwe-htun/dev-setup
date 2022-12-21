@@ -89,7 +89,8 @@ class UserService
     public function getUserlist(): ?Collection
     {
         return $this->user
-            ->whereHas('roles', fn ($query) => $query->where('attribute', RoleConstant::STAFF))
+            ->with('roles')
+            ->whereHas('roles', fn ($query) => $query->where('attribute', '!=', RoleConstant::SUPER_ADMIN))
             ->get();
     }
 }
