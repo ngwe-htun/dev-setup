@@ -72,9 +72,9 @@ class BiderController extends Controller
         $this->validate(
             $request,
             [
-                'name' => 'required_without:reg_number,company|string',
-                'company' => 'required_without:reg_number,name|string',
-                'reg_number' => 'required_without:name,company|string'
+                'name' => 'required_without_all:reg_number,company|string',
+                'company' => 'required_without_all:reg_number,name|string',
+                'reg_number' => 'required_without_all:name,company|string'
             ]
         );
 

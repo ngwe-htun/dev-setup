@@ -98,6 +98,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/', 'store');
         });
 
+        Route::get('/bider', [BiderController::class, 'show']);
         Route::get('/cities', [ReportController::class, 'cities']);
     });
 });

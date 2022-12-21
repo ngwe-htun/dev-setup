@@ -63,9 +63,7 @@ class ReportService
                 $query->whereDate('created_at', '>=', $startDate->toDateString())
                     ->whereDate('created_at', '<=', $endDate->toDateString());
             })
-            ->when(!empty($category), function ($query) use ($category) {
-                $query->where('item_category_id', $category->id);
-            })
+            ->when(!empty($category), fn ($query) => $query->where('item_category_id', $category->id))
             ->where('status', 1)
             ->orderByDesc('biding_price')
             ->get();
