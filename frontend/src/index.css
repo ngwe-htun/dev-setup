@@ -1,0 +1,31 @@
+
+
+/* code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+} */
+
+@font-face {
+  font-family: 'Pyidaungsu';
+  src: local('Pyidaungsu'), url('/public/fonts/Pyidaungsu.ttf') format('truetype');
+}
+
+
+
+body {
+  margin: 0;
+  font-family: Pyidaungsu, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: Pyidaungsu, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+/* 
+*{
+  font-family: 'Pyidaungsu';
+} */

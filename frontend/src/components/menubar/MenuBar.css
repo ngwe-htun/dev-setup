@@ -1,0 +1,43 @@
+.menubar .p-menubar {
+    border-radius: 0px;
+    background-color: #0069D9;
+    border: 0px;
+    height: 88px;
+    color: #ffffff;
+}
+
+.menubar .p-dropdown .p-dropdown-label {
+    color: #ffffff;
+}
+
+.menubar .p-dropdown .p-dropdown-trigger {
+    color: #ffffff;
+}
+
+.menubar .p-dropdown .p-focus:hover{
+    outline: none  !important;
+}
+
+.menubar-img {
+    height: 40px;
+    width: 37px;
+    vertical-align: middle;
+}
+
+.menubar-title{
+    font-size: 24px;
+    align-items: center;
+}
+
+.menubar-end {
+    border: none !important;
+    background-color: #0069D9;
+    color: transparent;
+    color: #ffffff !important;
+    word-wrap: break-word;
+
+}
+
+.menubar {
+    position: sticky;
+}
