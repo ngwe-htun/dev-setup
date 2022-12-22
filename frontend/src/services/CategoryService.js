@@ -35,6 +35,7 @@ export const getSubCategories = async (categori_id, isClient=false) =>  {
 
 export const getAvailableCategories = async () => {
     const url = `${Config.client_host}/category/available/check`;
+    console.log(url);
     try {
         let res = await axios.get(url, { headers: clientAuthHeader() });
         return res.data.data;

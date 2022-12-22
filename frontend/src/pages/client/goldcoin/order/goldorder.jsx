@@ -2,17 +2,20 @@ import './order.css';
 import { Button, Col, Container, Form, FormControl, FormLabel, InputGroup, Row } from "react-bootstrap";
 import { useEffect, useState } from 'react';
 import { getNrcData, order } from '../../../../services/ClientService';
-
+import OrderPdf from '../../../../components/pdf/orderpdf';
+import { pdf } from "@react-pdf/renderer"
+import { saveAs } from 'file-saver'
 export default function GoldOrder(styles) {
+
 
     const defaultData = {
         "item_id": 1,
-        "buyer_name": "",
-        "father_name": "",
         "nrc": "10/MADANA(N)123456",
+        "buyer_name": "hello",
+        "father_name": "here",
         "address": "",
         "phone": "",
-        "purchase_reason" : "",
+        "purchase_reason": "",
         "monthly_income": 0,
         "already_ordered": 0,
         "term_condition": 1
@@ -37,7 +40,7 @@ export default function GoldOrder(styles) {
 
     // Filter townships
     const filterNrcTownships = (e) => {
-        let townships = nrcs.filter( item => item.nrc_code === e);
+        let townships = nrcs.filter(item => item.nrc_code === e);
         setNrcTownships(townships);
     }
 
@@ -56,14 +59,25 @@ export default function GoldOrder(styles) {
         fetchNrcs();
     }, []);
 
-    // Handle on change 
-    function handleOnChange (e) {
-        e.preventDefault();
+
+    const exportPdf = async (e) => {
+        try {
+            const doc = <OrderPdf name={defaultData.buyer_name} fatherName={defaultData.father_name} />
+            const bold = await pdf(doc).toBlob()
+            saveAs(bold, 'order.pdf')
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+
+    // Handle on change
+    function handleOnChange(e) {
         setFormData((prev) => {
-           return {
-            ...prev,
-            [e.target.name] : e.target.value
-           };
+            return {
+                ...prev,
+                [e.target.name]: e.target.value
+            };
         })
         console.log(formData)
     }
@@ -118,14 +132,14 @@ export default function GoldOrder(styles) {
                 </Col>
             </Row>
 
-            <Row>
-                <Col xs={12}>
-                    <Form.Group>
-                        <Form.Label className="order-label">အလုပ်အကိုင် (Current Job) *</Form.Label>
-                        <Form.Control></Form.Control>
-                    </Form.Group>
-                </Col>
-            </Row>
+                <Row>
+                    <Col xs={12}>
+                        <Form.Group>
+                            <Form.Label className="order-label">အလုပ်အကိုင် (Current Job) *</Form.Label>
+                            <Form.Control></Form.Control>
+                        </Form.Group>
+                    </Col>
+                </Row>
 
             <Row>
                 <Col xs={12}>
@@ -180,31 +194,31 @@ export default function GoldOrder(styles) {
                 </Col>
             </Row>
 
-            <Row className='pt-3'>
-                <Col xs={12} >
-                    <Form.Group>
-                        <Form.Label className="order-label">အရည်ကြိုခြင်း/ ပြန်လည်ရောင်းချခြင်း (လုံးဝ) မပြုကြောင်း ကတိဝန်ခံချက် ပြုလို/မပြုလို (Do you promise not to be Liquidation or Reselling the Gold Coin?) *</Form.Label>
-                    <Row>
-                        <Col xs={6}>
-                            <Form.Check type="radio" label="ပြုလိုပါသည် (Yes)" className='order-label'/>
-                        </Col>
-                        <Col xs={6}>
-                            <Form.Check type="radio" label="မပြုလိုပါ (No)" className='order-label'/>
-                        </Col>
-                    </Row>
-                    </Form.Group>
-                </Col>
-            </Row>
-      
-            <Row>
-                <span className='alert'>* အမှတ်တရသိမ်းဆည်းရန် ဒင်္ဂါးပြားများ ရောင်းချပေးလျက်ရှိ၍ အရည်ကြိုခြင်း၊ တစ်ဆင့်ရောင်းချခြင်း (လုံးဝ) မပြုလုပ်ရန် (Do not be liquidation or reselling the gold coin.)</span>
-            </Row>
+                <Row className='pt-3'>
+                    <Col xs={12} >
+                        <Form.Group>
+                            <Form.Label className="order-label">အရည်ကြိုခြင်း/ ပြန်လည်ရောင်းချခြင်း (လုံးဝ) မပြုကြောင်း ကတိဝန်ခံချက် ပြုလို/မပြုလို (Do you promise not to be Liquidation or Reselling the Gold Coin?) *</Form.Label>
+                            <Row>
+                                <Col xs={6}>
+                                    <Form.Check type="radio" label="ပြုလိုပါသည် (Yes)" className='order-label' />
+                                </Col>
+                                <Col xs={6}>
+                                    <Form.Check type="radio" label="မပြုလိုပါ (No)" className='order-label' />
+                                </Col>
+                            </Row>
+                        </Form.Group>
+                    </Col>
+                </Row>
 
-            <Row>
-                <Col xs={12}>
-                    <Button type='submit' className='submit-button'>Submit</Button>
-                </Col>
-            </Row>
+                <Row>
+                    <span className='alert'>* အမှတ်တရသိမ်းဆည်းရန် ဒင်္ဂါးပြားများ ရောင်းချပေးလျက်ရှိ၍ အရည်ကြိုခြင်း၊ တစ်ဆင့်ရောင်းချခြင်း (လုံးဝ) မပြုလုပ်ရန် (Do not be liquidation or reselling the gold coin.)</span>
+                </Row>
+
+                <Row>
+                    <Col xs={12}>
+                        <Button type='submit' className='submit-button'>Submit</Button>
+                    </Col>
+                </Row>
 
             </Form>
         </Container>

@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
-import { Button, Col, Container, Figure, Form, Row } from "react-bootstrap";
-import { Link, Route, useNavigate } from "react-router-dom";
-import { getSubCategories } from "../../../services/CategoryService";
-import { getCitiesForClient, getCityList } from "../../../services/CityService";
-import { checkAvailability } from "../../../services/ClientService";
 import "../../../App.css";
-import AppBar from "../../../components/client/appbar/AppBar";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { clientTitle } from "../../../config/clientTitles";
+import { getCityList } from "../../../services/CityService";
+import AppBar from "../../../components/client/appbar/AppBar";
+import { checkAvailability } from "../../../services/ClientService";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { getSubCategories } from "../../../services/CategoryService";
 
-export const GoldCoin = ({setGood}) => {
+// Gold coin page
+export const GoldCoin = ({setGoldCoinAvailable}) => {
 
+    // States
     const [city, setCity] = useState('');
     const [date, setDate] = useState("");
     const [cities, setCities] = useState([]);
@@ -43,24 +45,16 @@ export const GoldCoin = ({setGood}) => {
     const check = async (e) => {
         try {
             e.preventDefault();
-            console.log(category);
-            console.log(city);
-            console.log(date)
             let res = await checkAvailability(category, city, date);
             setNotAvailableAlert('');
+            setGoldCoinAvailable(true);
             navigate('/gold/order');
         } catch (err) {
             setNotAvailableAlert(err.message);
         }
     }
 
-    // Clear form 
-    const clear = () => {
-        setDate('');
-        setCity('');
-        setCategory('');
-    }
-
+    // Fetch data
     useEffect( () => {
         fetchCities();
         fetchCategories();
@@ -85,9 +79,9 @@ export const GoldCoin = ({setGood}) => {
                             </Form.Label>
                             <Form.Select required onChange={(e) => setCity(e.target.value)} value={city}>
                                 <option></option>
-                                {
+                                {/* {
                                     cities.map(item =>  <option key={item.id} value={item.id}>{item.display_name}</option>)
-                                }
+                                } */}
                             </Form.Select>
                         </Form.Group>
 
@@ -99,11 +93,11 @@ export const GoldCoin = ({setGood}) => {
                             </Form.Label>
                             <Form.Select onChange={ (e) => { setCategory(e.target.value) }} value={category}>
                                 <option value={city}></option>
-                                {
+                                {/* {
                                     categories.map( item => 
                                         <option key={item.id} value={item.id}>{item.name_mm}</option> 
                                     )
-                                }
+                                } */}
                             </Form.Select>
                         </Form.Group>
 
