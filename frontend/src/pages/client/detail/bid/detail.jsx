@@ -8,10 +8,6 @@ import "../../../../App.css";
 
 export const BidDetail = () => {
 
-    function testPdf() {
-        let pdf = new jsPDF();
-    }
-
     return (
         <>
         <Container className="custom-form-input">
@@ -138,7 +134,7 @@ export const BidDetail = () => {
                             <Button variant="outline-primary" className="w-full">{clientTitle.back_to_home_label}</Button>
                         </Col>
                         <Col>
-                            <Button className="w-full" onClick={()=>testPdf()}>
+                            <Button className="w-full">
                                 <i className="pi pi-save pr-2"></i>
                                 {clientTitle.save_as_pdf_label}
                             </Button>

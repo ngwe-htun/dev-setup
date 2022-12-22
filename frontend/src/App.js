@@ -26,25 +26,49 @@ import "./App.css";
 import { Gem } from './pages/client/gem/gem';
 import { Jade } from './pages/client/jade/jade';
 import BidGem from './pages/client/gem/bid/bidGem';
+import { OrderShouldAvailable } from './routes/shouldAvailable';
+import { CanBidWithLot } from './routes/canBidWithLot';
+import { CanBid } from './routes/canBid';
+import { CanOrder } from './routes/canOrder';
 
 function App() {
 
   const navigate = useNavigate();
   let [user, setUser] = useState('');
+  let [available, setAvailable] = useState(false);
+  let [orderInfo, setOrderInfo] = useState({});
 
   const [bidder, setBidder] = useState(null);
 
   return (    
     <Routes>
       { /** Public routes */}
-      <Route path='/' element={<Home  data={''} />} />
-      <Route path='/gold' element={<GoldCoin />} />
-      <Route path='/puregold' element={<PureGold />} />
-      <Route path='/gem' element={<Gem setBidder={setBidder}/>} />
-      <Route path='/jade' element={<Jade />} />
-      <Route path="/gold/order" element={<GoldOrder />} />
+      <Route path='/' element={<Home setAvailable={setAvailable} />} />
       <Route path='/login' element={<LoginPage setGreet={setUser}/>} />
-      <Route path='/gem/bid' element={<BidGem bidder={bidder} setBidder={setBidder} />} />
+      
+      {/** Route only if order/bid available */}
+      <Route element={<OrderShouldAvailable data={available} />}>
+        <Route path="/gold" element={<GoldCoin setGood={setAvailable}/>} />
+        <Route path='/puregold' element={<PureGold />} />
+        <Route path='/gem' element={<Gem setBidder={setBidder}/>} />
+        <Route path='/jade' element={<Jade />} />
+      </Route>
+
+      {/** Bid with lot */}
+      <Route element={<CanBidWithLot />}>
+        <Route path='/gem/bid' element={<BidGem bidder={bidder} setBidder={setBidder} />} />
+        <Route path='/jade/bid' element={<BidGem bidder={bidder} setBidder={setBidder} />} />
+      </Route>
+
+      {/** Bid without lot */}
+      <Route element={<CanBid />}>
+        <Route path="/puregold/bid"></Route>
+      </Route>
+
+      {/** Can order */}
+      <Route element={<CanOrder />}>
+        <Route path='/gold/order' element={<GoldOrder />}></Route>
+      </Route>
 
       {/** Private rotues */}
       <Route path='dashboard' element={<DashboardPage greet={user}/>} >

@@ -1,87 +1,128 @@
-import { isDisabled } from "@testing-library/user-event/dist/utils";
-import { Card, Col, Container, Figure, Row } from "react-bootstrap";
+import "./home.css";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { clientTitle } from "../../../config/clientTitles";
+import AppBar from "../../../components/client/appbar/AppBar";
+import { Card, Col, Container, Figure, Row } from "react-bootstrap";
+import { getAvailableCategories } from "../../../services/CategoryService";
 
-export default function Home({data}) {
-    console.log(data);
+// CLient home page
+export default function Home({setAvailable}) {
 
     const navigate = useNavigate();
+    const disableClass = 'disabled';
+    
+    // States
+    const [barDisable, setBarDisable] = useState(disableClass);
+    const [gemDisable, setGemDisable] = useState(disableClass);
+    const [jadeDisable, setJadeDisable] = useState(disableClass);
+    const [coinDisable, setCoinDisable] = useState(disableClass);
 
-    // Fetch to know available
+    const fields = {
+        "gem": setGemDisable,
+        "jade": setJadeDisable,
+        "gold_bar": setBarDisable,
+        "gold_coin": setCoinDisable
+    };
+
+    // Fetch available categories
+    const fetchCategories = async () => {
+        try {
+            let res = await getAvailableCategories();
+            res.forEach(e => {
+                let toCheck = e.name_en;
+                if (e.parent_category) {
+                    toCheck = e.parent_category.name_en;
+                }
+                if(toCheck in fields) {
+                    fields[toCheck]('');
+                }
+            });
+        } catch (err) {
+
+        }
+    }
+
+    // Navigate
+    const naviageTo = (path) => {
+        setAvailable(true);
+        navigate(path);
+    }
+
+    useEffect(() => {
+        fetchCategories();
+    });
 
     return (
-        <Container className="mt-4">
-            <Row>
-                <Col className="d-flex justify-content-center lg-12 md-12 sm-12">
-                    <Figure >
-                        <Figure.Image src="logo.png"></Figure.Image>
-                    </Figure>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="text-center">
-                    <h6>
-                        သယံဇာတနှင့် သဘာဝပတ်ဝန်းကျင် <br/>
-                        ထိန်းသိမ်းရေး ဝန်ကြီးဌာန <br/>
-                        (Ministry of Natural Resources and  <br/>
-                        Environmental Conservation)
-                    </h6>
-                </Col>
-            </Row>
-            <Row className="pt-3">
-                <Col sm={6} xs={6} className="pt-3">
-                    <Card className="text-center" onClick={()=> navigate('/gold')}>
-                        <Card.Body>
-                            <Figure >
-                                <Figure.Image
-                                width={72}
-                                height={70} 
-                                src="gold.png" />
-                            </Figure>
-                            <p>ရွှေဒင်္ဂါးပြား (Gold Coin)</p>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col sm={6} xs={6} className="pt-3">
-                    <Card className="text-center" onClick={()=> navigate('/puregold')} >
-                        <Card.Body>
-                            <Figure >
-                                <Figure.Image 
-                                width={72}
-                                height={70}
-                                src="gold_1.png" />
-                            </Figure>
-                            <p>ရွှေစင်ချောင်း (Pure Gold)</p>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col sm={6} xs={6} className="pt-3">
-                    <Card className="text-center" onClick={()=> navigate('/jade')}>
-                        <Card.Body>
-                            <Figure >
-                                <Figure.Image 
-                                    width={72} 
-                                    height={70}
-                                    src="jade.png" />
-                            </Figure>
-                            <p>ကျောက်စိမ်း(Jade)</p>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col sm={6} xs={6} className="pt-3">
-                    <Card className="text-center" onClick={()=> navigate('/gem')} >
-                        <Card.Body>
-                            <Figure >
-                                <Figure.Image 
-                                    width={72} 
-                                    height={70}
-                                    src="gem.png" />
-                            </Figure>
-                            <p>ကျောက်မျက်ရတနာ (Gem)</p>
-                        </Card.Body>
-                    </Card>
+        <>
+        <AppBar 
+            titleEng={clientTitle.home_title_en} 
+            titleMm={clientTitle.home_title_mm} 
+        />
+        <Container className="mt-4 home">
+            <Row className="pt-3 justify-content-center">
+                <Col lg={8} md={8} sm={10} xs={12} className="pt-3">
+                    <Row>
+                        {/** Gold coin */}
+                        <Col lg={3} md={4} sm={6} xs={6}>
+                            <Card className={`${coinDisable} text-center`} onClick={()=> naviageTo('/gold')}>
+                                <Card.Body>
+                                    <Figure.Image
+                                        src="gold.png"
+                                    />
+                                    <div className="home-category-title">
+                                        <p>{clientTitle.home_gold_coin_mm_title}</p>
+                                        <p>{clientTitle.home_gold_coin_en_title}</p>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                        {/** Pure gold */}
+                        <Col lg={3} md={3} sm={6} xs={6}>
+                            <Card className={`${barDisable} text-center`} onClick={()=> naviageTo('/puregold')}>
+                                <Card.Body>
+                                    <Figure.Image
+                                        src="gold_1.png" 
+                                    />
+                                    <div className="home-category-title">
+                                        <p>{clientTitle.home_gold_pure_mm_title}</p>
+                                        <p>{clientTitle.home_gold_pure_en_title}</p>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                        {/** Jade */}
+                        <Col lg={3} md={3} sm={6} xs={6}>
+                            <Card className={`${jadeDisable} text-center`} onClick={()=> naviageTo('/jade')}>
+                                <Card.Body>
+                                    <Figure.Image
+                                        src="jade.png" 
+                                    />
+                                    <div className="home-category-title">
+                                        <p>{clientTitle.home_jade_mm_title}</p>
+                                        <p>{clientTitle.home_jade_en_title}</p>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                        {/** Gem */}
+                        <Col lg={3} md={3} sm={6} xs={6}>
+                            <Card className={`${gemDisable} text-center`} onClick={()=> naviageTo('/gem')}>
+                                <Card.Body>
+                                    <Figure.Image
+                                        src="gem.png" 
+                                    />
+                                    <div className="home-category-title">
+                                        <p>{clientTitle.home_gem_mm_title}</p>
+                                        <p>{clientTitle.home_gem_en_title}</p>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </Container>
+        </>
     );
 }

@@ -1,9 +1,23 @@
 // Client title string
 export const clientTitle = {
 
-    // Gold order titles
-    "gold_order_buyer_name": "ဝယ်သူအမည် (Buyer’s Name)",
+    // HOME
+    "home_title_mm": "သယံဇာတနှင့် သဘာဝပတ်ဝန်းကျင် ထိန်းသိမ်းရေး ဝန်ကြီးဌာန",
+    "home_title_en": "(Ministry of Natural Resources and Environmental Conservation)",
+    "home_gold_coin_mm_title": "ရွှေဒင်္ဂါးပြား",
+    "home_gold_coin_en_title": "(Gold Coin)",
+    "home_gold_pure_mm_title": "ရွှေစင်ချောင်း",
+    "home_gold_pure_en_title": "(Pure Gold)",
+    "home_jade_mm_title": "ကျောက်စိမ်း",
+    "home_jade_en_title": "(Jade)",
+    "home_gem_en_title": "ကျောက်မျက်ရတနာ",
+    "home_gem_mm_title": "(Gem)",
 
+    // Gold order titles
+    "gold_appbar_title_en": "(Order Form for Gold Coin)",
+    "gold_appbar_title_mm": "ရွှေဒင်္ဂါးပြား အော်ဒါဖောင်",
+    "gold_order_buyer_name": "ဝယ်သူအမည် (Buyer’s Name)",
+    
     // Pure gold
     "pure_gold_appbar_title_en": "(Order Form for Pure Gold)",
     "pure_gold_appbar_title_mm": "ရွှေစင်ချောင်း အော်ဒါဖောင်",
@@ -29,6 +43,9 @@ export const clientTitle = {
     "button_next_label": "Next",
     "gem_jade_lot_no_input_label": "အတွဲအမှတ် / Lot No / 标号",
     "bidder_reg_no_input_label": "ပြပွဲဝင်ခွင့်နံပါတ် (Bidder’s reg no:)",
+    "select_city_label": "ဝယ်ယူလိုသည့်မြို့ (Select City)",
+    "gold_coin_type_label" : "ဝယ်ယူလိုသည့် ရွှေဒင်္ဂါးပြားအမျိုးအစား (Type of Gold Coin)",
+    "date_label": "ဝယ်ယူလိုသည့် ရက်စွဲ (Select Date)",
 
     // Message
     "bider_check_not_found": "ရှာမတွေ့ပါ (Data not found)",

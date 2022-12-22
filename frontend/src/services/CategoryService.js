@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Config } from "../config/app"
-import { authHeader, decideAuthHeader, decidePath } from "./HttpService";
+import { authHeader, clientAuthHeader, decideAuthHeader, decidePath } from "./HttpService";
 
 
 export const getCategoryList = async () => {
@@ -31,4 +31,14 @@ export const getSubCategories = async (categori_id, isClient=false) =>  {
     } catch (err) {
         console.log(err)
     }
-} 
+}
+
+export const getAvailableCategories = async () => {
+    const url = `${Config.client_host}/category/available/check`;
+    try {
+        let res = await axios.get(url, { headers: clientAuthHeader() });
+        return res.data.data;
+    } catch (err) {
+        console.log(err);
+    }
+}

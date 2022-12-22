@@ -1,9 +1,10 @@
 @media screen and (min-width: 320px) and (max-width: 767px) {  
-  .custom-form-input .form-control {
+  .custom-form-input .form-control, .form-control {
     height: 40px !important;
-    width: 500px;
+    font-size: 14px;
   }
 }
+
 
 @media screen and (min-width: 991px) {
   .custom-form-input .form-control, .form-select {
@@ -11,15 +12,36 @@
     font-size: 17px;
     width: 100%;
   }
-  .custom-form-input .btn {
+  .custom-form-input .btn, button {
     height: 50px;
     width: 100%;
+    font-size: 17px !important;
   }
-  .form-label {
-    font-size: 17px;
+  .form-label, label, .form-select option {
+    font-size: 17px !important;
+  }
+
+  .home .figure-img {
+    width: 96px !important;
+    height: 93px;
+  }
+
+  .form-select, .form-control {
+    font-size: 17px !important;
+    height: 50px !important;
   }
 }
 
 .custom-form-input {
   font-size: 16px;
+}
+
+.form-select option {
+  color: red;
+}
+
+.required-star {
+  padding-left: 5px;
+  color: #FF0000;
+  font-weight: 500;
 }
