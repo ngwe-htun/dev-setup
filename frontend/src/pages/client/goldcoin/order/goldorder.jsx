@@ -50,7 +50,6 @@ export default function GoldOrder(styles) {
 
     const exportPdf = async (e) => {
         try {
-            e.preventDefault()
             const bold = await pdf(OrderPdf).toBlob()
             saveAs(bold, 'order.pdf')
         } catch (err) {
