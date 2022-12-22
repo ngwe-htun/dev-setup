@@ -7,7 +7,7 @@ export const LotNoField = ({lotNo}) => {
     return (
         <Container className="custom-form-input mt-3">
             <Row className="justify-content-center">
-                <Col lg={6} md={6}>
+                <Col lg={8} md={8} sm={10} xs={12}>
                     <Card>
                         <Card.Body>
                             <div className="form-label">

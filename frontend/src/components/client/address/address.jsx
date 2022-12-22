@@ -3,17 +3,15 @@ import { Col, Container, Form, Row } from "react-bootstrap";
 
 export const AddressField = ({setAddress}) => {
     
-    const handleOnChange = (e) => {
-        e.preventDefault();
-        setAddress(e.target.value);
-    }
-    
     return (
         <Container className="mt-3">
             <Row className="justify-content-center">
-                <Col lg={6}>
-                    <Form.Label>{clientTitle.address_label}</Form.Label>
-                    <Form.Control as="textarea" rows={3} onChange={(e)=>handleOnChange(e)} />
+                <Col lg={8} md={8} sm={10} xs={12}>
+                    <Form.Label>
+                        {clientTitle.address_label}
+                        <span className="required-star">*</span>                        
+                    </Form.Label>
+                    <Form.Control as="textarea" rows={3} onChange={(e)=>setAddress(e.target.value)} />
                 </Col>
             </Row>
         </Container>

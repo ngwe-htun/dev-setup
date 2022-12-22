@@ -9,7 +9,7 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { getSubCategories } from "../../../services/CategoryService";
 
 // Gold coin page
-export const GoldCoin = ({setGoldCoinAvailable}) => {
+export const GoldCoin = ({setGoldCoinAvailable, setOrderItem}) => {
 
     // States
     const [city, setCity] = useState('');
@@ -45,6 +45,9 @@ export const GoldCoin = ({setGoldCoinAvailable}) => {
     const check = async (e) => {
         try {
             e.preventDefault();
+            setGoldCoinAvailable(true);
+            setOrderItem(1);
+            navigate('/gold/order');
             let res = await checkAvailability(category, city, date);
             setNotAvailableAlert('');
             setGoldCoinAvailable(true);
@@ -79,9 +82,9 @@ export const GoldCoin = ({setGoldCoinAvailable}) => {
                             </Form.Label>
                             <Form.Select required onChange={(e) => setCity(e.target.value)} value={city}>
                                 <option></option>
-                                {/* {
+                                {
                                     cities.map(item =>  <option key={item.id} value={item.id}>{item.display_name}</option>)
-                                } */}
+                                }
                             </Form.Select>
                         </Form.Group>
 
@@ -93,11 +96,11 @@ export const GoldCoin = ({setGoldCoinAvailable}) => {
                             </Form.Label>
                             <Form.Select onChange={ (e) => { setCategory(e.target.value) }} value={category}>
                                 <option value={city}></option>
-                                {/* {
+                                {
                                     categories.map( item => 
                                         <option key={item.id} value={item.id}>{item.name_mm}</option> 
                                     )
-                                } */}
+                                }
                             </Form.Select>
                         </Form.Group>
 

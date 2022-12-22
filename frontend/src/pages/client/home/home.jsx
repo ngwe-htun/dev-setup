@@ -10,7 +10,7 @@ import { getAvailableCategories } from "../../../services/CategoryService";
 export default function Home({setAvailable}) {
 
     const navigate = useNavigate();
-    const disableClass = 'disabled';
+    const disableClass = '';
     
     // States
     const [barDisable, setBarDisable] = useState(disableClass);
@@ -34,9 +34,9 @@ export default function Home({setAvailable}) {
                 if (e.parent_category) {
                     toCheck = e.parent_category.name_en;
                 }
-                if(toCheck in fields) {
+                //if(toCheck in fields) {
                     fields[toCheck]('');
-                }
+                //}
             });
         } catch (err) {
 

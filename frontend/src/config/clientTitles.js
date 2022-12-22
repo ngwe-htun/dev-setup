@@ -17,6 +17,9 @@ export const clientTitle = {
     "gold_appbar_title_en": "(Order Form for Gold Coin)",
     "gold_appbar_title_mm": "ရွှေဒင်္ဂါးပြား အော်ဒါဖောင်",
     "gold_order_buyer_name": "ဝယ်သူအမည် (Buyer’s Name)",
+    "gold_order_father_name": "အဘအမည် (Father’s Name)",
+    "gold_order_aggrement": "အရည်ကြိုခြင်း/ ပြန်လည်ရောင်းချခြင်း (လုံးဝ) မပြုကြောင်း ကတိဝန်ခံချက် ပြုလို/မပြုလို (Do you promise not to be Liquidation or Reselling the Gold Coin?)",
+    "gold_order_remind": "* အမှတ်တရသိမ်းဆည်းရန် ဒင်္ဂါးပြားများ ရောင်းချပေးလျက်ရှိ၍ အရည်ကြိုခြင်း၊ တစ်ဆင့်ရောင်းချခြင်း (လုံးဝ) မပြုလုပ်ရန် (Do not be liquidation or reselling the gold coin.)",
     
     // Pure gold
     "pure_gold_appbar_title_en": "(Order Form for Pure Gold)",
@@ -32,6 +35,14 @@ export const clientTitle = {
     
 
     // Labels
+    "job_label": "အလုပ်အကိုင် (Current Job)",
+    "agree_yes_label": "ပြုလိုပါသည် (Yes)",
+    "agree_no_label": "မပြုလိုပါ (No)",
+    "check_yes_label": "ရှိ (Yes)",
+    "check_no_label": "မရှိ (No)",
+    "reason_to_buy_label": "ဝယ်ယူရခြင်း၏အကြောင်းအရင်းခံ (Reason to Buy)",
+    "monthly_salary_label": "လစဉ်ဝင်ငွေရရှိမှု (Monthly Income Salary)",
+    "already_order_label": "ယခင်က ရွှေဒင်္ဂါးပြား ဝယ်ယူခဲ့ဖူးခြင်း ရှိ/မရှိ (Did you buy the Gold Coin before?)",
     "save_as_pdf_label": "Save as .pdf / 另存为 .pdf",
     "back_to_home_label": "Back to Home",
     "country_label": "နိုင်ငံ / Country / 国籍",
@@ -46,6 +57,7 @@ export const clientTitle = {
     "select_city_label": "ဝယ်ယူလိုသည့်မြို့ (Select City)",
     "gold_coin_type_label" : "ဝယ်ယူလိုသည့် ရွှေဒင်္ဂါးပြားအမျိုးအစား (Type of Gold Coin)",
     "date_label": "ဝယ်ယူလိုသည့် ရက်စွဲ (Select Date)",
+    "write_in_english": "* အင်္ဂလိပ်ဘာသာဖြင့် ရေးသားရန်။ / To be written in English. / 只限用英文字填写。",
 
     // Message
     "bider_check_not_found": "ရှာမတွေ့ပါ (Data not found)",
@@ -53,6 +65,9 @@ export const clientTitle = {
     "bid_name_title": "အမည် (Name)",
     "bid_signature_title": "လက်မှတ် (Signature)",
     "bid_lot_no_title": "အတွဲအမှတ် / Lot No / 标号",
+    "bid_reserve_price_euro": "အခြေခံ စျေးနှုန်း [ယူရို] / Reserve Price [Euro] / 底价 [欧元]",
+    "bid_offer_price_euro": "အဆိုပြုစျေးနှုန်း [ယူရို] / Offered Price [Euro] / 投标价 [欧元]",
+    "bid_offer_price_word_euro": "အဆိုပြုစျေးနှုန်း [ယူရို] - စာသားဖြင့် / Offered Price [Euro] - In words / 投标价 [欧元] - 使用文字填写",
     "bid_reg_no_title": "ပြပွဲဝင်ခွင့်နံပါတ် / Bidder’s reg no: / 注册号码",
     "bid_reserve_price_kyat": "အခြေခံစျေးနှုန်း [ကျပ်] (Reserve Price [Kyats])",
     "bid_offer_price_kyat": "အဆိုပြုစျေးနှုန်း [ကျပ်] (Offered Price [Kyats])",

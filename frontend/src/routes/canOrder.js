@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom"
 
-export const CanOrder = ({categoryId}) => {
-    return (categoryId) 
+export const CanOrder = ({itemId}) => {
+    return (itemId) 
         ? <Outlet /> 
         : <Navigate to="/" />;
 };

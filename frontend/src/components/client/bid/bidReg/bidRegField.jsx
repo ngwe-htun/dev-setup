@@ -6,7 +6,7 @@ export const BidRegField = ({bidRegNo}) => {
     return (
         <Container>
             <Row className="justify-content-center mt-3">
-                <Col lg={6}>
+                <Col lg={8} md={8} sm={10} xs={12}>
                     <Card>
                         <Card.Body>
                             <div>

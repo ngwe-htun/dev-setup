@@ -2,7 +2,6 @@
 import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from './pages/login/LoginPage';
@@ -30,13 +29,20 @@ import { OrderShouldAvailable } from './routes/shouldAvailable';
 import { CanBidWithLot } from './routes/canBidWithLot';
 import { CanBid } from './routes/canBid';
 import { CanOrder } from './routes/canOrder';
+import 'primeicons/primeicons.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
 // import OrderPdf from './components/pdf/orderpdf';
+import { BidPureGold } from './pages/client/puregold/bid/bid';
+import { BidJade } from './pages/client/jade/bid/bidJade';
+import "./common/responsive.css";
 
 function App() {
 
-  // const navigate = useNavigate();
   let [user, setUser] = useState('');
+  let [itemId, setItemId] = useState('');
   let [available, setAvailable] = useState(false);
+  let [biderRegNo, setBiderRegNo] = useState('123456');
+  let [lotNo, setLotNo] = useState('12345');
 
   const [bidder, setBidder] = useState(null);
 
@@ -47,27 +53,34 @@ function App() {
       <Route path='/login' element={<LoginPage setGreet={setUser}/>} />
       
       {/** Route only if order/bid available */}
-      <Route element={<OrderShouldAvailable data={true} />}>
-        <Route path="/gold" element={<GoldCoin setGoldCoinAvailable={setAvailable} />} />
-        <Route path='/puregold' element={<PureGold />} />
+      <Route element={<OrderShouldAvailable data={available} />}>
+        <Route path="/gold" element={
+            <GoldCoin 
+                setGoldCoinAvailable={setAvailable}
+                setOrderItem={setItemId}
+                />
+        } />
+        <Route path='/puregold' element={
+            <PureGold/>
+        }/>
         <Route path='/gem' element={<Gem setBidder={setBidder}/>} />
         <Route path='/jade' element={<Jade />} />
       </Route>
 
       {/** Bid with lot */}
-      <Route element={<CanBidWithLot />}>
-        <Route path='/gem/bid' element={<BidGem bidder={bidder} setBidder={setBidder} />} />
-        <Route path='/jade/bid' element={<BidGem bidder={bidder} setBidder={setBidder} />} />
+      <Route element={<CanBidWithLot regNo={biderRegNo} lotNo={lotNo} />}>
+        <Route path='/gem/bid' element={<BidGem regNo={biderRegNo} lotNo={lotNo} />} />
+        <Route path='/jade/bid' element={<BidJade regNo={biderRegNo} lotNo={lotNo} />} />
       </Route>
 
       {/** Bid without lot */}
-      <Route element={<CanBid />}>
-        <Route path="/puregold/bid"></Route>
+      <Route element={<CanBid regNo={12345} />}>
+        <Route path="/puregold/bid" element={<BidPureGold biderRegNo={12345}/>}></Route>
       </Route>
 
       {/** Can order */}
-      <Route element={<CanOrder />}>
-        <Route path='/gold/order' element={<GoldOrder />}></Route>
+      <Route element={<CanOrder itemId={1} />}>
+        <Route path='/gold/order' element={<GoldOrder itemId={1}/>}></Route>
       </Route>
 
       {/** Private rotues */}

@@ -25,8 +25,6 @@ export const getNrcData = async () => {
     const url = `${Config.client_host}/order/nrc`;
     try {
         let res = await axios.get(url, { headers: clientAuthHeader() });
-        //let cars = Array.from(new Set(res.data.data.map(({ nrc_code }) => nrc_code)));
-
         return res.data.data;
     } catch (err) {
         console.log(err);
@@ -36,10 +34,23 @@ export const getNrcData = async () => {
 export const order = async (data) => {
     const url = `${Config.client_host}/order`;
     try {
-        console.log(data)
         let res = await axios.post(url, data, { headers: clientAuthHeader() });
         return res.data.data;
     } catch (err) {
+        console.log(err.response.data);
+    }
+}
 
+export const getBiderInfo = async (regNo) => {
+    const url = `${Config.client_host}/bider`;
+    try {
+        let res = await axios.get(url,{
+            params: {"reg_number": regNo},
+            headers: clientAuthHeader()}
+        );
+        return res.data.data;
+    } catch (err) {
+        console.log(err.response.data);
+        throw Error(err);
     }
 }
