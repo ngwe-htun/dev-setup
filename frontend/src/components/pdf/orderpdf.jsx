@@ -16,15 +16,15 @@ const styles = StyleSheet.create({
     },
 });
 
-const OrderPdf = (
+const OrderPdf = ({ name, fatherName }) => (
     <Document>
         {/*render a single page*/}
         <Page size="A4" style={styles.page}>
             <View style={styles.section}>
-                <Text>Hello</Text>
+                <Text>{name}</Text>
             </View>
             <View style={styles.section}>
-                <Text>World</Text>
+                <Text>{fatherName}</Text>
             </View>
         </Page>
     </Document>

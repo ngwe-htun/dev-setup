@@ -9,8 +9,8 @@ export default function GoldOrder(styles) {
 
 
     const defaultData = {
-        "buyer_name": "",
-        "father_name": "",
+        "buyer_name": "hello",
+        "father_name": "here",
         "nrc": "",
         "address": "",
         "phone": "",
@@ -50,7 +50,8 @@ export default function GoldOrder(styles) {
 
     const exportPdf = async (e) => {
         try {
-            const bold = await pdf(OrderPdf).toBlob()
+            const doc = <OrderPdf name={defaultData.buyer_name} fatherName={defaultData.father_name} />
+            const bold = await pdf(doc).toBlob()
             saveAs(bold, 'order.pdf')
         } catch (err) {
             console.log(err)
