@@ -3,7 +3,7 @@ import { Button, Col, Container, Form, FormControl, FormLabel, InputGroup, Row }
 import { useEffect, useState } from 'react';
 import { getNrcData } from '../../../../services/ClientService';
 import OrderPdf from '../../../../components/pdf/orderpdf';
-import { Document, Page, Text, View, pdf } from "@react-pdf/renderer"
+import { pdf } from "@react-pdf/renderer"
 import { saveAs } from 'file-saver'
 export default function GoldOrder(styles) {
 
