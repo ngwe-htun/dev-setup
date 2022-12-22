@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
 import { Button, Col, Container, Figure, Form, Row } from "react-bootstrap";
 import { Link, Route, useNavigate } from "react-router-dom";
-import { getSubCategories } from "../../../services/CategoryService";
 import { getCitiesForClient, getCityList } from "../../../services/CityService";
-import { checkAvailability } from "../../../services/ClientService";
+import { useEffect, useState } from "react";
 
+import { checkAvailability } from "../../../services/ClientService";
+import { getSubCategories } from "../../../services/CategoryService";
 
 export const GoldCoin = () => {
 
@@ -52,7 +52,7 @@ export const GoldCoin = () => {
         }
     }
 
-    // Clear form 
+    // Clear form
     const clear = () => {
         setDate('');
         setCity('');
@@ -70,7 +70,7 @@ export const GoldCoin = () => {
             <Col sm={12} style={{paddingTop: 85.77}}>
                 <div className="text-center">
                     <Figure>
-                        <Figure.Image 
+                        <Figure.Image
                         width={73}
                         height={80}
                         src="logo.png"></Figure.Image>
@@ -99,12 +99,12 @@ export const GoldCoin = () => {
                         <Form.Label style={{
                             fontSize: "14px"
                         }}>
-                            ဝယ်ယူလိုသည့်မြို့ (Select City) 
+                            ဝယ်ယူလိုသည့်မြို့ (Select City)
                             <span style={{color: "#FF0000"}}> *</span>
                         </Form.Label>
                         <Form.Select required style={{height: "40px"}} onChange={(e) => setCity(e.target.value)}>
                             {
-                                cities.map(item =>  <option value={item.id}>{item.display_name}</option>)
+                                cities.map(item =>  <option key={item.id} value={item.id}>{item.display_name}</option>)
                             }
                         </Form.Select>
                     </Form.Group>
@@ -113,13 +113,13 @@ export const GoldCoin = () => {
                         <Form.Label style={{
                             fontSize: "14px"
                         }}>
-                            ဝယ်ယူလိုသည့် ရွှေဒင်္ဂါးပြားအမျိုးအစား (Type of Gold Coin) 
+                            ဝယ်ယူလိုသည့် ရွှေဒင်္ဂါးပြားအမျိုးအစား (Type of Gold Coin)
                             <span style={{color: "#FF0000"}}> *</span>
                         </Form.Label>
                         <Form.Select required={true} style={{height: "40px"}} onChange={ (e) => setCategory(e.target.value) } >
                             {
-                                categories.map( item => 
-                                    <option value={item.id}>{item.name_mm}</option> 
+                                categories.map( item =>
+                                    <option key={item.id} value={item.id}>{item.name_mm}</option>
                                 )
                             }
                         </Form.Select>
@@ -141,7 +141,7 @@ export const GoldCoin = () => {
                     <div className="text-center">
                     <Button type="submit"
                         style={{
-                            height: "37px", 
+                            height: "37px",
                             width: "80px",
                             fontSize: "14px",
                             borderRadius: "5px",

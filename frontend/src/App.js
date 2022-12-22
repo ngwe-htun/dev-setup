@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
- 
+
 import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
-import "primereact/resources/primereact.min.css"; 
-import "primeicons/primeicons.css"; 
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from './pages/login/LoginPage';
 import UserPage from './pages/admin/user/UserPage';
@@ -21,22 +21,23 @@ import AuctionDetailPage from './pages/admin/report/auction/detail/AuctionDetail
 import Home from './pages/client/home/home';
 import { GoldCoin } from './pages/client/goldcoin/goldcoin';
 import GoldOrder from './pages/client/goldcoin/order/goldorder';
+import OrderPdf from './components/pdf/orderpdf';
 
 function App() {
 
   let [greet, setGreet] = useState('');
   let [user, setUser] = useState('');
 
-  return (    
+  return (
     <Routes>
       { /** Public routes */}
       <Route path='/' element={<Home />} />
       <Route path='/gold' element={<GoldCoin />} />
       <Route path="/gold/order" element={<GoldOrder />} />
-      <Route path='/login' element={<LoginPage setGreet={setUser}/>} />
+      <Route path='/login' element={<LoginPage setGreet={setUser} />} />
 
       {/** Private rotues */}
-      <Route path='dashboard' element={<DashboardPage greet={user}/>} >
+      <Route path='dashboard' element={<DashboardPage greet={user} />} >
         <Route path='item' element={<ItemPage />} />
         <Route path='search' element={<SearchPage />} />
         <Route path='bidder' element={< BidderPage />} />
@@ -52,11 +53,11 @@ function App() {
 
       </Route>
       <Route path='manage'>
-      <Route path='report/auction' element={<AuctionReportPage />} />
+        <Route path='report/auction' element={<AuctionReportPage />} />
 
-      <Route path='report/non-auction' element={<NonAuctionPage />} />
+        <Route path='report/non-auction' element={<NonAuctionPage />} />
         <Route path='users' element={<UserPage />} />
-        <Route path='password' element={<PasswordPage />}/>
+        <Route path='password' element={<PasswordPage />} />
       </Route>
     </Routes>
   );
