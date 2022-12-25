@@ -2,8 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 
 class PublicAuth
 {
@@ -17,9 +20,11 @@ class PublicAuth
     public function handle(Request $request, Closure $next)
     {
         if ($token = $request->header('Authorization')) {
-            $key = explode(' ', $token)[1];
-            if ($key == config('auth.api_key')) {
-                return $next($request);
+            $key = str_replace('\\', '', explode(' ', $token)[1]);
+            if ($token = Cache::get('public_auth_' . $key)) {
+                if (Hash::check($key, $token)) {
+                    return $next($request);
+                }
             }
         }
 

@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Constants\RoleConstant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class AuthController extends Controller
 {
@@ -278,6 +280,35 @@ class AuthController extends Controller
                 'message' => __('password reset failed')
             ],
             406
+        );
+    }
+
+    public function clientRegister(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'id' => 'required|string'
+            ]
+        );
+        $id = $request->input('id');
+        if (Cache::get('public_register_' . $id)) {
+            return response()->json(
+                [
+                    'data' => $id
+                ],
+                418
+            );
+        }
+
+        $hash = Hash::make($id);
+        Cache::remember('public_auth_' . $hash, Carbon::now()->addMinute(config('auth.public_ttl')), fn () => Hash::make($hash));
+        Cache::remember('public_register_' . $id, Carbon::now()->addMinute(config('auth.public_ttl')), fn () => 1);
+        return response()->json(
+            [
+                'token' => $hash,
+            ],
+            200
         );
     }
 }
