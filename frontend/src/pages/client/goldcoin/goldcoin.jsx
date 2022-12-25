@@ -1,15 +1,19 @@
-import { Button, Col, Container, Figure, Form, Row } from "react-bootstrap";
-import { Link, Route, useNavigate } from "react-router-dom";
-import { getCitiesForClient, getCityList } from "../../../services/CityService";
+import "../../../App.css";
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
+import { clientTitle } from "../../../config/clientTitles";
+import { getCityList } from "../../../services/CityService";
+import AppBar from "../../../components/client/appbar/AppBar";
 import { checkAvailability } from "../../../services/ClientService";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { getSubCategories } from "../../../services/CategoryService";
 
-export const GoldCoin = () => {
+// Gold coin page
+export const GoldCoin = ({setGoldCoinAvailable, setOrderItem}) => {
 
+    // States
     const [city, setCity] = useState('');
-    const [date, setDate] = useState(null);
+    const [date, setDate] = useState("");
     const [cities, setCities] = useState([]);
     const [category, setCategory] = useState('');
     const [categories, setCategories] = useState([]);
@@ -41,120 +45,90 @@ export const GoldCoin = () => {
     const check = async (e) => {
         try {
             e.preventDefault();
-            let res = await checkAvailability(category, city,date);
-            clear();
+            setGoldCoinAvailable(true);
+            setOrderItem(1);
+            navigate('/gold/order');
+            let res = await checkAvailability(category, city, date);
             setNotAvailableAlert('');
+            setGoldCoinAvailable(true);
             navigate('/gold/order');
         } catch (err) {
-            clear();
             setNotAvailableAlert(err.message);
-            console.log(err.message)
         }
     }
 
-    // Clear form
-    const clear = () => {
-        setDate('');
-        setCity('');
-        setCategory('');
-    }
-
+    // Fetch data
     useEffect( () => {
         fetchCities();
         fetchCategories();
     }, []);
 
     return (
-        <Container className="mt-1">
-        <Row>
-            <Col sm={12} style={{paddingTop: 85.77}}>
-                <div className="text-center">
-                    <Figure>
-                        <Figure.Image
-                        width={73}
-                        height={80}
-                        src="logo.png"></Figure.Image>
-                    </Figure>
-                    <div style={{
-                        fontWeight: 400,
-                        fontStyle: "normal",
-                        fontSize: "24",
-                        lineHeight: "33px",
-                        fontFamily: "Myanmar Sangam MN",
-                        color: "000000",
-                        paddingLeft: "30px",
-                        paddingRight: "30px"
-                    }}>
-                        <p>
-                        ရွှေဒင်္ဂါးပြား အော်ဒါဖောင် <br/>
-                        (Order Form for Gold Coin)
-                        </p>
-                    </div>
-                </div>
-            </Col>
+        <>
+        <AppBar 
+            titleMm={clientTitle.gold_appbar_title_mm}
+            titleEng={clientTitle.gold_appbar_title_en}
+        />
+        <Container className="mt-4">
+            <Row className="justify-content-center">
+                <Col sm={10} lg={8} md={8} xs={12}>
+                    <Form onSubmit={(e)=>{ check(e); }}>
+                        
+                        {/** City form group */}
+                        <Form.Group>
+                            <Form.Label>
+                                {clientTitle.select_city_label}
+                                <span className="required-star">*</span>
+                            </Form.Label>
+                            <Form.Select required onChange={(e) => setCity(e.target.value)} value={city}>
+                                <option></option>
+                                {
+                                    cities.map(item =>  <option key={item.id} value={item.id}>{item.display_name}</option>)
+                                }
+                            </Form.Select>
+                        </Form.Group>
 
-            <Col sm={12}>
-                <Form style={{paddingLeft:"30px", paddingRight: "30px"}} onSubmit={(e)=>{ check(e); }}>
-                    <Form.Group style={{paddingBottom: "16px"}}>
-                        <Form.Label style={{
-                            fontSize: "14px"
-                        }}>
-                            ဝယ်ယူလိုသည့်မြို့ (Select City)
-                            <span style={{color: "#FF0000"}}> *</span>
-                        </Form.Label>
-                        <Form.Select required style={{height: "40px"}} onChange={(e) => setCity(e.target.value)}>
-                            {
-                                cities.map(item =>  <option key={item.id} value={item.id}>{item.display_name}</option>)
-                            }
-                        </Form.Select>
-                    </Form.Group>
+                        {/** Type form group */}
+                        <Form.Group className="mt-3">
+                            <Form.Label>
+                                {clientTitle.gold_coin_type_label} 
+                                <span className="required-star">*</span>                        
+                            </Form.Label>
+                            <Form.Select onChange={ (e) => { setCategory(e.target.value) }} value={category}>
+                                <option value={city}></option>
+                                {
+                                    categories.map( item => 
+                                        <option key={item.id} value={item.id}>{item.name_mm}</option> 
+                                    )
+                                }
+                            </Form.Select>
+                        </Form.Group>
 
-                    <Form.Group style={{paddingBottom: "16px"}}>
-                        <Form.Label style={{
-                            fontSize: "14px"
-                        }}>
-                            ဝယ်ယူလိုသည့် ရွှေဒင်္ဂါးပြားအမျိုးအစား (Type of Gold Coin)
-                            <span style={{color: "#FF0000"}}> *</span>
-                        </Form.Label>
-                        <Form.Select required={true} style={{height: "40px"}} onChange={ (e) => setCategory(e.target.value) } >
-                            {
-                                categories.map( item =>
-                                    <option key={item.id} value={item.id}>{item.name_mm}</option>
-                                )
-                            }
-                        </Form.Select>
-                    </Form.Group>
+                        {/** Date form group */}
+                        <Form.Group className="mt-3">
+                            <Form.Label>
+                                {clientTitle.date_label}
+                                <span className="required-star">*</span>                        
+                            </Form.Label>
+                           <Form.Control type="date" onChange={(e) => setDate(e.target.value) }  value={date}/>
+                        </Form.Group>
 
-                    <Form.Group style={{paddingBottom: "16px"}}>
-                        <Form.Label style={{
-                            fontSize: "14px"
-                        }}>
-                            ဝယ်ယူလိုသည့် ရက်စွဲ (Select Date)
-                            <span style={{color: "#FF0000"}}> *</span>
-                        </Form.Label>
-                       <Form.Control type="date" onChange={(e) => setDate(e.target.value) }  />
-                    </Form.Group>
+                        {/** If not available */}
+                        { notAvailableAlert ? <p className="text-danger">{notAvailableAlert}</p> : null }
 
-                    {/** If not available */}
-                    { notAvailableAlert ? <p className="text-danger">{notAvailableAlert}</p> : null }
-
-                    <div className="text-center">
-                    <Button type="submit"
-                        style={{
-                            height: "37px",
-                            width: "80px",
-                            fontSize: "14px",
-                            borderRadius: "5px",
-                            background: "#0069D9",
-                            opacity: "0.9",
-                            marginTop: "30px"
-                    }} >
-                        Next
-                    </Button>
-                    </div>
-                </Form>
-            </Col>
-        </Row>
-    </Container>
+                        <div className="text-center">
+                            <Button 
+                                className="mt-4"
+                                type="submit"
+                                disabled={!(city && category && date)}
+                            >
+                                {clientTitle.button_next_label}
+                            </Button>
+                        </div>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
+        </>
     );
 }

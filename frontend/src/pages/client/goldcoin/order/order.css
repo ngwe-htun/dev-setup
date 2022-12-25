@@ -29,3 +29,7 @@
 .test:focus {
     border: none !important
 }
+
+@media (min-width: 768px) and (max-width: 1199.98px) {
+    .input-controlzzz .form-control {font-size: 66px !important;} /*1rem = 16px*/
+  }

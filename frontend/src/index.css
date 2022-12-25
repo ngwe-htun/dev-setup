@@ -11,7 +11,7 @@
 }
 
 
-
+/* 
 body {
   margin: 0;
   font-family: Pyidaungsu, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -19,13 +19,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+} */
 
-code {
+/* code {
   font-family: Pyidaungsu, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-/* 
-*{
-  font-family: 'Pyidaungsu';
 } */
+
+* {
+  font-family: 'Pyidaungsu' !important;
+}
