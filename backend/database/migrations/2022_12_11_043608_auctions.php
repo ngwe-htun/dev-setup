@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('city_id')->default(-1);
             $table->string('log_number')->default('');
             $table->decimal('biding_price', 20)->default(0);
-            $table->text('biding_price_text')->default('');
+            $table->text('biding_price_text');
             $table->boolean('status')->default(0);
             $table->timestamps();
             $table->index('bider_id');
@@ -43,6 +43,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('auctions');
     }
 };
