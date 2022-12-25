@@ -18,15 +18,15 @@ class CitySeeder extends Seeder
         $cities = [
             [
                 'name' => 'yangon',
-                'display_name' => 'Yangon'
+                'display_name' => 'ရန်ကုန်(Yangon)'
             ],
             [
                 'name' => 'mandalay',
-                'display_name' => 'Mandalay'
+                'display_name' => 'မန္တလေး(Mandalay)'
             ],
             [
-                'name' => 'naypyitaw',
-                'display_name' => 'NayPyiTaw'
+                'name' => 'naypyidaw',
+                'display_name' => 'နေပြည်တော်(Naypyidaw)'
             ]
         ];
 
