@@ -1,6 +1,6 @@
 import "../../../App.css";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import { clientTitle } from "../../../config/clientTitles";
 import { getCityList } from "../../../services/CityService";
 import AppBar from "../../../components/client/appbar/AppBar";
@@ -9,7 +9,10 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { getSubCategories } from "../../../services/CategoryService";
 
 // Gold coin page
-export const GoldCoin = ({setGoldCoinAvailable, setOrderItem}) => {
+export const GoldCoin = () => {
+
+    // Consts
+    const categoryId = useOutletContext();
 
     // States
     const [city, setCity] = useState('');
@@ -34,7 +37,7 @@ export const GoldCoin = ({setGoldCoinAvailable, setOrderItem}) => {
     // Fetch categories
     const fetchCategories = async () => {
         try {
-            let res = await getSubCategories(1, true);
+            let res = await getSubCategories(categoryId, true);
             setCategories(res);
         } catch (err) {
             console.log(err)
@@ -45,13 +48,14 @@ export const GoldCoin = ({setGoldCoinAvailable, setOrderItem}) => {
     const check = async (e) => {
         try {
             e.preventDefault();
-            setGoldCoinAvailable(true);
-            setOrderItem(1);
-            navigate('/gold/order');
-            let res = await checkAvailability(category, city, date);
+            console.log(category);
+            let res = await checkAvailability(categoryId, city, date);
             setNotAvailableAlert('');
-            setGoldCoinAvailable(true);
-            navigate('/gold/order');
+            navigate('/gold/order', {
+                state: {
+                    "itemId": category
+                }
+            });
         } catch (err) {
             setNotAvailableAlert(err.message);
         }

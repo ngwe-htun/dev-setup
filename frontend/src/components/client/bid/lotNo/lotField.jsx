@@ -3,9 +3,9 @@ import { clientTitle } from "../../../../config/clientTitles";
 import "../../../../App.css";
 import "../bid.css";
 
-export const LotNoField = ({lotNo}) => {
+export const LotNoField = ({lotInfo}) => {
     return (
-        <Container className="custom-form-input mt-3">
+        <Container className="custom-form-input mt-1">
             <Row className="justify-content-center">
                 <Col lg={8} md={8} sm={10} xs={12}>
                     <Card>
@@ -16,7 +16,7 @@ export const LotNoField = ({lotNo}) => {
                                 </span> 
                             </div>
                             <span className="lot-reg-field">
-                                {lotNo}
+                                {lotInfo.log_number}
                             </span>
                         </Card.Body>
                     </Card>

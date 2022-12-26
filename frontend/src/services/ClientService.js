@@ -9,7 +9,7 @@ export const checkAvailability = async (categoryId, cityId, date) => {
         console.log(cityId)
         let res = await axios.get(url, {
             params: {
-                "category_id": 1,
+                "category_id": categoryId,
                 "city_id": cityId,
                 "date": date
             },
@@ -54,3 +54,26 @@ export const getBiderInfo = async (regNo) => {
         throw Error(err);
     }
 }
+
+export const getItemWithLot = async (lotNo) => {
+    const url = `${Config.client_host}/item/by/log/${lotNo}`;
+    try {
+        let res = await axios.get(url, {headers: clientAuthHeader()});
+        return res.data.data;
+    } catch (err) {
+        let errMsg = err.response?.data.message;
+        throw Error(errMsg)
+    }
+}
+
+
+export const auctionBid = async (data) => {
+    const url = `${Config.client_host}/auction`;
+    try {
+        let res = await axios.post(url, data, {headers: clientAuthHeader()});
+        console.log(res.data.data);
+    } catch (err) {
+        let errMsg = err.response?.data.message;
+        throw Error(errMsg)   
+    }
+} 

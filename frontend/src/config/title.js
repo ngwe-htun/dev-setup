@@ -117,5 +117,8 @@ export const Title = {
     "report_non_auction_detail_mm_title": "သယံဇာတနှင့် သဘာဝပတ်ဝန်းကျင် ထိန်းသိမ်းရေး ဝန်ကြီးဌာန",
     "report_non_auction_detail_en_title": "(Ministry of Natural Resources and Environmental Conservation)",
     "report_non_auction_detail_gold_coin_order_title": "ရွှေဒင်္ဂါးပြား အော်ဒါဖောင်",
-    "report_auction_detail_gold_order_title": " ရွှေစင်တုံး ဈေးပြိုင်တင်ဒါစနစ်ဖြင့် ရောင်းချခြင်းအတွက်ဈေးနှုန်းတင်သွင်းလွှာပုံစံ"
+    "report_auction_detail_gold_order_title": " ရွှေစင်တုံး ဈေးပြိုင်တင်ဒါစနစ်ဖြင့် ရောင်းချခြင်းအတွက်ဈေးနှုန်းတင်သွင်းလွှာပုံစံ",
+
+    // Dialog
+    "alert_dialog_failed_header": "Failed to Submit Form (မအောင်မြင်ပါ)"
 };

@@ -1,14 +1,14 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom"
 
-export const CanBidWithLot = () => {
+export const HasOrderInfo = () => {
 
     // Consts
     const state = useLocation().state;
     const bider = useLocation().state?.bider;
+    const orderInfo = useLocation().state?.orderInfo;
     const lotInfo = useLocation().state?.lotInfo;
-    const categoryId = useLocation().state?.categoryId;
 
-    return (bider && lotInfo && categoryId) 
+    return (orderInfo && bider && lotInfo) 
         ? <Outlet context={state}/> 
         : <Navigate to="/" />;
 };

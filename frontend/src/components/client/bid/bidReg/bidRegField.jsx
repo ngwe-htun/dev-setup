@@ -5,7 +5,7 @@ import "../bid.css";
 export const BidRegField = ({bidRegNo}) => {
     return (
         <Container>
-            <Row className="justify-content-center mt-3">
+            <Row className="justify-content-center mt-1">
                 <Col lg={8} md={8} sm={10} xs={12}>
                     <Card>
                         <Card.Body>

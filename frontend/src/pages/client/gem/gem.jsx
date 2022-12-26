@@ -1,22 +1,33 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { clientTitle } from "../../../config/clientTitles";
 import AppBar from "../../../components/client/appbar/AppBar";
 import LotInput from "../../../components/client/lotInput/lotInput";
 import BiderCheckInput from "../../../components/client/biderInput/biderInput";
 
-export const Gem = ({setBidder}) => {
+// GEM PAGE
+export const Gem = () => {
 
-    const navigate = useNavigate();
-    const [biderInfo, setBiderInfo] = useState(null);
-    const [selectedLot, setSelectedLot] = useState(null);
+    // Constants
+    const nav = useNavigate();
+    const categoryId = useOutletContext();
 
+    // States
+    const [bider, setBider] = useState('');
+    const [lotInfo, setLotInfo] = useState('');
+
+    // HOOK
     useEffect(() => {
-        if(biderInfo && selectedLot){
-            setBidder(biderInfo)
-            navigate('/gem/bid')
+        if (bider && lotInfo) {
+            nav('/gem/bid', {
+                "state": {
+                    "categoryId": categoryId,
+                    "bider": bider,
+                    "lotInfo": lotInfo
+                }
+            });
         }
-    }, [biderInfo, navigate, selectedLot])
+    }, [bider, lotInfo, categoryId, nav]);
 
     return (
         
@@ -25,7 +36,9 @@ export const Gem = ({setBidder}) => {
                 titleMm={clientTitle.gem_appbar_title_mm}
                 titleEng={clientTitle.gem_appbar_title_en}
             />
-            {  biderInfo ?  <LotInput setSelectedLot={setSelectedLot} /> : <BiderCheckInput setBiderInfo={setBiderInfo} /> }
+            {  bider 
+                ? <LotInput setSelectedLot={setLotInfo} /> 
+                : <BiderCheckInput setBider={setBider} /> }
 
         </>
     );

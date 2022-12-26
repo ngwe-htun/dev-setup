@@ -1,49 +1,117 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { clientTitle } from "../../../../config/clientTitles";
 import { PriceField } from "../../../../components/client/bid/price/price";
 import { LotNoField } from "../../../../components/client/bid/lotNo/lotField";
 import { BidRegField } from "../../../../components/client/bid/bidReg/bidRegField";
 import { NameSig } from "../../../../components/client/bid/nameSig/nameSig";
-import { NrcField } from "../../../../components/client/nrc/nrc";
-import { AddressField } from "../../../../components/client/address/address";
-import { PhoneField } from "../../../../components/client/phone/phone";
 import { RemindField } from "../../../../components/client/remind/remind";
 import { SubmitButton } from "../../../../components/client/submit/submit";
-import { Col, Container, Row } from "react-bootstrap";
-import { BidDetail } from "../../detail/bid/detail";
+import { ClientBack } from "../../../../components/client/back/back";
+import { TwoShowField } from "../../../../components/client/common/twoshow/twoShow";
+import { AlertDialog } from "../../../../components/alert/Alert";
+import { auctionBid } from "../../../../services/ClientService";
 
-const BidGem = ({regNo, lotNo}) => {
+// BID GEM
+const BidGem = () => {
     
-    const navigate = useNavigate();
+    // Constants
+    const nav = useNavigate();
+    const bider = useOutletContext()?.bider;
+    const lotInfo = useOutletContext()?.lotInfo;
+    const categoryId = useOutletContext()?.categoryId;
 
     // States
-    const [nrc, setNrc] = useState("");
-    const [address, setAddress] = useState("");
-    const [showForm, setShowForm] = useState(false);
-    const [bidedInfo, setBidedInfo] = useState(null);
+    const [showFailed, setShowFailed] = useState({
+        "show": false,
+        "message": ""
+    });
+    const [offerPrice, setOfferPrice] = useState('');
+    const [offerPriceInWord, setOfferPriceInWord] = useState('');
+
+    // BID GEM
+    const bidGem = async () => {
+        try {
+            let res = await auctionBid({
+                "bider_id": bider.id,
+                "item_id": lotInfo.id,
+                "price": offerPrice
+            });
+            navigateToDetail();
+        } catch (err) {
+            setShowFailed({
+                "show": true,
+                "message": err.message
+            });
+        }
+    }
+
+    // Navigate to detail
+    const navigateToDetail = () => {
+        let orderInfo = {
+            "auction": {
+                "reserve": lotInfo.base_price,
+                "offer": offerPrice,
+                "offerInWord": offerPriceInWord,
+                "is_euro": true
+            }
+        };
+        nav('/gem/bid/detail', {
+            "state": {
+                "orderInfo": orderInfo,
+                "bider": bider,
+                "lotInfo": lotInfo
+            }
+        });
+    }
     
     return (
         <>
-            <LotNoField lotNo={lotNo}/>
-            <BidRegField bidRegNo={regNo} />
-            <PriceField 
-                offerLabel={clientTitle.bid_offer_price_euro}
-                reserveLabel={clientTitle.bid_reserve_price_euro}
-                offerInWordTitle={clientTitle.bid_offer_price_word_euro}
+            <ClientBack 
+                label={{
+                    "en": clientTitle.gem_appbar_title_en,
+                    "mm": clientTitle.gem_appbar_title_mm
+                }}
+                path={"/"}
             />
-            <NameSig />
-            <NrcField callback={setNrc}/>
-            <AddressField 
-                setAddress={setAddress}
+            <RemindField remindText={clientTitle.write_in_english} />
+            <LotNoField lotInfo={lotInfo}/>
+            <BidRegField bidRegNo={bider.bider_reg_number} />
+            <PriceField
+                reserve={{
+                    "label": clientTitle.bid_reserve_price_euro,
+                    "data": lotInfo.base_price
+                }}
+                offer={{
+                    "label": clientTitle.bid_offer_price_euro,
+                    "callback": setOfferPrice
+                }}
+                offerInWord={{
+                    "label": clientTitle.bid_offer_price_word_euro,
+                    "callback": setOfferPriceInWord
+                }}
             />
-            <PhoneField />
+            <NameSig data={bider.name}/>
+            <TwoShowField 
+                firstInput={{
+                    "label": clientTitle.company_label,
+                    "data" : bider.company
+                }}
+                secondInput={{
+                    "label": clientTitle.country_label,
+                    "data" : bider.country
+                }}
+            />
             <RemindField 
                 remindText={clientTitle.bid_remind_text}
             />
             <SubmitButton 
-                fields={(address)}
+                fields={(offerPrice && offerPriceInWord)}
+                callBack={bidGem}
             />
+
+            {showFailed.show ? <AlertDialog info={showFailed} callBack={setShowFailed} />: null}
+
         </>
     );
 }
