@@ -18,14 +18,17 @@ return new class extends Migration
             $table->string('bider_id');
             $table->integer('item_id')->default(-1);
             $table->integer('item_category_id')->default(-1);
+            $table->integer('city_id')->default(-1);
             $table->string('log_number')->default('');
             $table->decimal('biding_price', 20)->default(0);
+            $table->text('biding_price_text');
             $table->boolean('status')->default(0);
             $table->timestamps();
             $table->index('bider_id');
             $table->index('log_number');
             $table->index('item_category_id');
             $table->index('biding_price');
+            $table->index('city_id');
             $table->index(['log_number', 'created_at']);
             $table->index(['log_number', 'bider_id']);
             $table->index(['bider_id', 'status']);
@@ -40,6 +43,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('auctions');
     }
 };
