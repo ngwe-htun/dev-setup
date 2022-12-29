@@ -1,10 +1,18 @@
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer"
+import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer"
+import testFont from "../../fonts/Pyidaungsu.ttf";
+
+Font.register({
+    family: 'Roboto',
+    src: testFont
+});
 
 // Create styles
 const styles = StyleSheet.create({
     page: {
-        backgroundColor: "#d11fb6",
-        color: "white",
+        display: "flex",
+        backgroundColor: "white",
+        color: "#000000",
+        fontFamily: "Roboto"
     },
     section: {
         margin: 10,
@@ -20,11 +28,13 @@ const OrderPdf = ({ name, fatherName }) => (
     <Document>
         {/*render a single page*/}
         <Page size="A4" style={styles.page}>
-            <View style={styles.section}>
-                <Text>{name}</Text>
-            </View>
-            <View style={styles.section}>
-                <Text>{fatherName}</Text>
+            <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", marginLeft: "50px", marginRight: "50px"}}>
+                <View>
+                    <Text>ဝယ်သူအမည်</Text>
+                </View>
+                <View>
+                    <Text>Aung Aung</Text>
+                </View>
             </View>
         </Page>
     </Document>

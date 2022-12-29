@@ -17,7 +17,6 @@ export default function Home({setAvailable}) {
     const navigate = useNavigate();
     const disableClass = 'disabled';
 
-    
     // States
     const [barDisable, setBarDisable] = useState(disableClass);
     const [gemDisable, setGemDisable] = useState(disableClass);

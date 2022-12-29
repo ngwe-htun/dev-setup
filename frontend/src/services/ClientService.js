@@ -77,3 +77,6 @@ export const auctionBid = async (data) => {
         throw Error(errMsg)   
     }
 } 
+
+
+export const registerToken = () => {}

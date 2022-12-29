@@ -36,15 +36,28 @@ import { BidJade } from './pages/client/jade/bid/bidJade';
 // import "./common/responsive.css";
 import { HasOrderInfo } from './routes/hasOrderInfo';
 import { BidDetail } from './pages/client/detail/bid/detail';
-import { OrderDetail } from './pages/client/detail/order/detail';
+import OrderDetail from './pages/client/detail/order/detail';
+import OrderPdf from './components/pdf/orderpdf';
+import { ClientToken } from './routes/clientToken';
+import { getClientToken, storeClientToken } from './services/storage/ClientStorage';
 
 function App() {
 
   let [user, setUser] = useState('');
   let [available, setAvailable] = useState(false);
+  
+  let token = getClientToken();
+  if (!token) {
+    console.log('ok');
+    //storeClientToken('jello');
+  }
 
   return (
     <Routes>
+          <Route path='/orderdetail' element={<OrderDetail />} />
+
+      <Route path='/export' element={<OrderPdf name={"test"} fatherName={"test"} />} />
+
       { /** Public routes */}
       <Route path='/' element={<Home setAvailable={setAvailable} />} />
       <Route path='/login' element={<LoginPage setGreet={setUser}/>} />
