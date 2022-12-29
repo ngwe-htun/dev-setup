@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,6 +72,7 @@ Route::prefix('v1')->group(function () {
     });
 
     //client part
+    Route::post('/client/register', [AuthController::class, 'clientRegister']);
     Route::prefix('/client')->middleware('public')->group(function () {
         Route::prefix('/category')->controller(CategoryController::class)->group(function () {
             Route::get('/parent', 'getParentCategory');

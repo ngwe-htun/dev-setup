@@ -57,7 +57,8 @@ class AuctionController extends Controller
             [
                 'bider_id' => 'required|int',
                 'item_id' => 'required|int',
-                'price' => 'required'
+                'price' => 'required',
+                'price_text' => 'required|string'
             ]
         );
 
@@ -126,7 +127,9 @@ class AuctionController extends Controller
             item: $item,
             id: $available?->id,
             data: [
+                'city_id' => $request->input('city_id', -1),
                 'price' => $request->input('price'),
+                'price_text' => $request->input('price_text'),
                 'status' => AuctionConstant::BIDED
             ]
         )) {
