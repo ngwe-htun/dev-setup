@@ -1,6 +1,8 @@
 import axios from "axios";
 import { Config } from "../config/app";
+import clientAxios from "./axios/ClientAxios";
 import { clientAuthHeader } from "./HttpService";
+import { storeClientToken } from "./storage/ClientStorage";
 
 export const checkAvailability = async (categoryId, cityId, date) => {
     const url = `${Config.client_host}/item/by/category`;
@@ -79,4 +81,16 @@ export const auctionBid = async (data) => {
 } 
 
 
-export const registerToken = () => {}
+export const registerToken = async () => {
+    const url = `${Config.client_host}/register`;
+    try {
+        const id = 'xxxxxx';
+        // const id = crypto.createHash('sha256').update('hello').digest('hex');
+        let res = await clientAxios.post(url, {
+            "id": id
+        });
+        storeClientToken(res.data.token)
+    } catch (err) {
+        console.log(err);
+    }
+}

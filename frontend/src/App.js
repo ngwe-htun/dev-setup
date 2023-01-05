@@ -40,55 +40,49 @@ import OrderDetail from './pages/client/detail/order/detail';
 import OrderPdf from './components/pdf/orderpdf';
 import { ClientToken } from './routes/clientToken';
 import { getClientToken, storeClientToken } from './services/storage/ClientStorage';
+import { registerToken } from './services/ClientService';
 
 function App() {
 
   let [user, setUser] = useState('');
   let [available, setAvailable] = useState(false);
   
-  let token = getClientToken();
-  if (!token) {
-    console.log('ok');
-    //storeClientToken('jello');
-  }
-
   return (
     <Routes>
-          <Route path='/orderdetail' element={<OrderDetail />} />
-
+      <Route path='/orderdetail' element={<OrderDetail />} />
       <Route path='/export' element={<OrderPdf name={"test"} fatherName={"test"} />} />
 
       { /** Public routes */}
-      <Route path='/' element={<Home setAvailable={setAvailable} />} />
-      <Route path='/login' element={<LoginPage setGreet={setUser}/>} />
-      
-      {/** Route only if order/bid available */}
-      <Route element={<OrderShouldAvailable />}>
-        <Route path="/gold" element={<GoldCoin />} />
-        <Route path='/puregold' element={<PureGold/>}/>
-        <Route path='/gem' element={<Gem />} />
-        <Route path='/jade' element={<Jade />} />
-      </Route>
-
-      {/** Bid with lot */}
-      <Route element={<CanBidWithLot />}>
-        <Route path='/gem/bid' element={<BidGem />} />
-        <Route path='/jade/bid' element={<BidJade />} />
-        <Route path="/puregold/bid" element={<BidPureGold />} />
-      </Route>
-
-      {/** Can order */}
-      <Route element={<CanOrder />}>
-        <Route path='/gold/order' element={<GoldOrder />}></Route>
-      </Route>
-
-      {/** Order/Bid detail */}
-      <Route element={<HasOrderInfo />}>
+      <Route element={<ClientToken/>}>
+        <Route path='/' element={<Home />} />
+        {/** Route only if order/bid available */}
+        <Route element={<OrderShouldAvailable />}>
+          <Route path="/gold" element={<GoldCoin />} />
+          <Route path='/puregold' element={<PureGold/>}/>
+          <Route path='/gem' element={<Gem />} />
+          <Route path='/jade' element={<Jade />} />
+        </Route>
+        {/** Bid with lot */}
+        <Route element={<CanBidWithLot />}>
+          <Route path='/gem/bid' element={<BidGem />} />
+          <Route path='/jade/bid' element={<BidJade />} />
+          <Route path="/puregold/bid" element={<BidPureGold />} />
+        </Route>
+        {/** Can order */}
+        <Route element={<CanOrder />}>
+          <Route path='/gold/order' element={<GoldOrder />}></Route>
+        </Route>
+        {/** Order/Bid detail */}
+        <Route element={<HasOrderInfo />}>
           <Route path="/gold/order/detail" element={<OrderDetail />} />
           <Route path='/jade/bid/detail' element={<BidDetail />}></Route>
           <Route path='/gem/bid/detail' element={<BidDetail />}></Route>
           <Route path='/puregold/bid/detail' element={<BidDetail />}></Route>
+        </Route>
       </Route>
+
+      {/** LOGIN */}
+      <Route path='/login' element={<LoginPage setGreet={setUser}/>} />
 
       {/** Private rotues */}
       <Route path='dashboard' element={<DashboardPage greet={user} />} >
