@@ -21,7 +21,6 @@ const SearchPage = () => {
           {/** Search contents */}
           <div className="grid mt-4">
             <div className="col flex">
-            <i class="pi pi-check"></i>
               <Dropdown options={searchCategory} optionLabel='name' placeholder="Buyer's Name" id='option'/>
               <div className="flex">
                 <span className="p-input-icon-left ml-4">

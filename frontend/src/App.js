@@ -41,6 +41,8 @@ import OrderPdf from './components/pdf/orderpdf';
 import { ClientToken } from './routes/clientToken';
 import { getClientToken, storeClientToken } from './services/storage/ClientStorage';
 import { registerToken } from './services/ClientService';
+import { Logout } from './services/LogoutService';
+import { PrivateRoute } from './routes/privateRoute';
 
 function App() {
 
@@ -83,8 +85,10 @@ function App() {
 
       {/** LOGIN */}
       <Route path='/login' element={<LoginPage setGreet={setUser}/>} />
+      {/* <Route path='/logout' element={Logout()} /> */}
 
       {/** Private rotues */}
+      <Route element={<PrivateRoute/>}>
       <Route path='dashboard' element={<DashboardPage greet={user} />} >
         <Route path='item' element={<ItemPage />} />
         <Route path='search' element={<SearchPage />} />
@@ -106,6 +110,7 @@ function App() {
         <Route path='report/non-auction' element={<NonAuctionPage />} />
         <Route path='users' element={<UserPage />} />
         <Route path='password' element={<PasswordPage />} />
+      </Route>
       </Route>
     </Routes>
   );

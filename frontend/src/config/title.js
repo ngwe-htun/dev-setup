@@ -7,7 +7,7 @@ export const searchCategory = [
 export const profileItems = [
     { name: 'Change Password (လျှို့ဝှက်နံပါတ်ပြောင်းမည်)', 'link': '/dashboard/manage/password' },
     { name: 'Manage Users (အသုံးပြုသူများကို စီမံမည်)', 'link': 'users' },
-    { name: 'Logout (ထွက်မည်)' }
+    { name: 'Logout (ထွက်မည်)', 'link': '/logout' }
 ];
 
 export const Title = {
