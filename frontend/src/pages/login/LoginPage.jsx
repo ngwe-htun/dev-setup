@@ -9,6 +9,7 @@ import { InputText } from "primereact/inputtext";
 import { Title } from "../../config/title";
 import { Login } from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
+import { storeAdminAccessInfo } from "../../services/storage/AdminStorage";
 
 
 const LoginPage = ({ setGreet }) => {
@@ -24,9 +25,7 @@ const LoginPage = ({ setGreet }) => {
     const onSubmit = async () => {
         try {
           let res = await Login(name, password);
-          console.log(res)
-          setGreet(res.user_info);
-          localStorage.setItem('access-token', res.token_info.plainTextToken)
+          storeAdminAccessInfo(res);
           navigate('/dashboard/search')
         } catch (err) {
           setFailed('p-invalid block');

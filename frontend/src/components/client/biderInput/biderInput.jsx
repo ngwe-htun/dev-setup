@@ -14,9 +14,8 @@ const BiderCheckInput = ({setBider}) => {
 
         e.preventDefault();
         try {
-            setBider(biderRegNo);
             let res = await getBiderInfo(biderRegNo);
-            setBider(biderRegNo);
+            setBider(res);
         } catch (err) {
             console.log(err)   
         }

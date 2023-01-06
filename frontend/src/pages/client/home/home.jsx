@@ -9,14 +9,20 @@ import { getAvailableCategories } from "../../../services/CategoryService";
 // CLient home page
 export default function Home({setAvailable}) {
 
+    // Consts
+    const goldCoin = 'gold_coin';
+    const goldBar = 'gold_bar';
+    const jade = 'jade';
+    const gem = 'gem';
     const navigate = useNavigate();
-    const disableClass = '';
-    
+    const disableClass = 'disabled';
+
     // States
     const [barDisable, setBarDisable] = useState(disableClass);
     const [gemDisable, setGemDisable] = useState(disableClass);
     const [jadeDisable, setJadeDisable] = useState(disableClass);
     const [coinDisable, setCoinDisable] = useState(disableClass);
+    const [categories, setCategories] = useState([]);
 
     const fields = {
         "gem": setGemDisable,
@@ -28,30 +34,45 @@ export default function Home({setAvailable}) {
     // Fetch available categories
     const fetchCategories = async () => {
         try {
+            let ca = [];
             let res = await getAvailableCategories();
+            console.log(res);
             res.forEach(e => {
                 let toCheck = e.name_en;
+                ca[toCheck] = e.id;
                 if (e.parent_category) {
                     toCheck = e.parent_category.name_en;
+                    ca[toCheck] = e.parent_category.id;
                 }
-                //if(toCheck in fields) {
+                if(toCheck in fields) {
+                    console.log(fields);
                     fields[toCheck]('');
-                //}
+                }
             });
+            console.log(barDisable);
+            setCategories(ca);
+
         } catch (err) {
 
         }
     }
 
     // Navigate
-    const naviageTo = (path) => {
-        setAvailable(true);
-        navigate(path);
+    const naviageTo = (path, categoryName) => {
+        console.log(categories);
+        let itemId = categories[categoryName];
+        navigate(path, 
+            {
+                state: { 
+                    categoryId: itemId
+                }
+            }
+        );
     }
 
     useEffect(() => {
         fetchCategories();
-    });
+    }, []);
 
     return (
         <>
@@ -65,7 +86,7 @@ export default function Home({setAvailable}) {
                     <Row>
                         {/** Gold coin */}
                         <Col lg={3} md={4} sm={6} xs={6}>
-                            <Card className={`${coinDisable} text-center`} onClick={()=> naviageTo('/gold')}>
+                            <Card className={`${coinDisable} text-center`} onClick={()=> naviageTo('/gold', goldCoin)}>
                                 <Card.Body>
                                     <Figure.Image
                                         src="gold.png"
@@ -79,7 +100,7 @@ export default function Home({setAvailable}) {
                         </Col>
                         {/** Pure gold */}
                         <Col lg={3} md={3} sm={6} xs={6}>
-                            <Card className={`${barDisable} text-center`} onClick={()=> naviageTo('/puregold')}>
+                            <Card className={`${barDisable} text-center`} onClick={()=> naviageTo('/puregold', goldBar)}>
                                 <Card.Body>
                                     <Figure.Image
                                         src="gold_1.png" 
@@ -93,7 +114,7 @@ export default function Home({setAvailable}) {
                         </Col>
                         {/** Jade */}
                         <Col lg={3} md={3} sm={6} xs={6}>
-                            <Card className={`${jadeDisable} text-center`} onClick={()=> naviageTo('/jade')}>
+                            <Card className={`${jadeDisable} text-center`} onClick={()=> naviageTo('/jade', jade)}>
                                 <Card.Body>
                                     <Figure.Image
                                         src="jade.png" 
@@ -107,7 +128,7 @@ export default function Home({setAvailable}) {
                         </Col>
                         {/** Gem */}
                         <Col lg={3} md={3} sm={6} xs={6}>
-                            <Card className={`${gemDisable} text-center`} onClick={()=> naviageTo('/gem')}>
+                            <Card className={`${gemDisable} text-center`} onClick={()=> naviageTo('/gem', gem)}>
                                 <Card.Body>
                                     <Figure.Image
                                         src="gem.png" 

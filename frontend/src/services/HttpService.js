@@ -1,11 +1,13 @@
 import { Config } from "../config/app";
+import { getClientToken } from "./storage/ClientStorage";
 
 export function authHeader () {
         return {"Authorization" : `Bearer ${localStorage.getItem('access-token')}` };
 }
 
 export function clientAuthHeader() {
-        return {"Authorization" : `Bearer ${Config.client_token}`};
+        let token = getClientToken();
+        return {"Authorization" : `Bearer ${token}`};
 }
 
 export function decidePath(isClient) {

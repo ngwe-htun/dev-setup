@@ -1,6 +1,8 @@
 import axios from "axios";
 import { Config } from "../config/app";
+import clientAxios from "./axios/ClientAxios";
 import { clientAuthHeader } from "./HttpService";
+import { storeClientToken } from "./storage/ClientStorage";
 
 export const checkAvailability = async (categoryId, cityId, date) => {
     const url = `${Config.client_host}/item/by/category`;
@@ -9,7 +11,7 @@ export const checkAvailability = async (categoryId, cityId, date) => {
         console.log(cityId)
         let res = await axios.get(url, {
             params: {
-                "category_id": 1,
+                "category_id": categoryId,
                 "city_id": cityId,
                 "date": date
             },
@@ -52,5 +54,43 @@ export const getBiderInfo = async (regNo) => {
     } catch (err) {
         console.log(err.response.data);
         throw Error(err);
+    }
+}
+
+export const getItemWithLot = async (lotNo) => {
+    const url = `${Config.client_host}/item/by/log/${lotNo}`;
+    try {
+        let res = await axios.get(url, {headers: clientAuthHeader()});
+        return res.data.data;
+    } catch (err) {
+        let errMsg = err.response?.data.message;
+        throw Error(errMsg)
+    }
+}
+
+
+export const auctionBid = async (data) => {
+    const url = `${Config.client_host}/auction`;
+    try {
+        let res = await axios.post(url, data, {headers: clientAuthHeader()});
+        console.log(res.data.data);
+    } catch (err) {
+        let errMsg = err.response?.data.message;
+        throw Error(errMsg)   
+    }
+} 
+
+
+export const registerToken = async () => {
+    const url = `${Config.client_host}/register`;
+    try {
+        const id = 'xxxxxx';
+        // const id = crypto.createHash('sha256').update('hello').digest('hex');
+        let res = await clientAxios.post(url, {
+            "id": id
+        });
+        storeClientToken(res.data.token)
+    } catch (err) {
+        console.log(err);
     }
 }

@@ -12,10 +12,10 @@ export const CheckBoxField = ({input}) => {
                     </Form.Label>
                     <Row>
                         <Col lg={4} md={4} sm={5} xs={6}>
-                            <Form.Check type="radio"  value={true} label={input.yes} onChange={(e)=>input.callback(e.target.value)}/>
+                            <Form.Check type="radio"  value={1} label={input.yes} onChange={(e)=>input.callback(e.target.value)}/>
                         </Col>
                         <Col lg={4} md={4} sm={5} xs={6}>
-                            <Form.Check type="radio" value={false} label={input.no} onChange={(e)=>input.callback(e.target.value)}/>
+                            <Form.Check type="radio" value={0} label={input.no} onChange={(e)=>input.callback(e.target.value)}/>
                         </Col>
                     </Row>
                 </Col>

@@ -10,6 +10,7 @@
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.2",
+    "crypto": "^1.0.1",
     "file-saver": "^2.0.5",
     "jspdf": "^2.5.1",
     "primeflex": "^3.3.0",

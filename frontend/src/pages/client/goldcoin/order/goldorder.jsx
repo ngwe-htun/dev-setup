@@ -1,7 +1,7 @@
 import './order.css';
 import { saveAs } from 'file-saver'
 import { pdf } from "@react-pdf/renderer"
-import { useNavigate } from 'react-router';
+import { useNavigate, useOutletContext } from 'react-router';
 import { useEffect, useState } from 'react';
 import OrderPdf from '../../../../components/pdf/orderpdf';
 import { clientTitle } from '../../../../config/clientTitles';
@@ -17,7 +17,10 @@ import { OneInputField } from '../../../../components/client/common/oneinput/one
 import { TwoInputFields } from '../../../../components/client/common/twoinput/twoInput';
 
 // GOLD ORDER
-export default function GoldOrder({itemId}) {
+export default function GoldOrder() {
+
+    // Consts
+    const itemId = useOutletContext()?.itemId;
 
     // States
     const [nrc, setNrc] = useState('');
@@ -28,8 +31,8 @@ export default function GoldOrder({itemId}) {
     const [income, setIncome] = useState('');
     const [address, setAddress] = useState('');
     const [fatherName, setFatherName] = useState('');
-    const [acceptTerm, setAcceptTerm] = useState(false);
-    const [alreadyOrdered, setAlreadyOrdered] = useState(false);
+    const [acceptTerm, setAcceptTerm] = useState(0);
+    const [alreadyOrdered, setAlreadyOrdered] = useState(0);
 
     // Submit order
     const submitOrder = async () => {
@@ -47,11 +50,13 @@ export default function GoldOrder({itemId}) {
                 "term_condition": acceptTerm
             }
             let res = await order(data);
-            console.log(res);
+            // Navigate to detail
         } catch (err) {
             console.log(err)
         }
     }
+
+    // Navigate
 
     return (
         <>

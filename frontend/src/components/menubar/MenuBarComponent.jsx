@@ -4,11 +4,34 @@ import './MenuBar.css';
 import text from '../../config/text.json';
 import { Dropdown } from 'primereact/dropdown';
 import { useNavigate } from 'react-router-dom';
-import { profileItems } from '../../config/title';
+import { Logout } from '../../services/LogoutService';
+import { useEffect, useState } from 'react';
+import { getUserInfo } from '../../services/storage/AdminStorage';
 
-const MenuBarComponent = ({user}) => {
+const MenuBarComponent = () => {
 
+    const user = JSON.parse(getUserInfo());
     const navigate = useNavigate();
+    const [action, setAction] = useState('');
+
+    const profileItems = [
+        { name: 'Change Password (လျှို့ဝှက်နံပါတ်ပြောင်းမည်)', 'path': '/dashboard/manage/password' },
+        { name: 'Manage Users (အသုံးပြုသူများကို စီမံမည်)', 'path': 'users' },
+        { name: 'Logout (ထွက်မည်)'}
+    ];
+
+    // Action
+    useEffect(() => {
+        if (action) {
+            let path = action.path;
+            if (path) {
+                navigate(path)
+            } else {
+                Logout();
+                navigate('/login');
+            }
+        }
+    }, [action, navigate]);
 
     return (
             <div className="menubar w-full">
@@ -21,7 +44,7 @@ const MenuBarComponent = ({user}) => {
                     </div>
                 } 
                 end={
-                    <Dropdown placeholder={user.name} options={profileItems} optionLabel="name"  className='menubar-end text-white pr-3' scrollHeight='500px' onChange={ (e) => navigate(e.target.value.link) }  />
+                    <Dropdown placeholder={user.name} options={profileItems} optionLabel="name"  className='menubar-end text-white pr-3' scrollHeight='500px'  onChange={(e) => setAction(e.target.value)} />
                 }
             />
             </div>

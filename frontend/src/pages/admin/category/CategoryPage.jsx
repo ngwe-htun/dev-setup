@@ -3,10 +3,10 @@ import { Dialog } from 'primereact/dialog';
 import { Title } from "../../../config/title";
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import DialogComponent from "../../../components/DialogComponent";
 import { createSubCategory, getCategoryList, getSubCategories } from "../../../services/CategoryService";
-import "../../../common/common.css";
+// import "../../../common/common.css";
 import { DataTable } from 'primereact/datatable';
 import { Column } from "primereact/column";
 

@@ -1,83 +1,88 @@
+import "../../../../App.css";
+import "../../../../common/responsive.css";
 import { Button, Card, Col, Container, Figure, Row } from "react-bootstrap";
 import { clientTitle } from "../../../../config/clientTitles";
-import { Title } from "../../../../config/title";
-import { Divider } from 'primereact/divider';
-import { RemindField } from "../../../../components/client/remind/remind";
-import "../../../../App.css";
+import { LotNoField } from "../../../../components/client/bid/lotNo/lotField";
+import { BidRegField } from "../../../../components/client/bid/bidReg/bidRegField";
+import { useOutletContext } from "react-router-dom";
 
-
+// AUCTION DETAIL
 export const BidDetail = () => {
+
+    // Consts
+    const bider = useOutletContext()?.bider;
+    const lotInfo = useOutletContext()?.lotInfo;
+    const orderInfo = useOutletContext()?.orderInfo.auction;
 
     return (
         <>
-        <Container className="custom-form-input">
+        <Container>
             <Row className="justify-content-center">
-                <Col lg={8} md={10} sm={12}>
-                    <Row>
-                        <Col lg={2} md={3} sm={3} xs={3} className="text-left">
+                <Col lg={8} md={8} sm={10} xs={12}>
+                    <Row >
+                        <Col>
                             <Figure.Image src="/logo.png" />
                         </Col>
-                        <Col lg={8} md={6} sm={6} xs={6} className="text-center">
+                        <Col className="text-center">
                             <h4>MINI GEM EMPORIUM</h4>
                             <span style={{fontSize: "24px"}}>BIDDING FORM OF JADE</span>
                         </Col>
-                        <Col lg={2} md={3} sm={3} xs={3} className="text-right">
+                        <Col className="text-right">
                             <Figure.Image src="/logo.png" />
                         </Col>
                     </Row>
                 </Col>
             </Row>
-
+        </Container>
+        <LotNoField lotInfo={lotInfo} />
+        <BidRegField bidRegNo={bider.bider_reg_number} />
+        <Container className="custom-form-input">
             <Row className="justify-content-center mt-3">
-                <Col lg={8} md={10} sm={12}>
-                    <Card>
-                        <Card.Body>
-                            <p>{clientTitle.bid_lot_no_title}</p>
-                            <span>1000004</span>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-
-            <Row className="justify-content-center mt-3">
-                <Col lg={8} md={10} sm={12}>
-                    <Card>
-                        <Card.Body>
-                            <p>{clientTitle.bid_reg_no_title}</p>
-                            <span>1000004</span>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-
-            <Row className="justify-content-center mt-3">
-                <Col lg={8} md={10} sm={12}>
+                <Col lg={8} md={8} sm={10} xs={12}>
                     <Card>
                         <Card.Body>
                             <Row>
                                 <Col>
-                                    <p>{clientTitle.bid_reserve_price_kyat}</p>
+                                    <p>
+                                        {
+                                            orderInfo.is_euro 
+                                            ? clientTitle.bid_reserve_price_euro
+                                            : clientTitle.bid_reserve_price_kyat
+                                        }
+                                    </p>
                                 </Col>
                                 <Col className="text-right">
-                                    <p>500</p>
+                                    <p>{orderInfo.reserve}</p>
                                 </Col>
                             </Row>
                             <hr style={{margin: "2px"}}/>
                             <Row>
                                 <Col>
-                                    <p>{clientTitle.bid_reserve_price_kyat}</p>
+                                    <p>
+                                        {
+                                            orderInfo.is_euro 
+                                            ? clientTitle.bid_offer_price_euro
+                                            : clientTitle.bid_offer_price_kyat
+                                        }
+                                    </p>
                                 </Col>
                                 <Col className="text-right">
-                                    <p>500</p>
+                                    <p>{orderInfo.offer}</p>
                                 </Col>
                             </Row>
                             <hr style={{margin: "2px"}}/>
                             <Row>
                                 <Col>
-                                    <p>{clientTitle.bid_offer_price_word_kyat}</p>
+                                    <p>
+                                        {
+                                            orderInfo.is_euro 
+                                            ? clientTitle.bid_offer_price_word_euro
+                                            : clientTitle.bid_offer_price_word_kyat
+                                        }
+                                    </p>
                                 </Col>
                                 <Col className="text-right">
-                                    <p>500</p>
+                                    <p>{orderInfo.offerInWord}</p>
                                 </Col>
                             </Row>
                             <hr style={{margin: "2px"}}/>
@@ -86,7 +91,7 @@ export const BidDetail = () => {
                                     <p>{clientTitle.bid_signature_title}</p>
                                 </Col>
                                 <Col className="text-right">
-                                    <p>500</p>
+                                    <p>{bider.name}</p>
                                 </Col>
                             </Row>
                             <hr style={{margin: "2px"}}/>
@@ -95,7 +100,7 @@ export const BidDetail = () => {
                                     <p>{clientTitle.bid_name_title}</p>
                                 </Col>
                                 <Col className="text-right">
-                                    <p>500</p>
+                                    <p>{bider.name}</p>
                                 </Col>
                             </Row>
                             <hr style={{margin: "2px"}}/>
@@ -104,7 +109,7 @@ export const BidDetail = () => {
                                     <p>{clientTitle.company_label}</p>
                                 </Col>
                                 <Col className="text-right">
-                                    <p>500</p>
+                                    <p>{bider.company}</p>
                                 </Col>
                             </Row>
                             <hr style={{margin: "2px"}}/>
@@ -113,7 +118,7 @@ export const BidDetail = () => {
                                     <p>{clientTitle.country_label}</p>
                                 </Col>
                                 <Col className="text-right">
-                                    <p>500</p>
+                                    <p>{bider.country}</p>
                                 </Col>
                             </Row>
                         </Card.Body>
