@@ -62,10 +62,10 @@ export const GoldCoin = () => {
     }
 
     // Fetch data
-    useEffect( () => {
-        fetchCities();
-        fetchCategories();
-    }, []);
+    // useEffect( () => {
+    //     fetchCities();
+    //     fetchCategories();
+    // }, []);
 
     return (
         <>

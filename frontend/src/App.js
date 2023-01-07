@@ -82,10 +82,11 @@ function App() {
           <Route path='/puregold/bid/detail' element={<BidDetail />}></Route>
         </Route>
       </Route>
+      {/* </Route> */}
 
       {/** LOGIN */}
       <Route path='/login' element={<LoginPage setGreet={setUser}/>} />
-      {/* <Route path='/logout' element={Logout()} /> */}
+      <Route path='/logout' element={Logout()} />
 
       {/** Private rotues */}
       <Route element={<PrivateRoute/>}>

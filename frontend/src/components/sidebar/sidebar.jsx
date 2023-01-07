@@ -59,11 +59,7 @@ const SidebarComponent = () => {
     
     return (
         <>
-          <div className="grid">
-            <div className="col p-0 w-full" >
-              <Menu model={items} className="border-noround border-y-none sidebar mr-3 fixed" />
-            </div>
-          </div>
+            <Menu model={items} className="border-noround border-y-none sidebar mr-3 fixed w-15rem" />
         </>
     );
 }

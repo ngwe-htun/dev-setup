@@ -101,8 +101,8 @@ const BidderPage = () => {
 
           {/** Title */}
           <div className="grid m-0">
-            <div className="col"><h2>{Title.bid_page_title}</h2></div>
-            <div className="col text-right">
+            <div className="col-8"><h2>{Title.bid_page_title}</h2></div>
+            <div className="col-4 text-right">
               <Button label={Title.bid_add_bidder_button_title} icon="pi pi-plus" className="button-size" onClick={ () => { setShowCreate(true); }} />
             </div>
           </div>
