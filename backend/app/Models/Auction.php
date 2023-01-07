@@ -28,6 +28,7 @@ class Auction extends Model
         'item_category_id',
         'log_number',
         'biding_price',
+        'biding_price_text',
         'status'
     ];
 
