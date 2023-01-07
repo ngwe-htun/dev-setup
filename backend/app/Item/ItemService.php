@@ -94,10 +94,19 @@ class ItemService
      */
     public function getItemsByCategory(ItemCategory $category): ?Collection
     {
+        $subCategories = $category
+            ->categories
+            ->pluck('id')
+            ->all();
+
         return $this->item
             ->with('category')
             ->with('category.parentCategory')
-            ->where('item_category_id', $category?->id)
+            ->when(
+                !empty($subCategories),
+                fn ($query) => $query->whereIn('id', $subCategories),
+                fn ($query) => $query->where('item_category_id', $category?->id)
+            )
             ->whereDate('available_date', '>=', Carbon::now())
             ->get();
     }
