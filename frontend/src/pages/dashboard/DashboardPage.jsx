@@ -8,7 +8,6 @@ import { Title } from "../../config/title";
 
 // Dashboard layout
 const DashboardPage = ({greet}) => {
-    console.log(greet)
     
     return (
         <>

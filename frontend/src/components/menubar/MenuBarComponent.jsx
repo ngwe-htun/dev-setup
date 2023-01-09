@@ -10,7 +10,7 @@ import { getUserInfo } from '../../services/storage/AdminStorage';
 
 const MenuBarComponent = () => {
 
-    const user = {}//JSON.parse(getUserInfo());
+    const user = JSON.parse(getUserInfo());
     const navigate = useNavigate();
     const [action, setAction] = useState('');
 

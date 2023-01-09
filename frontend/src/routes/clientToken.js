@@ -5,6 +5,10 @@ import { getClientToken } from "../services/storage/ClientStorage"
 // Register client token
 export const ClientToken = () => {
     let token = getClientToken();
+    if (!token) {
+        registerToken();
+        token = getClientToken();
+    }
     return (token)
         ? <Outlet />
         : registerToken();

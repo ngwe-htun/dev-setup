@@ -36,6 +36,7 @@ const ItemPage = () => {
   async function getSubCategoryList(id)  {
     try { 
       let res = await getSubCategories(id)
+      console.log('SUB C' + res);
         setSubCategoryList(res)
     } catch (err) {
     }
@@ -69,7 +70,6 @@ const ItemPage = () => {
   // Get items
   const getItems = async (category) => {
     try {
-      console.log(category.id)
       let res = await getItemLists(category.id);
       console.log(res);
       setItemList(res);
@@ -87,7 +87,6 @@ const ItemPage = () => {
   // Create item
   const addItem = async () => {
     try {
-      console.log(subCategory)
       let res = createItem(mainCategory, subCategory, city, quantity, availableDate, lotNo);
       clear();
       setAlertDialogBody(successDialog);
@@ -130,10 +129,10 @@ const ItemPage = () => {
                   <label htmlFor="lot" className="block">{Title.item_add_lot_no_title}</label>
                   <InputText id="lot" value={lotNo} className="block w-full" onChange={ (e) => setLotNo(e.target.value) } />
                 </div>
-                <div className="field">
+                {/* <div className="field">
                   <label htmlFor="city" className="block">{Title.select_city}</label>
                   <Dropdown id='city' value={city} options={cityList} optionLabel='display_name' className='w-full' onChange={(e) => { setCity(e.value);}} />
-                </div>
+                </div> */}
                 <div className="field">
                     <label htmlFor="date">{Title.item_available_date_select}</label>
                     <Calendar id="date" value={availableDate} onChange={(e) => setAvailableDate(e.value)} className="w-full" minDate={new Date()} showIcon />
@@ -149,7 +148,7 @@ const ItemPage = () => {
               <div>
                 <div className="field pt-4">
                   <label htmlFor="sub" className="block">{Title.item_add_sub_select_title}</label>
-                  <Dropdown id='sub' value={subCategory} options={subCategoryList} optionLabel='name_en' className='w-full' onChange={(e) => { setSubCategory(e.value); console.log(e.value)}} />
+                  <Dropdown id='sub' value={subCategory} options={subCategoryList} optionLabel='name_en' className='w-full' onChange={(e) => { setSubCategory(e.value);}} />
                 </div>
                 <div className="field">
                   <label htmlFor="city" className="block">{Title.select_city}</label>
@@ -169,7 +168,7 @@ const ItemPage = () => {
     }
 
     function auctionDisableUntil ()  {
-      return !(mainCategory && lotNo && city && availableDate);
+      return !(mainCategory && lotNo && availableDate);
     }
 
     function orderDisableUntil () {
@@ -224,7 +223,7 @@ const ItemPage = () => {
           </div>
 
           {/** Select category */}
-          <Dropdown value={filterCategory} options={mainCategoryList} optionLabel='name_mm' className="w-20rem" placeholder="Please select category" onChange={ (e) => {setFilterCategory(e.value); getItems(e.value)} } />
+          <Dropdown value={filterCategory} options={mainCategoryList} optionLabel='name_mm' className="w-20rem" placeholder="Please select category" onChange={ (e) => { setFilterCategory(e.value); getItems(e.value)} } />
 
           {/** Data table */}
           <div className="grid mt-5">
