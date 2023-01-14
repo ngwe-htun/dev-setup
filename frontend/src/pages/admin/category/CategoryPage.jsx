@@ -23,8 +23,6 @@ const CategoryPage = () => {
     const [showCategoryAdd, setShowCategoryAdd] = useState(false);
     const [filter, setFilter] = useState('');
     const [filterList, setFilterList] = useState([]);
-
-
     
     const onChangeCategory = (e) => {
       setCategory(e.value)

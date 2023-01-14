@@ -8,7 +8,8 @@ export const createItem = async (
     city,
     quantity,
     availableDate,
-    lotNo
+    lotNo,
+    basePrice
 ) => {
     const url = `${Config.admin_host}/item`;
     try {
@@ -19,7 +20,7 @@ export const createItem = async (
             "city_id": city_id,
             "available_date": availableDate.toLocaleDateString(),
             "sellable_currency": "kyat",
-            "base_price" : 12000000,
+            "base_price" : basePrice,
         };
         if (lotNo) {
             data['log_number'] = lotNo;

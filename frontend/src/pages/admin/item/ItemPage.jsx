@@ -32,6 +32,7 @@ const ItemPage = () => {
   const [alertDialogBody, setAlertDialogBody] = useState(null);
   const [filterCategory, setFilterCategory] = useState(null);
   const [itemList, setItemList] = useState([]);
+  const [basePrice, setBasePrice] = useState('');
 
   async function getSubCategoryList(id)  {
     try { 
@@ -87,7 +88,7 @@ const ItemPage = () => {
   // Create item
   const addItem = async () => {
     try {
-      let res = createItem(mainCategory, subCategory, city, quantity, availableDate, lotNo);
+      let res = createItem(mainCategory, subCategory, city, quantity, availableDate, lotNo, basePrice);
       clear();
       setAlertDialogBody(successDialog);
       setVisibleCreate(false);
@@ -112,6 +113,7 @@ const ItemPage = () => {
 
   const clear = () => {
     setCity('');
+    setBasePrice('');
     setLotNo('');
     setIsOrder(false);
     setIsAction(false);
@@ -128,6 +130,10 @@ const ItemPage = () => {
                 <div className='field pt-4'>
                   <label htmlFor="lot" className="block">{Title.item_add_lot_no_title}</label>
                   <InputText id="lot" value={lotNo} className="block w-full" onChange={ (e) => setLotNo(e.target.value) } />
+                </div>
+                <div className='field'>
+                  <label htmlFor="base_price" className="block">{Title.item_add_base_price}</label>
+                  <InputText id="base_price" value={basePrice} className="block w-full" onChange={ (e) => setBasePrice(e.target.value) } />
                 </div>
                 {/* <div className="field">
                   <label htmlFor="city" className="block">{Title.select_city}</label>
@@ -154,7 +160,11 @@ const ItemPage = () => {
                   <label htmlFor="city" className="block">{Title.select_city}</label>
                   <Dropdown id='city' value={city} options={cityList} optionLabel='display_name' className='w-full' onChange={(e) => { setCity(e.value);}} />
                 </div>
-                <div className='field pt-4'>
+                <div className='field'>
+                  <label htmlFor="base_price" className="block">{Title.item_add_base_price}</label>
+                  <InputText id="base_price" value={basePrice} className="block w-full" onChange={ (e) => setBasePrice(e.target.value) } />
+                </div>
+                <div className='field'>
                   <label htmlFor="quantity" className="block">{Title.item_add_quantity}</label>
                   <InputText id="quantity" value={quantity} className="block w-full" onChange={ (e) => setQuantity(e.target.value) } />
                 </div>

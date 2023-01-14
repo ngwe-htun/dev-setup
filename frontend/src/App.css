@@ -20,6 +20,10 @@
     font-size: 17px !important;
   }
 
+  .p-dropdown ,.p-inputtext {
+    height: 50px;
+  }
+
   .home .figure-img {
     width: 96px !important;
     height: 93px;
