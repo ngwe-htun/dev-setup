@@ -104,7 +104,7 @@ class ItemService
             ->with('category.parentCategory')
             ->when(
                 !empty($subCategories),
-                fn ($query) => $query->whereIn('id', $subCategories),
+                fn ($query) => $query->whereIn('item_category_id', $subCategories),
                 fn ($query) => $query->where('item_category_id', $category?->id)
             )
             ->whereDate('available_date', '>=', Carbon::now())
