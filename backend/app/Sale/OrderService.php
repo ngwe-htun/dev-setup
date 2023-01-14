@@ -64,12 +64,11 @@ class OrderService
                 ->update([
                     'order_qty' => $item->order_qty + 1
                 ]);
-
             return $this->order->create(
                 [
                     'item_category_id' => $item?->category?->id,
                     'item_id' => $item->id,
-                    'city' => $item->city_id,
+                    'city_id' => $item->city_id,
                     'buyer_name' => $data['buyer_name'],
                     'father_name' => $data['father_name'],
                     'nrc_numbers' => $data['nrc_numbers'],
