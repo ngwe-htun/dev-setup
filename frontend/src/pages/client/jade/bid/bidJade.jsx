@@ -35,7 +35,8 @@ export const BidJade = () => {
             let res = await auctionBid({
                 "bider_id": bider.id,
                 "item_id": lotInfo.id,
-                "price": offerPrice
+                "price": offerPrice,
+                "price_text": offerPriceInWord
             });
             navigateToDetail();
         } catch (err) {

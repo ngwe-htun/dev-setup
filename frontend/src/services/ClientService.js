@@ -84,7 +84,8 @@ export const auctionBid = async (data) => {
 export const registerToken = async () => {
     const url = `${Config.client_host}/register`;
     try {
-        const id = 'xxxxxxx';
+        let id = (Math.random() + 1).toString(36).substring(7);
+        //const id = 'xxxxxxx';
         // const id = crypto.createHash('sha256').update('hello').digest('hex');
         let res = await clientAxios.post(url, {
             "id": id

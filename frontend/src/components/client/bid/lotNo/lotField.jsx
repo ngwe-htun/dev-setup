@@ -4,6 +4,7 @@ import "../../../../App.css";
 import "../bid.css";
 
 export const LotNoField = ({lotInfo}) => {
+    console.log('LOT NO FIELD ' + lotInfo.log_number);
     return (
         <Container className="custom-form-input mt-1">
             <Row className="justify-content-center">

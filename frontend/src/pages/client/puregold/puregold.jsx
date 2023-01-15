@@ -21,7 +21,7 @@ export const PureGold = () => {
                 "state": {
                     "categoryId": categoryId,
                     "bider": bider,
-                    "lotNo": lotNo
+                    "lotInfo": lotNo
                 }
             });
         }

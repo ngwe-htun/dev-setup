@@ -69,7 +69,6 @@ export default function Home({setAvailable}) {
 
     useEffect(() => {
         fetchCategories();
-        console.log('ICALLONE');
     }, []);
 
     return (

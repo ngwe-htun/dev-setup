@@ -28,7 +28,7 @@ export const createItem = async (
         if (quantity) {
             data['qty'] = quantity;
         } else {
-            data['qty'] = 0;
+            data['qty'] = 1;
         }
         console.log(data)
         let res = await axios.post(url, data, { headers: authHeader() })

@@ -135,7 +135,7 @@ const CategoryPage = () => {
               </DataTable>
             </div>
           </div>
-
+      
           {/** Add category dialog */}
           <Dialog header={Title.cat_add_cat_button_title} style={{ width: '30vw' }} footer={addCategoryDialogFooter} visible={showCategoryAdd} onHide={ ()=> { setShowCategoryAdd(false) } }>
             <div className='field pt-2'>
