@@ -52,7 +52,8 @@ export default function GoldOrder() {
                 "already_ordered": alreadyOrdered,
                 "term_condition": acceptTerm
             }
-            //let res = await order(data);
+            console.log(data);
+            let res = await order(data);
             nav('/gold/order/detail', {
                 "state" : {
                     "orderInfo": data
@@ -62,8 +63,6 @@ export default function GoldOrder() {
             console.log(err)
         }
     }
-
-    // Navigate
 
     return (
         <>

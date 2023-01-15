@@ -19,8 +19,20 @@ const AuctionReportPage = () => {
     const [typeLists, setTypeLists] = useState([]);
 
     const statusBodyTemplate = (rowData) => {
-        return <p>{rowData.id}</p>
-        //return <a href='/'>{rowData.id}</a>; nav('/');
+        return <p 
+            style={{
+              textDecoration: 'underline',
+              color: 'blue',
+              cursor: 'pointer'
+            }}
+            onClick={
+              ()=> { 
+                nav('/dashboard/report/auction/detail')
+              }
+            }
+          >
+            {rowData.id}
+          </p>
     }
 
     useEffect(() => {
@@ -94,7 +106,7 @@ const AuctionReportPage = () => {
             size="small" 
             showGridlines
             >
-            <Column field="id" header="ID" onClick={()=> console.log('CLICK')}></Column>
+            <Column field="id" header="ID" body={statusBodyTemplate}></Column>
             <Column field="bider_id" header="Bider ID"></Column>
             <Column field="category.name_mm" header="Category"></Column>
             <Column field="biding_price" header="Price"></Column>

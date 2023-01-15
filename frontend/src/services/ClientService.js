@@ -40,6 +40,7 @@ export const order = async (data) => {
         return res.data.data;
     } catch (err) {
         console.log(err.response.data);
+        throw Error(err.response.data);
     }
 }
 
@@ -85,6 +86,7 @@ export const registerToken = async () => {
     const url = `${Config.client_host}/register`;
     try {
         let id = (Math.random() + 1).toString(36).substring(7);
+        console.log(id);
         //const id = 'xxxxxxx';
         // const id = crypto.createHash('sha256').update('hello').digest('hex');
         let res = await clientAxios.post(url, {
