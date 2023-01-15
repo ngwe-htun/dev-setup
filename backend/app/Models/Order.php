@@ -25,6 +25,7 @@ class Order extends Model
     protected $fillable = [
         'item_category_id',
         'item_id',
+        'city_id',
         'buyer_name',
         'father_name',
         'nrc_numbers',
