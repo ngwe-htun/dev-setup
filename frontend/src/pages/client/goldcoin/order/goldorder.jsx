@@ -52,7 +52,6 @@ export default function GoldOrder() {
                 "already_ordered": alreadyOrdered,
                 "term_condition": acceptTerm
             }
-            console.log(data);
             let res = await order(data);
             nav('/gold/order/detail', {
                 "state" : {
