@@ -112,7 +112,7 @@ class OrderController extends Controller
             );
         }
 
-        if (Carbon::now()->gt(Carbon::parse($item->available_date))) {
+        if (Carbon::now()->diffInDays(Carbon::parse($item->available_date)) > 0) {
             return response()->json(
                 [
                     'message' => __('your order is out of date')
