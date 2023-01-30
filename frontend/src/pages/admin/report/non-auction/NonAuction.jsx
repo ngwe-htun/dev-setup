@@ -5,8 +5,11 @@ import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import { useState } from "react";
 import { Title } from "../../../../config/title";
+import { fetchNonAuctionReport } from "../../../../services/ReportService";
 
 const NonAuctionPage = () => {
+    const [data, setData] = useState([]);
+    const [dataList, setDataList] = useState([]);
     const [endDate, setEndDate] = useState('');
     const [startDate, setStartDate] = useState('');
 
@@ -34,10 +37,14 @@ const NonAuctionPage = () => {
     ]
 
     // Fetch reports
-    const fetchReports = () => {
+    const fetchReports = async () => {
         try {
-            let res = '';
-        } catch (err) {}
+            let res = await fetchNonAuctionReport(startDate, endDate);
+            console.log(res);
+            setData(res);
+        } catch (err) {
+          console.log(err);
+        }
     }
 
     return (
@@ -66,11 +73,11 @@ const NonAuctionPage = () => {
               <Calendar className="w-full" minDate={startDate} dateFormat="yy-mm-dd"  onChange={(e) => { setEndDate(e.value)}} />
             </div>
             <div className="flex pl-5">
-              <Button label={Title.submit} disabled={!(startDate && endDate)} onClick={() => {console.log(startDate); console.log(endDate)}}></Button>
+              <Button label={Title.submit} disabled={!(startDate && endDate)} onClick={() => {fetchReports();console.log(startDate); console.log(endDate)}}></Button>
             </div>
           </div>
           {/** Data table goes here */}
-          <DataTable value={reports} responsiveLayout="scroll" className="pt-5" header={
+          <DataTable value={data} responsiveLayout="scroll" className="pt-5" header={
             <div className="flex justify-content-end">    
               <div className="flex align-items-center export-buttons">
                 <Button type="button" label='Download CSV' className="mr-2 p-button-outlined p-button-success" data-pr-tooltip="CSV" />
@@ -85,10 +92,16 @@ const NonAuctionPage = () => {
             size="small" 
             showGridlines
             >
-            <Column field="code" header="Code"></Column>
-            <Column field="name" header="Name"></Column>
-            <Column field="category" header="Category"></Column>
-            <Column field="quantity" header="Quantity"></Column>
+            <Column field="parent_category.parent_category.name_mm" header="Category"></Column>
+            <Column field="parent_category.name_mm" header="Item"></Column>
+            <Column field="buyer_name" header="Buyer"></Column>
+            <Column field="nrc_numbers" header="NRC"></Column>
+            <Column field="city.display_name" header="City"></Column>
+            <Column field="phone_number" header="Phone"></Column>
+            <Column field="address" header="Address"></Column>
+            <Column field="monthly_income" header="Income"></Column>
+            <Column field="father_name" header="Father"></Column>
+            <Column field="created_at" header="Ordered at"></Column>
         </DataTable>
 
         </>

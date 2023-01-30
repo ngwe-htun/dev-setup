@@ -19,7 +19,8 @@ const AuctionReportPage = () => {
     const [typeLists, setTypeLists] = useState([]);
 
     const statusBodyTemplate = (rowData) => {
-        return <p 
+        return <p
+            className="p-0"
             style={{
               textDecoration: 'underline',
               color: 'blue',
@@ -102,15 +103,17 @@ const AuctionReportPage = () => {
               </span>
             </div>} 
             paginator
-            rows={10}
-            size="small" 
+            rows={20}
+            size="small"
             showGridlines
             >
             <Column field="id" header="ID" body={statusBodyTemplate}></Column>
             <Column field="bider_id" header="Bider ID"></Column>
             <Column field="category.name_mm" header="Category"></Column>
+            <Column field="log_number" header="Lot No"></Column>
             <Column field="biding_price" header="Price"></Column>
             <Column field="biding_price_text" header="Price In Word"></Column>
+            <Column field="created_at" header="Bid date"></Column>
         </DataTable>
         </>
     );

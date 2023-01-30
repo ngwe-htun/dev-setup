@@ -120,7 +120,7 @@ class ItemService
     public function getItemById(int $id): ?Item
     {
         return $this->item
-            ->where('id', $id)
+            ->where('item_category_id', $id)
             ->with('category')
             ->with('city')
             ->first();

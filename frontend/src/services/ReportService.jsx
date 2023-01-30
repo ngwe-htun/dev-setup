@@ -22,5 +22,20 @@ export const fetchAuctionReport = async (startDate, endDate) => {
 }
 
 export const fetchNonAuctionReport = async (startDate, endDate) => {
-    const url = ``;
+    const url = `${Config.admin_host}/report/order`;
+    try {
+        let res = await axios.get(
+            url,
+            {
+                params: {
+                    "start_date": startDate.toLocaleDateString(),
+                    "end_date": endDate.toLocaleDateString()
+                },
+                headers: authHeader()
+            }
+        );
+        return res.data.data;
+    } catch (err) {
+        console.log(err);
+    }
 }

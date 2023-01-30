@@ -123,6 +123,8 @@ const BidderPage = () => {
                   <Column field="name" header={Title.data_table_name}></Column>
                   <Column field="company" header={Title.data_table_company}></Column>
                   <Column field="country" header={Title.data_table_country}></Column>
+                  <Column field="available_count" header="Available count"></Column>
+                  <Column field="biding_count" header="Bidded count"></Column>
                   <Column body={dataTableAction} exportable={false} style={{ minWidth: '8rem' }}></Column>
                 </DataTable>
               </div>
