@@ -36,7 +36,6 @@ export default function Home({setAvailable}) {
         try {
             let ca = [];
             let res = await getAvailableCategories();
-            console.log(res);
             res.forEach(e => {
                 let toCheck = e.name_en;
                 ca[toCheck] = e.id;
@@ -45,11 +44,9 @@ export default function Home({setAvailable}) {
                     ca[toCheck] = e.parent_category.id;
                 }
                 if(toCheck in fields) {
-                    console.log(fields);
                     fields[toCheck]('');
                 }
             });
-            console.log(barDisable);
             setCategories(ca);
 
         } catch (err) {

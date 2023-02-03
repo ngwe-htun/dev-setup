@@ -8,17 +8,16 @@ import { Title } from "../../config/title";
 
 // Dashboard layout
 const DashboardPage = ({greet}) => {
-    console.log(greet)
     
     return (
         <>
           <MenuBarComponent user={greet}/>
           <div>
           <div className="grid m-0 p-0">
-            <div className="col-fixed pb-0" style={{width: "250px"}}>
+            <div className="col-fixed pb-0 pl-0" style={{width: "250px"}}>
                 <SidebarComponent/>
             </div>
-            <div className="col pl-7">
+            <div className="col px-4 mt-8 pt-3">
               <Outlet />
             </div>
           </div>

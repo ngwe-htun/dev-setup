@@ -34,15 +34,15 @@ import { CanOrder } from './routes/canOrder';
 import { BidPureGold } from './pages/client/puregold/bid/bid';
 import { BidJade } from './pages/client/jade/bid/bidJade';
 // import "./common/responsive.css";
-import { HasOrderInfo } from './routes/hasOrderInfo';
+import { HasBidInfo} from './routes/hasBidInfo';
 import { BidDetail } from './pages/client/detail/bid/detail';
 import OrderDetail from './pages/client/detail/order/detail';
 import OrderPdf from './components/pdf/orderpdf';
 import { ClientToken } from './routes/clientToken';
 import { getClientToken, storeClientToken } from './services/storage/ClientStorage';
 import { registerToken } from './services/ClientService';
-import { Logout } from './services/LogoutService';
 import { PrivateRoute } from './routes/privateRoute';
+import { HasOrderInfo } from './routes/hasOrderInfo';
 
 function App() {
 
@@ -74,18 +74,21 @@ function App() {
         <Route element={<CanOrder />}>
           <Route path='/gold/order' element={<GoldOrder />}></Route>
         </Route>
+
+        <Route element={<HasOrderInfo />} >
+          <Route path='/gold/order/detail' element={<OrderDetail />} />
+        </Route>
         {/** Order/Bid detail */}
-        <Route element={<HasOrderInfo />}>
-          <Route path="/gold/order/detail" element={<OrderDetail />} />
+        <Route element={<HasBidInfo />}>
           <Route path='/jade/bid/detail' element={<BidDetail />}></Route>
           <Route path='/gem/bid/detail' element={<BidDetail />}></Route>
           <Route path='/puregold/bid/detail' element={<BidDetail />}></Route>
         </Route>
       </Route>
+      {/* </Route> */}
 
       {/** LOGIN */}
       <Route path='/login' element={<LoginPage setGreet={setUser}/>} />
-      {/* <Route path='/logout' element={Logout()} /> */}
 
       {/** Private rotues */}
       <Route element={<PrivateRoute/>}>
@@ -100,16 +103,12 @@ function App() {
         <Route path='report/non-auction/detail' element={<NonAuctionDetailPage />} />
         <Route path='users' element={<UserPage />} />
         <Route path='manage'>
-          <Route path='password' element={< PasswordPage user={user} />} />
-        </Route>
-
-      </Route>
-      <Route path='manage'>
         <Route path='report/auction' element={<AuctionReportPage />} />
 
         <Route path='report/non-auction' element={<NonAuctionPage />} />
         <Route path='users' element={<UserPage />} />
         <Route path='password' element={<PasswordPage />} />
+      </Route>
       </Route>
       </Route>
     </Routes>

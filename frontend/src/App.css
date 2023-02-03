@@ -5,7 +5,6 @@
   }
 }
 
-
 @media screen and (min-width: 991px) {
   .custom-form-input .form-control, .form-select {
     height: 50px;
@@ -19,6 +18,10 @@
   } 
   .form-label, label, .form-select option {
     font-size: 17px !important;
+  }
+
+  .p-dropdown ,.p-inputtext {
+    height: 50px;
   }
 
   .home .figure-img {

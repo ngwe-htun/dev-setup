@@ -1,18 +1,15 @@
 import { clientTitle } from "../../../../config/clientTitles";
 import clientAxios from "../../../../services/axios/ClientAxios";
 import { Col, Row, Container, Card, Button } from "react-bootstrap";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 // GOLD COIN DETAIL
 const OrderDetail = () => {
     
-    const exportPdf = async (e) => {
-        try {
-            let res = await clientAxios.get('https://jsonplaceholder.typicode.com/todos/1');
-        } catch (err) {
-            console.log(err)
-        }
-    }
-    
+    // Consts
+    const navigate = useNavigate();
+    const orderInfo = useOutletContext()?.orderInfo;
+
     return(
         <>
             <Container>
@@ -26,7 +23,7 @@ const OrderDetail = () => {
                                         <p>{clientTitle.gold_order_buyer_name}</p>
                                     </Col>
                                     <Col className="text-right">
-                                        <p>Aung Aung</p>
+                                        <p>{orderInfo.buyer_name}</p>
                                     </Col>
                                 </Row>
                                 <hr />
@@ -36,7 +33,7 @@ const OrderDetail = () => {
                                         <p>{clientTitle.gold_order_father_name}</p>
                                     </Col>
                                     <Col className="text-right">
-                                        <p>U Kyaw</p>
+                                        <p>{orderInfo.father_name}</p>
                                     </Col>
                                 </Row>
                                 <hr />
@@ -46,27 +43,27 @@ const OrderDetail = () => {
                                         <p>{clientTitle.nrc_title}</p>
                                     </Col>
                                     <Col className="text-right">
-                                        <p>12/AHLANA (C) 000000</p>
+                                        <p>{orderInfo.nrc}</p>
                                     </Col>
                                 </Row>
                                 <hr />
                                 {/** Job */}
-                                <Row>
+                                {/* <Row>
                                     <Col>
                                         <p>{clientTitle.job_label}</p>
                                     </Col>
                                     <Col className="text-right">
                                         <p>လက်ယားလက်ယား</p>
                                     </Col>
-                                </Row>
-                                <hr />
+                                </Row> */}
+                                {/* <hr /> */}
                                 {/** Address */}
                                 <Row>
                                     <Col>
                                         <p>{clientTitle.address_label}</p>
                                     </Col>
                                     <Col className="text-right">
-                                        <p>လက်ယားလက်ယား</p>
+                                        <p>{orderInfo.address}</p>
                                     </Col>
                                 </Row>
                                 <hr />
@@ -76,7 +73,7 @@ const OrderDetail = () => {
                                         <p>{clientTitle.phone_label}</p>
                                     </Col>
                                     <Col className="text-right">
-                                        <p>ကီးပတ်ပဲရှိတယ်</p>
+                                        <p>{orderInfo.phone}</p>
                                     </Col>
                                 </Row>
                                 <hr />
@@ -86,7 +83,7 @@ const OrderDetail = () => {
                                         <p>{clientTitle.reason_to_buy_label}</p>
                                     </Col>
                                     <Col className="text-right">
-                                        <p>ကီးပတ်ပဲရှိတယ်</p>
+                                        <p>{orderInfo.purchase_reason}</p>
                                     </Col>
                                 </Row>
                                 <hr />
@@ -96,7 +93,7 @@ const OrderDetail = () => {
                                         <p>{clientTitle.monthly_salary_label}</p>
                                     </Col>
                                     <Col className="text-right">
-                                        <p>100000</p>
+                                        <p>{orderInfo.monthly_income}</p>
                                     </Col>
                                 </Row>
                                 <hr />
@@ -106,7 +103,7 @@ const OrderDetail = () => {
                                         <p>{clientTitle.already_order_label}</p>
                                     </Col>
                                     <Col className="text-right">
-                                        <p>မရှိ (No)</p>
+                                        <p>{orderInfo.already_ordered == 1 ? "ရှိ (Yes)": "မရှိ (No)"}</p>
                                     </Col>
                                 </Row>
                                 <hr />
@@ -116,7 +113,7 @@ const OrderDetail = () => {
                                         <p>{clientTitle.gold_order_aggrement}</p>
                                     </Col>
                                     <Col className="text-right">
-                                        <p>မရှိ (No)</p>
+                                        <p>{orderInfo.term_condition == 1 ? "ပြု (Yes)": "မပြု (No)"}</p>
                                     </Col>
                                 </Row>
                             </Card.Body>
@@ -134,10 +131,13 @@ const OrderDetail = () => {
                     <Col lg={8} md={8} sm={10} xs={12}>
                         <Row>
                             <Col>
-                                <Button className="w-full mr-3">hello</Button>
+                            <Button variant="outline-primary" className="w-full" onClick={() => navigate('/')}>{clientTitle.back_to_home_label}</Button>
                             </Col>
                             <Col>
-                                <Button className="w-full ml-3" onClick={()=>exportPdf()} >hello</Button>
+                            <Button className="w-full">
+                                <i className="pi pi-save pr-2"></i>
+                                {clientTitle.save_as_pdf_label}
+                            </Button>
                             </Col>
                         </Row>
                     </Col>

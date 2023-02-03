@@ -20,7 +20,9 @@ import { TwoInputFields } from '../../../../components/client/common/twoinput/tw
 export default function GoldOrder() {
 
     // Consts
+    const nav = useNavigate();
     const itemId = useOutletContext()?.itemId;
+    const cityId = useOutletContext()?.cityId;
 
     // States
     const [nrc, setNrc] = useState('');
@@ -39,6 +41,7 @@ export default function GoldOrder() {
         try {
             let data = {
                 "item_id": itemId,
+                "city_id": cityId,
                 "nrc": nrc,
                 "buyer_name": name,
                 "father_name": fatherName,
@@ -50,13 +53,15 @@ export default function GoldOrder() {
                 "term_condition": acceptTerm
             }
             let res = await order(data);
-            // Navigate to detail
+            nav('/gold/order/detail', {
+                "state" : {
+                    "orderInfo": data
+                }
+            });
         } catch (err) {
             console.log(err)
         }
     }
-
-    // Navigate
 
     return (
         <>

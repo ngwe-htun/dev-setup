@@ -4,8 +4,9 @@ export const CanOrder = () => {
 
     const state = useLocation()?.state;
     const itemId = useLocation()?.state?.itemId;
+    const cityId = useLocation()?.state?.cityId;
     
-    return (itemId) 
+    return (itemId && cityId) 
         ? <Outlet context={state} /> 
         : <Navigate to="/" />;
 };

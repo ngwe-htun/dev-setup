@@ -102,6 +102,7 @@ class OrderController extends Controller
         }
 
         $item = $this->item->getItemById($request->input('item_id'));
+        \Log::info('ITEM : ' . print_r($item, true));
 
         if (!$item) {
             return response()->json(

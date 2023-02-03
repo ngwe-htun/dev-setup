@@ -4,12 +4,13 @@ import { Button, Card, Col, Container, Figure, Row } from "react-bootstrap";
 import { clientTitle } from "../../../../config/clientTitles";
 import { LotNoField } from "../../../../components/client/bid/lotNo/lotField";
 import { BidRegField } from "../../../../components/client/bid/bidReg/bidRegField";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 // AUCTION DETAIL
 export const BidDetail = () => {
 
     // Consts
+    const nav = useNavigate();
     const bider = useOutletContext()?.bider;
     const lotInfo = useOutletContext()?.lotInfo;
     const orderInfo = useOutletContext()?.orderInfo.auction;
@@ -136,7 +137,7 @@ export const BidDetail = () => {
                 <Col lg={8} md={10} sm={12}>
                     <Row>
                         <Col>
-                            <Button variant="outline-primary" className="w-full">{clientTitle.back_to_home_label}</Button>
+                            <Button variant="outline-primary" className="w-full" onClick={() => nav('/')}>{clientTitle.back_to_home_label}</Button>
                         </Col>
                         <Col>
                             <Button className="w-full">

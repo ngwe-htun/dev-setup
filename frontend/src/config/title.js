@@ -1,6 +1,6 @@
 export const searchCategory = [
-    { "name": "abcd" },
-    { "name": "efg" }
+    { "name": "အမျိုးအစား - ၁" },
+    { "name": "အမျိုးအစား - ၂" }
 ];
 
 // Profile items
@@ -20,6 +20,7 @@ export const Title = {
 
     "search_title": "Search (ရှာရန်)",
     "search_button_label": "Search",
+    "search_dropdown_label": "ရွေးချယ်ပါ",
 
     "manage_password_title": "Change Password (လျှို့ဝှက်နံပါတ် ပြောင်းရန်)",
     "manage_password_old_password_title": "Type Old Password (လျှို့ဝှက်နံပါတ် အဟောင်းကို ရိုက်ပါ)",
@@ -74,6 +75,7 @@ export const Title = {
     "item_available_date_select": "Available Date (ဝယ်ယူနိုင်သည့်ရက်စွဲ)",
     "item_add_sub_select_title": "Select Category (အမျိုးအစား ရွေးပါ)",
     "item_add_quantity": "Quantity (အရေအတွက်)",
+    "item_add_base_price": "Price (စျေးနှုန်း)",
     "bid_page_title": "Bidder’s Registration List (မှတ်ပုံတင်ထားသောလေလံဆွဲသူ စာရင်း)",
     "bid_add_bidder_button_title": "New (အသစ် ထည့်မည်)",
     "bid_data_table_lot": "Lot No",

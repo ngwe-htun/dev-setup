@@ -48,12 +48,12 @@ export const GoldCoin = () => {
     const check = async (e) => {
         try {
             e.preventDefault();
-            console.log(category);
-            let res = await checkAvailability(categoryId, city, date);
+            let res = await checkAvailability(category, city, date);
             setNotAvailableAlert('');
             navigate('/gold/order', {
                 state: {
-                    "itemId": category
+                    "itemId": category,
+                    "cityId": city
                 }
             });
         } catch (err) {
@@ -98,7 +98,7 @@ export const GoldCoin = () => {
                                 {clientTitle.gold_coin_type_label} 
                                 <span className="required-star">*</span>                        
                             </Form.Label>
-                            <Form.Select onChange={ (e) => { setCategory(e.target.value) }} value={category}>
+                            <Form.Select onChange={ (e) => { console.log(e);setCategory(e.target.value) }} value={category}>
                                 <option value={city}></option>
                                 {
                                     categories.map( item => 

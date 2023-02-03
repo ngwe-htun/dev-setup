@@ -12,6 +12,7 @@ const LotInput = ({setSelectedLot}) => {
     const fetchLot = async () => {
         try {
             let res = await getItemWithLot(lotNo);
+            console.log(res);
             setSelectedLot(res);
         } catch (err) {
 

@@ -101,8 +101,8 @@ const BidderPage = () => {
 
           {/** Title */}
           <div className="grid m-0">
-            <div className="col"><h2>{Title.bid_page_title}</h2></div>
-            <div className="col text-right">
+            <div className="col-8"><h2>{Title.bid_page_title}</h2></div>
+            <div className="col-4 text-right">
               <Button label={Title.bid_add_bidder_button_title} icon="pi pi-plus" className="button-size" onClick={ () => { setShowCreate(true); }} />
             </div>
           </div>
@@ -123,6 +123,8 @@ const BidderPage = () => {
                   <Column field="name" header={Title.data_table_name}></Column>
                   <Column field="company" header={Title.data_table_company}></Column>
                   <Column field="country" header={Title.data_table_country}></Column>
+                  <Column field="available_count" header="Available count"></Column>
+                  <Column field="biding_count" header="Bidded count"></Column>
                   <Column body={dataTableAction} exportable={false} style={{ minWidth: '8rem' }}></Column>
                 </DataTable>
               </div>
