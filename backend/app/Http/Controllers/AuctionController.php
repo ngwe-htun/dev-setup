@@ -103,7 +103,7 @@ class AuctionController extends Controller
             );
         }
 
-        if (!(Carbon::parse($item->available_date) >= $now)) {
+        if (!(Carbon::parse($item->available_date) >= $now->setTime(0, 0))) {
             return response()->json(
                 [
                     'message' => __('can not auction to this item in current')
