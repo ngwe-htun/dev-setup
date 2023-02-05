@@ -145,7 +145,8 @@ class OrderController extends Controller
         if ($order = $this->order->createOrder($item, $data)) {
             return response()->json(
                 [
-                    'data' => $order
+                    'data' => $order,
+                    'item' => $item
                 ],
                 200
             );
