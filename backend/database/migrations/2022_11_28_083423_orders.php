@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('father_name');
             $table->string('nrc_numbers', 50);
             $table->longText('address');
-            $table->string('phone_number', 10);
+            $table->string('phone_number', 11);
             $table->longText('purchase_reason');
             $table->decimal('monthly_income');
             $table->boolean('already_ordered');

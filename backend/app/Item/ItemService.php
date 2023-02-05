@@ -123,6 +123,7 @@ class ItemService
             ->where('item_category_id', $id)
             ->with('category')
             ->with('city')
+            ->orderBy('id', 'desc')
             ->first();
     }
 

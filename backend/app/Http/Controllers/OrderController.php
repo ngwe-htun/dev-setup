@@ -84,7 +84,7 @@ class OrderController extends Controller
                 'father_name' => 'required|string',
                 'nrc' => 'required|string',
                 'address' => 'required|string',
-                'phone' => 'required|string|min:9|max:9',
+                'phone' => 'required|string|min:7|max:11',
                 'purchase_reason' => 'required|string',
                 'monthly_income' => 'required',
                 'already_ordered' => 'required',
@@ -102,7 +102,6 @@ class OrderController extends Controller
         }
 
         $item = $this->item->getItemById($request->input('item_id'));
-        \Log::info('ITEM : ' . print_r($item, true));
 
         if (!$item) {
             return response()->json(
@@ -113,7 +112,7 @@ class OrderController extends Controller
             );
         }
 
-        if (Carbon::now()->diffInDays(Carbon::parse($item->available_date)) > 0) {
+        if (Carbon::now()->setTime(0, 0)->diffInDays(Carbon::parse($item->available_date)->setTime(0, 0)) > 0) {
             return response()->json(
                 [
                     'message' => __('your order is out of date')
