@@ -26,7 +26,7 @@ class ItemController extends Controller
             'city_id' => 'required|integer',
             'base_price' => 'required',
             'sellable_currency' => 'required|string',
-            'available_date' => 'required|date|after:today',
+            'available_date' => 'required|date|after:yesterday',
             'qty' => 'required|integer'
         ]);
 
