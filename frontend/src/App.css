@@ -17,7 +17,7 @@
     font-size: 17px !important;
   } 
   .form-label, label, .form-select option {
-    font-size: 17px !important;
+    font-size: 13px !important;
   }
 
   .p-dropdown ,.p-inputtext {
@@ -30,7 +30,7 @@
   }
 
   .form-select, .form-control {
-    font-size: 17px !important;
+    font-size: 11px !important;
     height: 50px !important;
   }
 }

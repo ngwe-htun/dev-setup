@@ -1,6 +1,6 @@
 export const searchCategory = [
-    { "name": "အမျိုးအစား - ၁" },
-    { "name": "အမျိုးအစား - ၂" }
+    { "id": 1, "name": "Bider no ဖြင့်ရှာရန်" },
+    { "id": 2, "name": "အမည်ဖြင့်ရှာရန်" }
 ];
 
 // Profile items
@@ -31,6 +31,10 @@ export const Title = {
     "manage_password_should_match": "တူညီသင့်သည်",
 
     "manage_user_title": "Manage Users (အသုံးပြုသူများကို စီမံရန်)",
+    "manage_user_add_role": "Role သတ်မှတ်ရန်",
+    "manage_user_add_role_confirm_yes": "သတ်မှတ်မည်",
+    "manage_user_add_role_confirm_no": "မသတ်မှတ်တော့ပါ",
+    "manage_user_add_role_success": "Role သတ်မှတ်ခြင်းအောင်မြင်ပါသည်",
     "manage_user_add_user_button_label": "အသုံးပြုသူ ထပ်ပေါင်းထည့်မည်",
     "manage_user_data_table_action_header": "Actions (လုပ်ဆောင်ချက်များ)",
     "manage_user_data_table_header": "Add User (အသုံးပြုသူ ထပ်ပေါင်းထည့်ရန်)",
