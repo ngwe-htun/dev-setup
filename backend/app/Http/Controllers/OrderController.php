@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Item\ItemService;
 use App\Sale\OrderService;
 use Illuminate\Http\Request;
+use AgeekDev\Num\Facades\Num;
 use App\Item\CategoryService;
-use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -137,7 +138,7 @@ class OrderController extends Controller
             'address' => $request->input('address'),
             'phone_number' => $request->input('phone'),
             'purchase_reason' => $request->input('purchase_reason'),
-            'monthly_income' => $request->input('monthly_income'),
+            'monthly_income' => Num::toEnglish($request->input('monthly_income')),
             'already_ordered' => $request->input('already_ordered'),
             'term_condition' => $request->input('term_condition')
         ];

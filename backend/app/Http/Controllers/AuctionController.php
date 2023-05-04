@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bider;
+use Carbon\Carbon;
 use App\Item\ItemService;
 use App\Sale\BiderService;
 use App\Sale\AuctionService;
 use Illuminate\Http\Request;
+use AgeekDev\Num\Facades\Num;
 use App\Constants\AuctionConstant;
-use Carbon\Carbon;
 
 class AuctionController extends Controller
 {
@@ -128,7 +128,7 @@ class AuctionController extends Controller
             id: $available?->id,
             data: [
                 'city_id' => $request->input('city_id', -1),
-                'price' => $request->input('price'),
+                'price' => Num::toEnglish($request->input('price')),
                 'price_text' => $request->input('price_text'),
                 'status' => AuctionConstant::BIDED
             ]
