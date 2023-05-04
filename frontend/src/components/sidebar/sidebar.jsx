@@ -7,14 +7,6 @@ import {AccordionTab} from 'primereact/accordion';
 
 const SidebarComponent = () => {
     const navigate = useNavigate();
-
-    const cities = [
-        {name: 'New York', code: 'NY'},
-        {name: 'Rome', code: 'RM'},
-        {name: 'London', code: 'LDN'},
-        {name: 'Istanbul', code: 'IST'},
-        {name: 'Paris', code: 'PRS'}
-    ];
     
     const items =[
         {
@@ -59,7 +51,7 @@ const SidebarComponent = () => {
     
     return (
         <>
-            <Menu model={items} className="border-noround border-y-none sidebar mr-3 fixed w-15rem" />
+            <Menu model={items} className="border-noround border-y-none sidebar mr-3 fixed w-12rem" />
         </>
     );
 }

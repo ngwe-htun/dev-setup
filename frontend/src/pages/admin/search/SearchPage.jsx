@@ -4,18 +4,31 @@ import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { searchCategory, Title } from "../../../config/title";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 const SearchPage = () => {
   
   const [keyword, setKeyword] = useState('');
   const [searchCat, setSearchCat] = useState({});
 
+  const retrieveContent = () => {
+    console.log('Retrieving', searchCat);
+  }
+
+  const list = [
+    { "name": "Aung Aung", "nrc": "12/MaNaNa(C)123456", "phone": "0987654321", "city": "Yangon", "type": "1 tical", "date": "2022-12-12", "income": "150000" },
+    { "name": "Aung Aung", "nrc": "12/MaNaNa(C)123456", "phone": "0987654321", "city": "Yangon", "type": "1 tical", "date": "2022-12-12", "income": "150000" },
+    { "name": "Aung Aung", "nrc": "12/MaNaNa(C)123456", "phone": "0987654321", "city": "Yangon", "type": "1 tical", "date": "2022-12-12", "income": "150000" },
+    { "name": "Aung Aung", "nrc": "12/MaNaNa(C)123456", "phone": "0987654321", "city": "Yangon", "type": "1 tical", "date": "2022-12-12", "income": "150000" }
+];
+
   return (
         <>
           {/** Title */}
           <div className="gird">
             <div className="col p-0">
-              <h2 style={{fontFamily: "Pyidaungsu"}}>{Title.search_title}</h2>
+              <h2>{Title.search_title}</h2>
             </div>
           </div>
 
@@ -31,12 +44,24 @@ const SearchPage = () => {
                 </span>
             </div>
             <div className="col-2">
-                <Button label={Title.search_button_label} disabled={!keyword} />
+                <Button label={Title.search_button_label} disabled={!keyword} onClick={ () => retrieveContent() } />
               </div>
             
           </div>
 
-          {/** Searched content goes here */}
+          <DataTable
+            value={list}
+            paginator
+            rows={10}
+          >
+            <Column field="name" ></Column>
+                  <Column field="nrc" header={Title.nrc}></Column>
+                  <Column field="phone" header={Title.phone}></Column>
+                  <Column field="city" header={Title.city}></Column>
+                  <Column field="type" header={Title.gold_coin_type}></Column>
+                  <Column field="date" header={Title.date}></Column>
+                  <Column field="income" header={Title.monthly_income}></Column>
+          </DataTable>
         </>
     );
 }

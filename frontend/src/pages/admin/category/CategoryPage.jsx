@@ -53,7 +53,7 @@ const CategoryPage = () => {
       setCategory(null)
     }
 
-    const fetchSubCategories = async (category) => {
+    const fetchSubCategories = async (category) => {  
       try { 
         let result = [];
         let res = await getSubCategories(category.id);
@@ -124,9 +124,10 @@ const CategoryPage = () => {
               <DataTable 
                 value={filterList}
                 paginator
-                rows={10}
+                rows={1}
                 rowsPerPageOptions={[10,20,30]}
-                showGridlines
+                showGridlines 
+                size="small"
                 emptyMessage={Title.data_table_search_not_found}
               >
                 <Column field="name_en" header="Category Name - EN"></Column>
