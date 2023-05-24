@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+  
+  php:
+    build: 
+      context: .
+      dockerfile: php/Dockerfile 
+      args:
+        uid: ${UID}
+        user: ${PHP_USER}
+        php_version: ${PHP_VERSION}
+        composer_version: ${COMPOSER_VERSION}
+    image: laravel/php:${PHP_VERSION}
+    container_name: php
+    tty: true
+    working_dir: /var/www
+    ports:
+      - "8008:80"
+    volumes:
+      - ${CODE_PATH}:/var/www
+      - ~/.ssh:/home/${USER}/.ssh
+      - ./php/php.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:${NGINX_VERSION}
+    tty: true
+    container_name: nginx
+    ports:
+      - "${NGINX_HTTP_PORT}:80"
+    volumes:
+      - ${CODE_PATH}:/var/www
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    entrypoint:
+      - "nginx"
+    command: ["-g", "daemon off;"]
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
