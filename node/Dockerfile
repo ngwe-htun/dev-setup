@@ -1,0 +1,7 @@
+ARG NODE_VERSION
+
+FROM node:${NODE_VERSION}
+
+WORKDIR /app
+
+USER node
