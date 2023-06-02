@@ -13,6 +13,7 @@ ARG uid
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
+    vim \
     unzip \
     libpng-dev \
     libonig-dev \
@@ -25,6 +26,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
 
 # Prepare composer
 COPY --from=base /usr/bin/composer /usr/bin/composer

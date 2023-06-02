@@ -1,0 +1,4 @@
+Extensions
+
+- Bracket Pair Colorizer
+- Prettier

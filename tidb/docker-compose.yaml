@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+
+  pd:
+    image: pingcap/pd:${TIDB_PD_VERSION}
+    container_name: tipd
+    volumes:
+      - tipd_data:/data
+    networks:
+      - dev-env-network
+
+  tikv:
+    image: pingcap/tikv:${TIDB_TIKV_VERSION}
+    container_name: tikv
+    volumes:
+      - tidb_log:/logs
+    networks:
+      - dev-env-network
+  
+  tidb:
+    image: pingcap/tidb:${TIDB_TIDB_VERSION}
+    container_name: tidb
+    volumes:
+      - tidb_log:/logs
+    networks:
+      - dev-env-network
+
+networks:
+  dev-env-network:
+    name: dev-env-network
+    driver: bridge
+
+volumes:
+  tidb_log:
+    driver: local
+  tipd_data:
+    driver: local
