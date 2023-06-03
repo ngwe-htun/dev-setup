@@ -1,12 +1,12 @@
 version: '3.9'
 
 services:
-  
+
   # PHP
   php:
-    build: 
+    build:
       context: .
-      dockerfile: php/Dockerfile 
+      dockerfile: php/Dockerfile
       args:
         uid: ${UID}
         user: ${PHP_USER}
@@ -17,7 +17,7 @@ services:
     tty: true
     working_dir: /var/www
     ports:
-      - "8888:80"
+      - "${PHP_WORKSPACE_PORT}:80"
     volumes:
       - ${CODE_PATH}:/var/www
       - ~/.ssh:/home/${USER}/.ssh
@@ -26,6 +26,7 @@ services:
       - dev-env-network
 
   # PHP-SWOOLE
+  # Note: Don't use it yet. Have to modify.
   php-swoole:
     image: ${PRIVATE_REGISTRY}/${SWOOLE_IMAGE}:${SWOOLE_VERSION}
     container_name: php-swoole
@@ -35,7 +36,20 @@ services:
       - ${CODE_PATH}:/var/www
     networks:
       - dev-env-network
-      
+
+  # NODEJS
+  nodejs:
+    image: node:${NODE_VERSION}
+    container_name: nodejs
+    tty: true
+    working_dir: /app
+    ports:
+      - "${NODEJS_PORT}:3000"
+    volumes:
+      - ${CODE_PATH}:/app
+    networks:
+      - dev-env-network
+
   # NGINX
   nginx:
     image: nginx:${NGINX_VERSION}
@@ -48,14 +62,14 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
     entrypoint:
       - "nginx"
-    command: ["-g", "daemon off;"]
+    command: [ "-g", "daemon off;" ]
     networks:
       - dev-env-network
 
   # MYSQL
   mysql:
     image: mysql:${MYSQL_VERSION}
-    tty: true 
+    tty: true
     container_name: mysql
     ports:
       - "${MYSQL_HTTP_PORT}:3306"
@@ -95,7 +109,7 @@ services:
       - redis_data:/data
     networks:
       - dev-env-network
-  
+
   # REDIS INSIGHT
   redis-inside:
     image: redislabs/redisinsight:${REDIS_INSIDE_VERSION}
@@ -123,39 +137,49 @@ services:
     networks:
       - dev-env-network
 
-  # 
+  # GOLANG
+  golang:
+    image: golang:${GOLANG_VERSION}
+    container_name: golang
+    tty: true
+    ports:
+      - ${GOLANG_PORT}:7000
+    volumes:
+      - ${CODE_PATH}:/go
+    networks:
+      - dev-env-network
 
   # MONGODB
-  # mongo:
-  #   image: mongo:${MONGODB_VERSION}
-  #   tty: true
-  #   container_name: mongo
-  #   ports:
-  #     - "${MONGODB_PORT}:27017"
-  #   volumes:
-  #     - mongo_data:/data/db
-  #   environment:
-  #     - MONGO_INITDB_ROOT_USERNAME=${MONGODB_ROOT_USERNAME}
-  #     - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_ROOT_PASSWORD}
-  #   networks:
-  #     - dev-env-network
-  
+  mongo:
+    image: mongo:${MONGODB_VERSION}
+    tty: true
+    container_name: mongo
+    ports:
+      - "${MONGODB_PORT}:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_ROOT_PASSWORD}
+    networks:
+      - dev-env-network
+
   # MONGO_EXPRESS
-  # mongo-express:
-  #   image: mongo-express:${ME_VERSION}
-  #   tty: true
-  #   container_name: mongo-express
-  #   ports:
-  #     - "${ME_HTTP_PORT}:8081"
-  #   depends_on:
-  #     - mongo
-  #   environment:
-  #     - ME_CONFIG_MONGODB_SERVER=mongo
-  #     - ME_CONFIG_MONGODB_ADMINUSERNAME=${ME_USERNAME}
-  #     - ME_CONFIG_MONGODB_ADMINPASSWORD=${ME_PASSWORD}
-  #     - ME_CONFIG_MONGODB_URL=mongodb://${MONGODB_ROOT_USERNAME}:${MONGODB_ROOT_PASSWORD}@mongo:27017/
-  #   networks:
-  #     - dev-env-network
+  mongo-express:
+    image: mongo-express:${ME_VERSION}
+    tty: true
+    container_name: mongo-express
+    ports:
+      - "${ME_HTTP_PORT}:8081"
+    depends_on:
+      - mongo
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=${ME_USERNAME}
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=${ME_PASSWORD}
+      - ME_CONFIG_MONGODB_URL=mongodb://${MONGODB_ROOT_USERNAME}:${MONGODB_ROOT_PASSWORD}@mongo:27017/
+    networks:
+      - dev-env-network
 
 # Network
 networks:
@@ -173,5 +197,5 @@ volumes:
     driver: local
   minio_data:
     driver: local
-  # mongo_data:
-  #   driver: local
+  mongo_data:
+    driver: local
