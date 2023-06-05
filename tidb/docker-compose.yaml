@@ -69,6 +69,8 @@ services:
     image: ticlient
     tty: true
     container_name: ticlient
+    depends_on:
+      - tidb
     networks:
       - dev-env-network
 
@@ -91,7 +93,6 @@ services:
     command:
       - --log.level=error
       - --config.file=/etc/prometheus/prometheus.yml
-      - --storage.tsdb.retention.time=1h
     ports:
       - "${PROMETHEUS_PORT}:9090"
     volumes:
