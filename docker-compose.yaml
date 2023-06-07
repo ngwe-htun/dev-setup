@@ -26,14 +26,28 @@ services:
       - dev-env-network
 
   # PHP-SWOOLE
-  # Note: Don't use it yet. Have to modify.
   php-swoole:
-    image: ${PRIVATE_REGISTRY}/${SWOOLE_IMAGE}:${SWOOLE_VERSION}
+    image: ngwehtun/php-swoole:${PHP_VERSION}
+    # build:
+    #   context: .
+    #   dockerfile: php-swoole/Dockerfile
+    #   args:
+    #     - USER=${PHP_SWOOLE_USER}
+    #     - PHP_VERSION=${PHP_VERSION}
+    #     - PRIVATE_REGISTRY=${PRIVATE_REGISTRY}
+    #     - SWOOLE_IMAGE=${SWOOLE_IMAGE}
+    #     - SWOOLE_VERSION=${SWOOLE_VERSION}
+    # image: php-swoole:${PHP_VERSION}
     container_name: php-swoole
     tty: true
     working_dir: /var/www
+    ports:
+      - ${PHP_SWOOLE_HTTP_PORT}:1215
+      - ${PHP_SWOOLE_GRPC_PORT}:9000
+      - ${PHP_SWOOLE_SUPERVISOR_PORT}:9876
     volumes:
       - ${CODE_PATH}:/var/www
+      - ./php-swoole/supervisor:/etc/supervisor
     networks:
       - dev-env-network
 
