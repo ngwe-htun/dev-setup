@@ -20,8 +20,10 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install and enable swoole
-RUN pecl install swoole && \
-    docker-php-ext-enable swoole
+RUN pecl install swoole
+
+RUN docker-php-ext-install pdo_mysql && \
+    docker-php-ext-enable swoole pdo_mysql
 
 # System user
 RUN useradd -G www-data,root -u $UID -d /home/$USER $USER
