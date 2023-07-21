@@ -1,9 +1,6 @@
 import './order.css';
-import { saveAs } from 'file-saver'
-import { pdf } from "@react-pdf/renderer"
 import { useNavigate, useOutletContext } from 'react-router';
 import { useEffect, useState } from 'react';
-import OrderPdf from '../../../../components/pdf/orderpdf';
 import { clientTitle } from '../../../../config/clientTitles';
 import { NrcField } from '../../../../components/client/nrc/nrc';
 import { ClientBack } from '../../../../components/client/back/back';

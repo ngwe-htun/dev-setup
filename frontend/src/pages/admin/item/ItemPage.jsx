@@ -245,7 +245,7 @@ const ItemPage = () => {
               >
                 <Column field="id" header="ID"></Column>
                 <Column field="category.name_mm" header="Main Category" ></Column>
-                <Column field="item" header="Category"></Column>
+                <Column field="category.parent_category.name_mm" header="Category"></Column>
                 <Column field="log_number" header="Lot No"></Column>
                 <Column field="base_price" header="Base price"></Column>
                 <Column field="qty" header="Quantity"></Column>

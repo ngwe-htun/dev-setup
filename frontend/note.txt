@@ -1,0 +1,16 @@
+Dashboard
+- Pagination Bug
+
+DashboardPage.jsx
+- width: 250px » width: 185px
+
+Sidebar.jsx
+- remove » w-12rem mr-3
+
+Sidebar.css
+.sidebar {
+————————--
+——————-
+—————————-
+» width: fit-content;
+}

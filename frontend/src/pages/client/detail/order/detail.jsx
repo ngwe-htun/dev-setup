@@ -1,7 +1,9 @@
+import { useRef } from "react";
 import { clientTitle } from "../../../../config/clientTitles";
 import clientAxios from "../../../../services/axios/ClientAxios";
 import { Col, Row, Container, Card, Button } from "react-bootstrap";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import { HandleExport } from "../../../../components/exporter/Exporter";
 
 // GOLD COIN DETAIL
 const OrderDetail = () => {
@@ -9,11 +11,12 @@ const OrderDetail = () => {
     // Consts
     const navigate = useNavigate();
     const orderInfo = useOutletContext()?.orderInfo;
+    const htmlRef = useRef(null);
 
     return(
         <>
             <Container>
-                <Row className="justify-content-center">
+                <Row className="justify-content-center" ref={htmlRef}>
                     <Col lg={8} md={8} sm={10} xs={12}>
                         <Card>
                             <Card.Body>
@@ -48,15 +51,15 @@ const OrderDetail = () => {
                                 </Row>
                                 <hr />
                                 {/** Job */}
-                                {/* <Row>
+                                <Row>
                                     <Col>
                                         <p>{clientTitle.job_label}</p>
                                     </Col>
                                     <Col className="text-right">
                                         <p>လက်ယားလက်ယား</p>
                                     </Col>
-                                </Row> */}
-                                {/* <hr /> */}
+                                </Row>
+                                <hr />
                                 {/** Address */}
                                 <Row>
                                     <Col>
@@ -134,7 +137,7 @@ const OrderDetail = () => {
                             <Button variant="outline-primary" className="w-full" onClick={() => navigate('/')}>{clientTitle.back_to_home_label}</Button>
                             </Col>
                             <Col>
-                            <Button className="w-full">
+                            <Button className="w-full" onClick={async () => HandleExport({ref: htmlRef, name: 'gold_order'})}>
                                 <i className="pi pi-save pr-2"></i>
                                 {clientTitle.save_as_pdf_label}
                             </Button>

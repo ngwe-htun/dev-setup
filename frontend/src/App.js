@@ -14,7 +14,6 @@ import { BidDetail } from "./pages/client/detail/bid/detail";
 import BidGem from "./pages/client/gem/bid/bidGem";
 import { BidJade } from "./pages/client/jade/bid/bidJade";
 // import "bootstrap-icons/font/bootstrap-icons.css";
-// import OrderPdf from './components/pdf/orderpdf';
 import { BidPureGold } from "./pages/client/puregold/bid/bid";
 import BidderPage from "./pages/admin/bidder/BidderPage";
 import { CanBidWithLot } from "./routes/canBidWithLot";
@@ -35,7 +34,6 @@ import LoginPage from "./pages/login/LoginPage";
 import NonAuctionDetailPage from "./pages/admin/report/non-auction/detail/NonAuctionDetail";
 import NonAuctionPage from "./pages/admin/report/non-auction/NonAuction";
 import OrderDetail from "./pages/client/detail/order/detail";
-import OrderPdf from "./components/pdf/orderpdf";
 import { OrderShouldAvailable } from "./routes/shouldAvailable";
 import PasswordPage from "./pages/admin/password/PasswordPage";
 import { PrivateRoute } from "./routes/privateRoute";
@@ -50,11 +48,6 @@ function App() {
   return (
     <Routes>
       <Route path="/orderdetail" element={<OrderDetail />} />
-      <Route
-        path="/export"
-        element={<OrderPdf name={"test"} fatherName={"test"} />}
-      />
-
       {/** Public routes */}
       <Route
         element={

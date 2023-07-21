@@ -5,6 +5,8 @@ import { clientTitle } from "../../../../config/clientTitles";
 import { LotNoField } from "../../../../components/client/bid/lotNo/lotField";
 import { BidRegField } from "../../../../components/client/bid/bidReg/bidRegField";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import { createRef, useRef } from "react";
+import ExporterComponent, { HandleExport, handleExport } from "../../../../components/exporter/Exporter";
 
 // AUCTION DETAIL
 export const BidDetail = () => {
@@ -15,8 +17,11 @@ export const BidDetail = () => {
     const lotInfo = useOutletContext()?.lotInfo;
     const orderInfo = useOutletContext()?.orderInfo.auction;
 
+    const htmlRef = useRef(null);
+
     return (
         <>
+        <div  ref={htmlRef}>
         <Container>
             <Row className="justify-content-center">
                 <Col lg={8} md={8} sm={10} xs={12}>
@@ -132,15 +137,17 @@ export const BidDetail = () => {
                     <p className="text-danger">စျေးနှုန်းတင်သွင်းလွှာအား လွှဲပြောင်းခွင့်မပြု။ မိမိရေးသားချက်အပေါ် တာဝန်ယူရမည်။ / This form is not permitted to transfer. It is your responsibility for the data on this bidding form. / 请勿转让此标单。要负责自己写的一切。</p>
                 </Col>
             </Row>
-
-            <Row className="justify-content-center mt-3 mb-3">
+        </Container>
+        </div>
+        <Container>
+        <Row className="justify-content-center mt-3 mb-3">
                 <Col lg={8} md={10} sm={12}>
                     <Row>
                         <Col>
                             <Button variant="outline-primary" className="w-full" onClick={() => nav('/')}>{clientTitle.back_to_home_label}</Button>
                         </Col>
                         <Col>
-                            <Button className="w-full">
+                            <Button className="w-full" onClick={async () => HandleExport({ref: htmlRef, name: 'bid'})}>
                                 <i className="pi pi-save pr-2"></i>
                                 {clientTitle.save_as_pdf_label}
                             </Button>

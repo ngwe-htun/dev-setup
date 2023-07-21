@@ -84,9 +84,10 @@ export const auctionBid = async (data) => {
 export const registerToken = async () => {
   const url = `${Config.client_host}/register`;
   let id = btoa(window.navigator.userAgent);
-  return clientAxios
+  console.log(id)
+  return axios
     .post(url, {
-      id: id,
+      id: id
     })
     .then((res) => {
       localStorage.setItem("client-access-token", res.data.token);
