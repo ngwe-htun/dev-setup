@@ -11,11 +11,20 @@ There are different methods to use docker based on your OS -
 
 ### Install docker
 - [Installation](./docs/install_docker.md)
+---
 
 ### Available services -
   - [php](./php/docs/overview.md)
   - [nodejs](./node/docs/overview.md)
   - ...
+---
+
+### Prepare `.env`
+*Preparing environment file*
+- ```
+  cp .env.example .env
+  ```
+---
 
 #### EXTRA
 - *More to come ...*
