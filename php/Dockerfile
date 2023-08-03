@@ -3,7 +3,7 @@ ARG COMPOSER_VERSION=latest
 
 FROM composer:${COMPOSER_VERSION} as composer
 
-FROM php:${PHP_VERSION}-cli
+FROM php:${PHP_VERSION}-fpm
 
 RUN apt update -y && \
     apt install -y --no-install-recommends \
