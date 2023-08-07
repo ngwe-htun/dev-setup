@@ -16,6 +16,7 @@ There are different methods to use docker based on your OS -
 ### Available services -
   - [php](./php/docs/overview.md)
   - [nodejs](./node/docs/overview.md)
+  - [tidb](./tidb/docs/overview.md)
   - ...
 ---
 
@@ -27,4 +28,19 @@ There are different methods to use docker based on your OS -
 ---
 
 #### EXTRA
-- *More to come ...*
+##### CUSTOMIZATION 
+- *Coming soon*
+---
+
+##### CI EXAMPLE (SIMPLE)
+- [DEMO](https://git.frontiir.net/ngwe.htun/explore)
+- Folder
+  - ci
+    - react
+      - `.gitlab-ci.yml` - CI example for react
+    - angular
+      - `.gitlab-ci.yml` - CI example for react
+    - ...
+---
+
+*Happy coding*

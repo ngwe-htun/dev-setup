@@ -7,13 +7,15 @@ RUN npm install -g \
     @angular/cli \ 
     mocha \
     jest \
-    nyc \ 
-    yarn
+    nyc
 
 RUN apt-get update -y && \
     apt-get install -y \ 
     vim \
+    chromium \
     supervisor && \
     apt-get clean
+
+ENV CHROME_BIN=/usr/bin/chromium
 
 ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisor/supervisord.conf"]

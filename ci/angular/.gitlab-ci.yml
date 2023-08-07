@@ -1,0 +1,70 @@
+stages:
+  - install
+  - test
+  - build
+
+image: $BASE_IMAGE
+
+.runner:
+  tags:
+    - $RUNNER_TAG
+
+.branches:
+  only:
+    - angular
+
+install:
+  stage: install
+  extends:
+    - .runner
+    - .branches
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+      - package.json
+    expire_in: 1 days
+  cache:
+    key: cache-$CI_COMMIT_REF_SLUG
+    paths:
+      - node_modules/
+  allow_failure: false
+
+lint:
+  stage: test
+  extends:
+    - .runner
+    - .branches
+  dependencies:
+    - install
+  script: 
+    - npm run lint
+  allow_failure: false
+
+test:
+  stage: test
+  extends:
+    - .runner
+    - .branches
+  script: 
+    - echo 'Testing will coming soon...'
+  allow_failure: false
+
+build:
+  stage: build
+  image: docker:latest
+  extends:
+    - .runner
+    - .branches
+  variables:
+    IMAGE_NAME: "explore-angular-app"
+  before_script:
+    - echo "$DOCKER_REGISTRY_PASS" | docker login --username $DOCKER_REGISTRY_USER --password-stdin
+  script: 
+    - docker build -t $IMAGE_NAME:$CI_COMMIT_REF_SLUG -q --force-rm --pull --compress --no-cache .
+    - docker image tag $IMAGE_NAME:$CI_COMMIT_REF_SLUG $DOCKER_REGISTRY_USER/$IMAGE_NAME:$CI_COMMIT_REF_SLUG
+    - docker image push $DOCKER_REGISTRY_USER/$IMAGE_NAME:$CI_COMMIT_REF_SLUG
+    - docker image rm $DOCKER_REGISTRY_USER/$IMAGE_NAME:$CI_COMMIT_REF_SLUG $IMAGE_NAME:$CI_COMMIT_REF_SLUG
+  when: manual
+  allow_failure: false

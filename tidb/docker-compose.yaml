@@ -1,0 +1,140 @@
+version: '3.9'
+
+services:
+
+  # TIPD
+  pd:
+    image: pingcap/pd:${TIDB_PD_VERSION}
+    container_name: tipd
+    ports:
+      - "${TIDB_PD_PORT}:2379"
+    volumes:
+      - tipd_data:/data
+      - ./config/pd.toml:/pd.toml:ro
+    command:
+      - --name=pd
+      - --client-urls=http://0.0.0.0:2379
+      - --peer-urls=http://0.0.0.0:2380
+      - --advertise-client-urls=http://pd:2379
+      - --advertise-peer-urls=http://pd:2380
+      - --initial-cluster=pd=http://pd:2380
+      - --data-dir=/data
+      - --config=/pd.toml
+    networks:
+      - local-dev
+
+  # TIKV
+  tikv:
+    image: pingcap/tikv:${TIDB_TIKV_VERSION}
+    container_name: tikv
+    volumes:
+      - tikv_data:/data
+      - ./config/kv.toml:/tikv.toml:ro
+    command:
+      - --addr=0.0.0.0:20160
+      - --advertise-addr=tikv:20160
+      - --data-dir=/data
+      - --pd=pd:2379
+      - --config=/tikv.toml
+    depends_on:
+      - pd
+    networks:
+      - local-dev
+
+  # TIDB
+  tidb:
+    image: pingcap/tidb:${TIDB_TIDB_VERSION}
+    container_name: tidb
+    ports:
+      - "${TIDB_PORT}:4000"
+      - "${TIDB_API_PORT}:10080"
+    volumes:
+      - tidb_data:/data
+      - ./config/db.toml:/tidb.toml:ro
+    command:
+      - --store=tikv
+      - --path=pd:2379
+      - --config=/tidb.toml
+      - --advertise-address=tidb
+    depends_on:
+      - tikv
+    networks:
+      - local-dev
+
+  # TICLIENT
+  ticlient:
+    image:  ${TICLIENT_IMAGE}:${TICLIENT_IMAGE_TAG}
+    tty: true
+    container_name: ticlient
+    depends_on:
+      - tidb
+    networks:
+      - local-dev
+
+  # PUSHGATEWAY
+  pushgateway:
+    image: prom/pushgateway:${PUSHGATEWAY_VERSION}
+    container_name: pushgateway
+    volumes:
+      - push_g_data:/data
+    command:
+      - --log.level=error
+    networks:
+      - local-dev
+
+  # PROMETHEUS
+  prometheus:
+    user: root
+    image: prom/prometheus:${PROMETHEUS_VERSION}
+    container_name: prometheus
+    command:
+      - --log.level=error
+      - --config.file=/etc/prometheus/prometheus.yml
+    ports:
+      - "${PROMETHEUS_PORT}:9090"
+    volumes:
+      - ./config/pd.rules.yml:/etc/prometheus/pd.rules.yml:ro
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./config/tikv.rules.yml:/etc/prometheus/tikv.rules.yml:ro
+      - ./config/tidb.rules.yml:/etc/prometheus/tidb.rules.yml:ro
+      - prom_data:/prometheus
+    networks:
+      - local-dev
+
+  # GRAFANA
+  grafana:
+    image: grafana/grafana:${GRAFANA_VERSION}
+    user: "0"
+    container_name: grafana
+    environment:
+      GF_LOG_LEVEL: error
+      GF_PATHS_PROVISIONING: /etc/grafana/provisioning
+      GF_PATHS_CONFIG: /etc/grafana/grafana.ini
+    volumes:
+      - ./config/grafana:/etc/grafana
+      - ./config/dashboards:/tmp/dashboards
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "${GRAFANA_PORT}:3000"
+    networks:
+      - local-dev
+
+networks:
+  local-dev:
+    name: local-dev
+    driver: bridge
+
+# VOLULMES
+volumes:
+  tikv_data:
+    driver: local
+  tipd_data:
+    driver: local
+  tidb_data:
+    driver: local
+  prom_data:
+    driver: local
+  grafana_data:
+    driver: local
+  push_g_data:
+    driver: local

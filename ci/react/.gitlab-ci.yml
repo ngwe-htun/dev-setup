@@ -1,0 +1,80 @@
+stages:
+  - install
+  - test
+  - build
+
+image: $REACT_BASE_NODE_IMAGE
+
+.runner:
+  tags:
+    - $RUNNER_TAG
+
+.branches:
+  only:
+    - react
+
+install:
+  stage: install
+  extends:
+    - .runner
+    - .branches
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+      - package.json
+    expire_in: 1 days
+  cache:
+    key: cache-$CI_COMMIT_REF_SLUG
+    paths:
+      - node_modules/
+  allow_failure: false
+
+lint:
+  stage: test
+  extends:
+    - .runner
+    - .branches
+  dependencies:
+    - install
+  script:
+    - node_modules/eslint/bin/eslint.js src/* --quiet
+  allow_failure: false
+
+test:
+  stage: test
+  extends:
+    - .runner
+    - .branches
+  dependencies:
+    - install
+  script: 
+    - npm run test:ci
+  artifacts:
+    paths:
+      - coverage/
+    expire_in: 1 days
+    reports:
+      junit:
+        - junit.xml
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  allow_failure: false
+
+build:
+  stage: build
+  image: docker:latest
+  extends:
+    - .runner
+    - .branches
+  variables:
+    IMAGE_NAME: "explore-react-typescript-app"
+  before_script:
+    - echo "$DOCKER_REGISTRY_PASS" | docker login --username $DOCKER_REGISTRY_USER --password-stdin
+  script: 
+    - docker build -t $IMAGE_NAME:$CI_COMMIT_REF_SLUG -q --force-rm --pull --compress --no-cache .
+    - docker image tag $IMAGE_NAME:$CI_COMMIT_REF_SLUG $DOCKER_REGISTRY_USER/$IMAGE_NAME:$CI_COMMIT_REF_SLUG
+    - docker image push $DOCKER_REGISTRY_USER/$IMAGE_NAME:$CI_COMMIT_REF_SLUG
+    - docker image rm $DOCKER_REGISTRY_USER/$IMAGE_NAME:$CI_COMMIT_REF_SLUG $IMAGE_NAME:$CI_COMMIT_REF_SLUG
+  when: manual
+  allow_failure: false
