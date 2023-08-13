@@ -123,6 +123,7 @@ networks:
   local-dev:
     name: local-dev
     driver: bridge
+    external: true
 
 # VOLULMES
 volumes:

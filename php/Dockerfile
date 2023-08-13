@@ -10,24 +10,23 @@ RUN apt update -y && \
     unzip \
     libzip-dev \
     libpng-dev \
-    libjpeg-dev
+    libjpeg-dev \
+    git \ 
+    vim
 
 RUN apt clean && \
     apt autoremove
 
 RUN pecl install \
-    pcov \
-    zip
+    pcov
 
 RUN docker-php-ext-install \
     zip \ 
-    pdo_mysql \ 
+    pdo_mysql \
+    opcache \
     gd && \
     docker-php-ext-enable \
-    pcov \ 
-    zip \
-    pdo_mysql \ 
-    gd
+    pcov
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
