@@ -17,6 +17,23 @@ services:
       - ./php/php.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - local-dev
+  
+  #---------------------
+  # PHP-SWOOLE SERVICE -
+  #---------------------
+  php-swoole:
+    image: ${PHP_SWOOLE_BASE_IMAGE}:${PHP_SWOOLE_VERSION}
+    container_name: php-swoole
+    tty: true
+    working_dir: /var/www
+    ports:
+      - ${PHP_SWOOLE_HTTP_PORT}:1215
+      - ${PHP_SWOOLE_GRPC_PORT}:9000
+    volumes:
+      - ${PHP_SWOOLE_CODE_PATH}:/var/www
+      - ./php/php.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - local-dev
 
   #----------------
   # NGINX SERVICE -
@@ -55,7 +72,45 @@ services:
     networks:
       - local-dev
 
+  #-----------------
+  # GOLANG SERVICE -
+  #-----------------
+  golang:
+    image: ${GOLANG_IMAGE}:${GOLANG_VERSION}
+    container_name: golang
+    tty: true
+    ports:
+      - ${GOLANG_GRPC_PORT}:5000
+      - ${GOLANG_HTTP_PORT}:8080
+    volumes:
+      - ${GOLANG_PROJECT_PATH}:/go
+    networks:
+      - local-dev
+
+  #----------------
+  # REDIS SERVICE -
+  #----------------
+  redis:
+    image: ${REDIS_IMAGE}:${REDIS_VERSION}
+    container_name: redis
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - redis_data:/data
+    networks:
+      - local-dev
+
+#----------
+# NETWORK -
+#----------
 networks:
   local-dev:
     name: local-dev
     driver: bridge
+
+#----------
+# VOLUMES -
+#----------
+volumes:
+  redis_data:
+    driver: local
