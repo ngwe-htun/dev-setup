@@ -28,7 +28,7 @@ services:
     working_dir: /var/www
     ports:
       - ${PHP_SWOOLE_HTTP_PORT}:1215
-      - ${PHP_SWOOLE_GRPC_PORT}:9000
+      - ${PHP_SWOOLE_GRPC_PORT}:9002
     volumes:
       - ${PHP_SWOOLE_CODE_PATH}:/var/www
       - ./php/php.ini:/usr/local/etc/php/conf.d/local.ini

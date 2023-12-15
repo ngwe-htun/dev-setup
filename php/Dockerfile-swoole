@@ -12,7 +12,8 @@ RUN apt update -y && \
     libpng-dev \
     libjpeg-dev \
     git \ 
-    vim
+    vim \
+    ssh
 
 RUN apt clean && \
     apt autoremove
