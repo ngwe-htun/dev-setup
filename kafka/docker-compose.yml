@@ -1,0 +1,93 @@
+version: "3.9"
+
+services:
+  
+  #--------------------
+  # ZOOKEEPER SERVICE -
+  #--------------------
+  zookeeper:
+    image: ${ZOOKEEPER_IMAGE}:${ZOOKEEPER_TAG}
+    container_name: zookeeper
+    ports:
+      - ${ZOOKEEPER_PORT}:2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    networks:
+      - local-dev
+
+  #-----------------
+  # BROKER SERVICE -
+  #-----------------
+  broker:
+    image: ${BROKER_IMAGE}:${BROKER_IMAGE_TAG}
+    container_name: broker
+    depends_on:
+      - zookeeper
+    ports:
+      - ${BROKER_PORT}:9092
+      # - ${BROKER_JMX_PORT}:9101
+    environment:
+      KAFKA_BROKER_ID: 1
+      CONFLUENT_SUPPORT_METRICS_ENABLE: "false"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT,SASL_PLAINTEXT:SASL_PLAINTEXT"
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+    networks:
+      - local-dev
+  
+  #-------------------
+  # KAFKA-UI SERVICE -
+  #-------------------
+  kafka-ui:
+    image: ${KAFKA_UI_IMAGE}:${KAFKA_UI_TAG}
+    container_name: kafka-ui
+    ports:
+      - ${KAFKA_UI_PORT}:8080
+    depends_on:
+      - broker
+    environment:
+      KAFKA_CLUSTERS_0_NAME: broker
+      DYNAMIC_CONFIG_ENABLED: true
+      KAFKA_CLUSTERS_0_METRICS_PORT: 9987
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: broker:29092
+    networks:
+      - local-dev
+
+  #-------------------------
+  # CONTROL-CENTER SERVICE -
+  #-------------------------
+  # control-center:
+  #   image: ${CONTROL_CENTER_IMAGE}:${CONTROL_CENTER_TAG}
+  #   container_name: control-center
+  #   ports:
+  #     - ${CONTROL_CENTER_PORT}:9021
+  #   depends_on: 
+  #     - broker
+  #   environment:
+  #     PORT: 9021
+  #     CONTROL_CENTER_BOOTSTRAP_SERVERS: broker:29092
+  #   networks:
+  #     - local-dev
+
+  #------------------
+  # KAFDROP SERVICE - Enable if you want to use 
+  #------------------
+  # kafdrop:
+  #   image: ${KAFDROP_IMAGE}:${KAFDROP_TAG}
+  #   container_name: kafdrop
+  #   ports:
+  #     - ${KAFDROP_PORT}:9000
+  #   depends_on:
+  #     - broker
+  #   environment:
+  #     KAFKA_BROKERCONNECT: 'broker:29092'
+  #   networks:
+  #     - local-dev
+
+#----------
+# NETWORK -
+#---------- 
+networks:
+  local-dev:
+    name: local-dev
+    external: true
