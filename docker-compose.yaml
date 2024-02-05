@@ -12,11 +12,19 @@ services:
     working_dir: /var/www
     ports:
       - ${PHP_HTTP_PORT}:80
+      - ${PHP_GRPC_PORT}:9002
     volumes:
       - ${PHP_CODE_PATH}:/var/www
       - ./php/php.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - local-dev
+
+  protoc:
+    image: devdocker-repo.frontiir.net/frontiir/protoc:1.2.0-protoc
+    container_name: protoc
+    tty: true
+    volumes:
+      - ${PHP_CODE_PATH}:/var/www
   
   #---------------------
   # PHP-SWOOLE SERVICE -
@@ -58,17 +66,20 @@ services:
   # NODEJS SERVICE -
   #----------------
   nodejs:
-    image: ${NODE_BASE_IMAGE}:${NODE_VERSION}
+    image: node:20-alpine
+    # image: node-ci:dev
+    # image: ${NODE_BASE_IMAGE}:${NODE_VERSION}
+    cap_add:
+      - SYS_ADMIN
     tty: true
     working_dir: /apps
     container_name: nodejs
     ports:
       - ${NODE_HTTP_PORT}:3000
     volumes:
-      - /var/run/dbus:/var/run/dbus
       - ${NODE_PROJECTS_PATH}:/apps
-      - ./supervisor/node:/etc/supervisor/conf.d
-      - ./supervisor/supervisord.conf:/etc/supervisor/supervisord.conf
+      # - ./supervisor/node:/etc/supervisor/conf.d
+      # - ./supervisor/supervisord.conf:/etc/supervisor/supervisord.conf
     networks:
       - local-dev
 
@@ -100,6 +111,64 @@ services:
     networks:
       - local-dev
 
+  #---------------------
+  # PROMETHEUS SERVICE -
+  #---------------------
+  lprometheus:
+      image: ${PROMOTHEUS_IMAGE}:${PROMETHEUS_VERSION}
+      container_name: lprometheus
+      ports:
+        - ${PROMETHEUS_PORT}:9090
+      volumes:
+        - lprometheus_data:/etc/prometheus
+        - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      command:
+        - '--config.file=/etc/prometheus/prometheus.yml'
+      networks:
+        - local-dev
+
+  #------------------
+  # GRAFANA SERVICE -
+  #------------------
+  lgrafana:
+    image: ${GRAFANA_IMAGE}:${GRAFANA_VERSION}
+    container_name: lgrafana
+    ports:
+      - ${GRAFANA_PORT}:3000
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_INSTALL_PLUGINS=grafana-kubernetes-app
+    volumes:
+      - lgrafana_data:/var/lib/grafana
+    depends_on:
+      - lprometheus
+    networks:
+      - local-dev
+
+  #------------
+  # ZOOKEEPER -
+  #------------
+  zookeeper:
+    image: confluentinc/cp-zookeeper:alpine
+    restart: unless-stopped
+    ports:
+      - "2181:2181"
+    volumes:
+      - zookeeper-data:/data/zookeeper
+
+  kafka:
+    image: confluentinc/cp-kafka:7.3.2-1-alpine
+    restart: unless-stopped
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: plain://kafka:9092
+
 #----------
 # NETWORK -
 #----------
@@ -113,4 +182,10 @@ networks:
 #----------
 volumes:
   redis_data:
+    driver: local
+  lprometheus_data:
+    driver: local
+  lgrafana_data:
+    driver: local
+  zookeeper-data:
     driver: local
