@@ -1,0 +1,7 @@
+ARG NODE_VERSION=alpine
+ARG ALPINE_VERSION=latest
+
+FROM alpine:${ALPINE_VERSION} as build
+
+RUN apk update && \
+    apk add --no-cache git

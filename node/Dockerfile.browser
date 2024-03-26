@@ -1,0 +1,28 @@
+ARG NODE_VERSION=20
+
+FROM node:${NODE_VERSION}
+
+RUN npm install -g \
+    @angular/cli 
+
+RUN apt-get update -y && \
+    apt-get install -y \ 
+    vim \
+    wget \
+    sudo \
+    gnupg && \
+    apt-get clean
+
+RUN useradd -m -d /home/test -s /bin/bash test && \
+    echo 'test ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
+
+RUN apt-get update && \
+    apt-get install -y google-chrome-stable
+
+RUN rm -rf /var/lib/apt/lists/*
+
+
+USER test

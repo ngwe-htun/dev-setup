@@ -1,0 +1,54 @@
+ARG PHP_VERSION=8.3
+ARG COMPOSER_VERSION=latest
+
+# Composer image for dependency installation
+FROM composer:${COMPOSER_VERSION} as composer
+
+# Main image
+FROM php:${PHP_VERSION}-fpm-alpine
+
+# Install necessary dependencies
+RUN set -eux; \
+    apk --no-cache update && apk --no-cache upgrade && \
+    apk --no-cache add \
+        git \
+        php-gd \
+        php-zip \
+        librdkafka \
+        libxml2 \
+        libpng \
+        libzip \
+        oniguruma \
+        $PHPIZE_DEPS \
+        curl \
+        gcc \
+        linux-headers \
+        make \
+        libxml2-dev \
+        libpng-dev \
+        libzip-dev \
+        oniguruma-dev \
+        librdkafka-dev \
+    && docker-php-ext-install \
+        pdo_mysql \
+        bcmath \
+        xml \
+        zip \
+        gd \
+        mbstring \
+        exif \
+        fileinfo \
+        opcache \
+    && pecl install swoole rdkafka redis \
+    && docker-php-ext-enable swoole rdkafka redis \
+    && apk del -f .build-deps \
+    && rm -rf /tmp/pear ~/.pearrc /var/cache/apk/*
+
+# Copy Composer binary from the composer image
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+# Clean up unnecessary files
+RUN rm -rf /usr/include /usr/share/man
+
+# Start PHP-FPM
+CMD ["php-fpm"]

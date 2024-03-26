@@ -15,7 +15,6 @@ WORKDIR /tmp
 RUN git clone --depth=1 \
     https://github.com/ohmyzsh/ohmyzsh.git
 
-
 # Main
 FROM php:${PHP_VERSION}-fpm-alpine
 
@@ -56,8 +55,8 @@ RUN set -eux; \
             # dom \
             # xmlreader \
             # xmlwriter \
-    && pecl install pcov swoole rdkafka \
-    && docker-php-ext-enable pcov swoole rdkafka\
+    && pecl install pcov swoole rdkafka redis grpc \
+    && docker-php-ext-enable pcov swoole rdkafka redis grpc \
     && apk del -f .build-deps \
     && rm -rf /tmp/pear ~/.pearrc
 

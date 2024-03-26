@@ -49,6 +49,7 @@ services:
       - "${TIDB_PORT}:4000"
       - "${TIDB_API_PORT}:10080"
     volumes:
+      - ./test/test.sql:/test.sql
       - tidb_data:/data
       - ./config/db.toml:/tidb.toml:ro
     command:

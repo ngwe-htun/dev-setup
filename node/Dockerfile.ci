@@ -1,0 +1,28 @@
+FROM node:20-slim
+
+# COPY --from=builder /usr/bin/google-chrome-stable /usr/bin/google-chrome-stable
+
+RUN apt-get update -y && \
+    apt-get install -y \
+    curl \
+    wget \
+    gnupg \
+    sudo \
+    nginx &&\
+    apt-get clean &&\
+    rm -rf /var/lib/apt/lists/*
+
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-chrome-archive-keyring.gpg
+RUN echo 'deb [signed-by=/usr/share/keyrings/google-chrome-archive-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main' > /etc/apt/sources.list.d/google-chrome.list
+RUN apt-get update && \
+    apt-get install -y \
+        google-chrome-stable \
+        && rm -rf /var/lib/apt/lists/*
+
+COPY ./entry.sh /etc/entry.sh
+
+RUN npm install -g @angular/cli
+
+RUN usermod -aG root node
+
+CMD [ "/etc/entry.sh" ]
