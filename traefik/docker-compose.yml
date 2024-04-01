@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  reverse-proxy:
+    image: traefik:v2.10
+    command: --api.insecure=true --providers.docker
+    ports:
+      # The HTTP port
+      - "85:80"
+      - "7777:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
