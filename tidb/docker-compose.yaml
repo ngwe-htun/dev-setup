@@ -21,7 +21,7 @@ services:
       - --data-dir=/data
       - --config=/pd.toml
     networks:
-      - dev-env-network
+      - local-dev
 
   # TIKV
   tikv:
@@ -39,7 +39,7 @@ services:
     depends_on:
       - pd
     networks:
-      - dev-env-network
+      - local-dev
 
   # TIDB
   tidb:
@@ -59,7 +59,7 @@ services:
     depends_on:
       - tikv
     networks:
-      - dev-env-network
+      - local-dev
 
   # TICLIENT
   ticlient:
@@ -72,7 +72,7 @@ services:
     depends_on:
       - tidb
     networks:
-      - dev-env-network
+      - local-dev
 
   # PUSHGATEWAY
   pushgateway:
@@ -83,7 +83,7 @@ services:
     command:
       - --log.level=error
     networks:
-      - dev-env-network
+      - local-dev
 
   # PROMETHEUS
   prometheus:
@@ -102,7 +102,7 @@ services:
       - ./config/tidb.rules.yml:/etc/prometheus/tidb.rules.yml:ro
       - prom_data:/prometheus
     networks:
-      - dev-env-network
+      - local-dev
 
   # GRAFANA
   grafana:
@@ -120,11 +120,11 @@ services:
     ports:
       - "${GRAFANA_PORT}:3000"
     networks:
-      - dev-env-network
+      - local-dev
 
 networks:
-  dev-env-network:
-    name: dev-env-network
+  local-dev:
+    name: local-dev
     driver: bridge
 
 volumes:
